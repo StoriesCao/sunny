@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+
+    <dbname value="location" />
+
+    <version value="1" />
+
+    <list>
+        <mapping class="com.stories.sunny.db_model.Province" />
+        <mapping class="com.stories.sunny.db_model.City" />
+        <mapping class="com.stories.sunny.db_model.County" />
+    </list>
+
+</litepal>
