@@ -32,6 +32,7 @@ public class Utility {
                     province.setProvinceId(jsonObject.getInt("id"));
                     province.save();
                 }
+                return true;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -44,10 +45,10 @@ public class Utility {
     /**
      * Parse cities JSON and put the date in DB.
      * @param response the response json .
-     * @param procinceId the province id that the city belong to.
+     * @param provinceId the province id that the city belong to.
      * @return if handle and parse JSON correctly.
      */
-    public static boolean parseCityJson(String response, int procinceId) {
+    public static boolean parseCityJson(String response, int provinceId) {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONArray jsonArray = new JSONArray(response);
@@ -56,9 +57,10 @@ public class Utility {
                     City city = new City();
                     city.setCityId(jsonObject.getInt("id"));
                     city.setName(jsonObject.getString("name"));
-                    city.setProvinceId(procinceId);
+                    city.setProvinceId(provinceId);
                     city.save();
                 }
+                return true;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -87,6 +89,7 @@ public class Utility {
                     county.setCityId(cityId);
                     county.save();
                 }
+                return true;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
