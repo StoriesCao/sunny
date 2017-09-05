@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class Now {
 
     @SerializedName("fl")
-    public String feelTemperature;  //体感温度
+    public String realFeel;  //体感温度
 
     @SerializedName("hum")
     public String relativeHumidity;  //相对湿度
