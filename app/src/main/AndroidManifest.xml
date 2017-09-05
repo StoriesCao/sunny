@@ -22,6 +22,8 @@
 
         <activity android:name=".ChooseAreaActivity"/>
 
+        <activity android:name=".AQIActivity"/>
+
     </application>
 
 </manifest>

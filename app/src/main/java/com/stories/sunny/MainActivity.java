@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +34,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ChooseAreaActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView AQI = (TextView) findViewById(R.id.forecast_now_air_quality);
+        AQI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AQIActivity.class);
                 startActivity(intent);
             }
         });

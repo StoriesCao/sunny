@@ -75,6 +75,16 @@
                 android:textColor="@color/gray"
                 android:textSize="15sp"/>
 
+            <TextView
+                android:id="@+id/forecast_now_air_quality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/forecast_now_symbol_now"
+                android:layout_toRightOf="@id/forecast_now_info"
+                android:layout_marginLeft="8dp"
+                android:text="|   AQI: 10 >"
+                android:textColor="@color/dark"/>
+
         </RelativeLayout>
 
         <!--***Conditions***-->
