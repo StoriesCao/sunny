@@ -34,6 +34,8 @@ public class Now {
 
     public class Condition {
 
+        public String code;
+
         @SerializedName("txt")
         public String weatherInfo;
     }

@@ -46,6 +46,10 @@ public class DailyForecast {
 
     public class Condition {
 
+        public String code_n;
+
+        public String code_d;
+
         @SerializedName("txt_d")
         public String dayConditon;
 
