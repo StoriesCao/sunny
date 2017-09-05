@@ -15,11 +15,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!--***Now***-->
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="25dp">
 
             <TextView
                 android:id="@+id/symbol_degree"
@@ -75,116 +77,94 @@
 
         </RelativeLayout>
 
+        <!--***Conditions***-->
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_weight="2">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
-                <RelativeLayout
-                    android:id="@+id/forecast_now_layout_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/forecast_now_symbol_wind"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_wind_speed"/>
 
-                    <ImageView
-                        android:id="@+id/forecast_now_symbol_wind"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:layout_marginTop="10dp"
-                        android:src="@drawable/ic_wind_speed"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toRightOf="@id/forecast_now_symbol_wind"
+                android:layout_marginLeft="10dp"
+               >
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_toRightOf="@id/forecast_now_symbol_wind"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp">
-
-                        <TextView
-                            android:id="@+id/forecast_now_wind_speed"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/dark"
-                            android:textSize="16sp"
-                            tools:text="6.5 km/h"/>
-
-                        <TextView
-                            android:id="@+id/forecast_now_wind_dir"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/gray"
-                            android:textSize="12sp"
-                            tools:text="东北风"/>
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/forecast_now_layout_2"
+                <TextView
+                    android:id="@+id/forecast_now_wind_speed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/forecast_now_layout_1">
+                    android:textColor="@color/dark"
+                    android:textSize="16sp"
+                    tools:text="6.5 km/h"/>
 
-                    <ImageView
-                        android:id="@+id/forecast_now_symbol_precipitation"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:src="@drawable/ic_precipitation"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_toRightOf="@id/forecast_now_symbol_precipitation"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp">
-
-                        <TextView
-                            android:id="@+id/forecast_now_precipitation_probability"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/dark"
-                            android:textSize="16sp"
-                            tools:text="25 %"/>
-
-                        <TextView
-                            android:id="@+id/forecast_now_precipitation"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/gray"
-                            android:textSize="12sp"
-                            tools:text="100 cm"/>
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/forecast_now_layout_3"
+                <TextView
+                    android:id="@+id/forecast_now_wind_dir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/forecast_now_layout_2">
+                    android:textColor="@color/gray"
+                    android:textSize="12sp"
+                    tools:text="东北风"/>
 
-                    <ImageView
-                        android:id="@+id/forecast_now_symbol_real_feel"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:src="@drawable/ic_realfeel"/>
+            </LinearLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true">
+
+                        <ImageView
+                            android:id="@+id/forecast_now_symbol_precipitation"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:src="@drawable/ic_precipitation"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_toRightOf="@id/forecast_now_symbol_precipitation"
+                            android:layout_marginLeft="10dp">
+
+                            <TextView
+                                android:id="@+id/forecast_now_precipitation_probability"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/dark"
+                                android:textSize="16sp"
+                                tools:text="25 %"/>
+
+                            <TextView
+                                android:id="@+id/forecast_now_precipitation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/gray"
+                                android:textSize="12sp"
+                                tools:text="100 cm"/>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
 
                     <LinearLayout
+                        android:id="@+id/forecast_now_layout_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginLeft="8dp"
-                        android:layout_toRightOf="@id/forecast_now_symbol_real_feel"
-                        android:layout_marginTop="5dp">
+                        android:layout_alignParentRight="true">
 
                         <TextView
                             android:id="@+id/forecast_now_real_feel_degree"
@@ -203,27 +183,39 @@
 
                     </LinearLayout>
 
-                </RelativeLayout>
+            <ImageView
+                android:id="@+id/forecast_now_symbol_real_feel"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_toLeftOf="@id/forecast_now_layout_1"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_realfeel"/>
+
+        </RelativeLayout>
+
+        <!--******-->
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/forecast_now_layout_1">
+                android:layout_marginTop="16dp"
+                android:background="@color/lightGray">
 
                 <ImageView
                     android:id="@+id/forecast_now_symbol_atmospheric_pressure"
                     android:layout_width="23dp"
                     android:layout_height="23dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_atmospheric_pressure"/>
+                    android:src="@drawable/ic_atmospheric_pressure"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/forecast_now_symbol_atmospheric_pressure"
-                    android:layout_marginTop="5dp">
+                    android:layout_toRightOf="@id/forecast_now_symbol_atmospheric_pressure">
 
                     <TextView
                         android:id="@+id/forecast_now_atmospheric_pressure"
@@ -242,29 +234,27 @@
 
                 </LinearLayout>
 
-            </RelativeLayout>
+
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/forecast_now_layout_2"
-                    android:layout_below="@id/forecast_now_layout_2">
+                    android:layout_centerInParent="true">
 
                     <ImageView
                         android:id="@+id/forecast_now_symbol_visibility"
                         android:layout_width="23dp"
                         android:layout_height="23dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
                         android:src="@drawable/ic_visibility"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginLeft="9dp"
-                        android:layout_toRightOf="@id/forecast_now_symbol_visibility"
-                        android:layout_marginTop="5dp">
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/forecast_now_symbol_visibility">
 
                         <TextView
                             android:id="@+id/forecast_now_visibility"
@@ -285,27 +275,15 @@
 
                 </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/forecast_now_layout_3"
-                        android:layout_alignLeft="@id/forecast_now_layout_3">
 
-                        <ImageView
-                            android:id="@+id/forecast_now_symbol_relative_humidity"
-                            android:layout_width="23dp"
-                            android:layout_height="23dp"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/ic_relative_humidity"/>
 
                         <LinearLayout
+                            android:id="@+id/forecast_now_layout_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:layout_marginLeft="8dp"
-                            android:layout_toRightOf="@id/forecast_now_symbol_relative_humidity"
-                            android:layout_marginTop="5dp">
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="20dp">
 
                             <TextView
                                 android:id="@+id/forecast_now_relative_humidity"
@@ -324,9 +302,18 @@
 
                         </LinearLayout>
 
-                    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/forecast_now_symbol_relative_humidity"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_toLeftOf="@id/forecast_now_layout_2"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_relative_humidity"/>
 
-        </RelativeLayout>
+            </RelativeLayout>
+
+        <include layout="@layout/forecast_now_2" />
 
     </LinearLayout>
 

@@ -4,131 +4,102 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="25dp"
-    android:layout_marginRight="25dp"
-    android:layout_marginBottom="10dp">
+    android:background="@color/lightGray">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/forecast_now_icon_set"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_sunset"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/forecast_now_icon_set">
+
+                    <TextView
+                        android:id="@+id/forecast_now_set_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/dark"
+                        android:textSize="15sp"
+                        tools:text="19:00"/>
+
+                    <TextView
+                        android:id="@+id/forecast_now_txt_set"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp"
+                        android:text="日落时间"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
 
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginTop="16dp">
 
-            <ImageView
-                android:id="@+id/forecast_now_symbol_wind"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/ic_wind_speed"/>
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_toRightOf="@id/forecast_now_symbol_wind"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp">
+                android:layout_centerHorizontal="true">
 
-                <TextView
-                    android:id="@+id/forecast_now_wind_speed"
+                <ImageView
+                    android:id="@+id/forecast_now_icon_rise"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_sunrise"/>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/dark"
-                    android:textSize="16sp"
-                    tools:text="6.5 km/h"/>
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/forecast_now_icon_rise">
 
-                <TextView
-                    android:id="@+id/forecast_now_wind_dir"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/gray"
-                    android:textSize="12sp"
-                    tools:text="东北风"/>
+                    <TextView
+                        android:id="@+id/forecast_now_rise_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/dark"
+                        android:textSize="15sp"
+                        tools:text="05:20"/>
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/forecast_now_txt_rise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp"
+                        android:text="日出时间"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/forecast_now_symbol_precipitation"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/ic_precipitation"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_toRightOf="@id/forecast_now_symbol_precipitation"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp">
-
-                <TextView
-                    android:id="@+id/forecast_now_precipitation_probability"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/dark"
-                    android:textSize="16sp"
-                    tools:text="25 %"/>
-
-                <TextView
-                    android:id="@+id/forecast_now_precipitation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/gray"
-                    android:textSize="12sp"
-                    tools:text="100 cm"/>
-
-            </LinearLayout>
-
-
-        </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-
-        <ImageView
-            android:id="@+id/forecast_now_symbol_real_feel"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_realfeel"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@id/forecast_now_symbol_real_feel"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:id="@+id/forecast_now_real_feel_degree"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/dark"
-                android:textSize="16sp"
-                tools:text="-4°C"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray"
-                android:textSize="12sp"
-                tools:text="体感温度"/>
-
-        </LinearLayout>
-
-    </RelativeLayout>
 </LinearLayout>
