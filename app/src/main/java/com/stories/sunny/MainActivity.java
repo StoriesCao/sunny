@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 //        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 //        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
-        Button addLocationButton = (Button) findViewById(R.id.add_city);
+        Button addLocationButton = (Button) findViewById(R.id.place_manager);
         addLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
