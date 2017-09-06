@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingBottom="10dp">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="3dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/city_storaged_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="40dp"
+                tools:text="北京"
+                android:textColor="@color/dark"
+                android:textSize="20sp"/>
+
+            <ImageView
+                android:id="@+id/city_storaged_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/city_storaged_name"
+                android:layout_alignLeft="@id/city_storaged_name"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="25dp"
+                android:src="@drawable/ic_cloud"/>
+
+
+            <TextView
+                android:id="@+id/city_storaged_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="40dp"
+                tools:text="8 ~ 15 °C"
+                android:textSize="18sp"
+                android:textColor="@color/dark"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
