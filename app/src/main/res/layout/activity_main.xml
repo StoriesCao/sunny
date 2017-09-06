@@ -20,6 +20,8 @@
 
             <include layout="@layout/forecast_now"/>
 
+            <include layout="@layout/daily_forecast"/>
+
             <include layout="@layout/suggestions" />
 
         </LinearLayout>
