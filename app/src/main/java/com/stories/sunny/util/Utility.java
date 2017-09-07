@@ -2,9 +2,11 @@ package com.stories.sunny.util;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.stories.sunny.db_model.City;
 import com.stories.sunny.db_model.County;
 import com.stories.sunny.db_model.Province;
+import com.stories.sunny.gson_model.Weather;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -98,4 +100,58 @@ public class Utility {
         }
         return false;
     }
+
+    /**
+     * Parse the main JSON about weather.
+     * @param response the response json.
+     * @return the Weather Object.
+     */
+    public static Weather parseWeatherJson(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
+            String weatherContent = jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent, Weather.class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -16,6 +16,4 @@ public class ChooseAreaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_area);
     }
 
-    
-
 }
