@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +25,32 @@ public class MainActivity extends AppCompatActivity {
 
     private Button cityManagerButton;
 
-    private TextView AQI;
+    private TextView currentDegree;
+
+    private TextView currentCity;
+
+    private TextView updateTime;
+
+    private TextView currentWeatherTxt;
+
+    private TextView currentAQI;
+
+    private ImageView currentWeatherIcon;
+
+    private TextView currentWindSpeed;
+
+    private TextView currentWindDir;
+
+    private TextView currentPrecipitation;
+
+    private TextView currentRealFeel;
+
+    private TextView currentAtmosphericPressure;
+
+    private TextView currentVisibility;
+
+    private TextView currentRelativeHumidity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /* ****** */
-        AQI = (TextView) findViewById(R.id.forecast_now_air_quality);
-        AQI.setOnClickListener(new View.OnClickListener() {
+        currentAQI = (TextView) findViewById(R.id.forecast_now_air_quality);
+        currentAQI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AQIActivity.class);
@@ -108,6 +134,15 @@ public class MainActivity extends AppCompatActivity {
         String currentDegree = weather.now.Temperature;
         String currentWeatherTxt = weather.now.condition.weatherInfo;
         int currentWeatherCode = Integer.valueOf(weather.now.condition.code).intValue();
+        String currentWindSpeed = weather.now.wind.windSpeed;
+        String currentWindDir = weather.now.wind.direction;
+        String currentPrecipitation = weather.now.precipitation;
+        String currentRealFeel = weather.now.realFeel;
+        String currentAtmosphericPressure = weather.now.atmosphericPressure;
+        String currentVisibility = weather.now.visibility;
+        String currentRelativeHumidity = weather.now.relativeHumidity;
+
+
 
     }
 }
