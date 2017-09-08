@@ -3,6 +3,7 @@ package com.stories.sunny;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +27,8 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     private ScrollView mainLayout;
+
+    private SwipeRefreshLayout swipeRefresher;
 
     private Button cityManagerButton;
 
@@ -144,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         mainLayout = (ScrollView) findViewById(R.id.main_weather_layout);
         currentDegree = (TextView) findViewById(R.id.forecast_now_degree);
         currentCity = (TextView) findViewById(R.id.title_city);
@@ -187,18 +191,33 @@ public class MainActivity extends AppCompatActivity {
         dailyForecastAfterTomorrowPrecipitationProbability = (TextView) findViewById(R.id.daily_forecast_after_tomorrow_precipitation_probability);
         dailyForecastAfterTomorrowInfo = (TextView) findViewById(R.id.daily_forecast_after_tomorrow_info);
 
+         /* ****** */
+        swipeRefresher = (SwipeRefreshLayout) findViewById(R.id.main_weather_refresher);
+        swipeRefresher.setColorSchemeResources(R.color.dark);
+        final String weatherId;
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherJSON = preferences.getString("weatherJSON", null);
         if (weatherJSON != null) {
             //have cache
             Weather weather = Utility.parseWeatherJson(weatherJSON);
+            weatherId = weather.basic.weatherId;
             showWeather(weather);
         } else {
             //no cache and request from server
-            String weatherId = "CN101050101";
+            weatherId = "CN101050101";
             mainLayout.setVisibility(View.INVISIBLE);
             requestWeatherFromServer(weatherId);
         }
+
+
+        swipeRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestWeatherFromServer(weatherId);
+            }
+        });
+
     }
 
     /**
@@ -214,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(MainActivity.this, "从服务器获取信息失败", Toast.LENGTH_SHORT).show();
+                        swipeRefresher.setRefreshing(false);
                     }
                 });
             }
@@ -233,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(MainActivity.this, "获取天气信息失败", Toast.LENGTH_SHORT).show();
                         }
+                        swipeRefresher.setRefreshing(false);
                     }
                 });
             }
