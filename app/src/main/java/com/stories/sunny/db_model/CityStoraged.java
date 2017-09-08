@@ -16,6 +16,8 @@ public class CityStoraged extends DataSupport {
 
     private String maxMinDegree;
 
+    private String weatherId;
+
     public String getCityStoragedName() {
         return cityStoragedName;
     }
@@ -46,5 +48,13 @@ public class CityStoraged extends DataSupport {
 
     public void setMaxMinDegree(String maxMinDegree) {
         this.maxMinDegree = maxMinDegree;
+    }
+
+    public String getWeatherId() {
+        return weatherId;
+    }
+
+    public void setWeatherId(String weatherId) {
+        this.weatherId = weatherId;
     }
 }

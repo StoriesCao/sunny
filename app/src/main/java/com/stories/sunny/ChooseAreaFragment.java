@@ -91,12 +91,15 @@ public class ChooseAreaFragment extends Fragment {
 
                    Intent intent = new Intent(getActivity(), MainActivity.class);
                    intent.putExtra("weather_id", weatherId);
+
                    /* ***将选择的城市添加到城市管理数据库*** */
                    CityStoraged city = new CityStoraged();
                    city.setCityStoragedName(county.getName());
+                   city.setWeatherId(county.getWeatherId());
                    city.save();
 
                    startActivity(intent);
+
                    getActivity().finish();
                }
            }
