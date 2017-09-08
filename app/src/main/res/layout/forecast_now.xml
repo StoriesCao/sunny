@@ -107,8 +107,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_toRightOf="@id/forecast_now_symbol_wind"
-                android:layout_marginLeft="10dp"
-               >
+                android:layout_marginLeft="10dp">
 
                 <TextView
                     android:id="@+id/forecast_now_wind_speed"
@@ -138,7 +137,7 @@
                             android:id="@+id/forecast_now_symbol_precipitation"
                             android:layout_width="26dp"
                             android:layout_height="26dp"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginTop="5dp"
                             android:src="@drawable/ic_precipitation"/>
 
@@ -255,7 +254,7 @@
                         android:id="@+id/forecast_now_symbol_visibility"
                         android:layout_width="23dp"
                         android:layout_height="23dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="8dp"
                         android:layout_marginTop="5dp"
                         android:src="@drawable/ic_visibility"/>
 

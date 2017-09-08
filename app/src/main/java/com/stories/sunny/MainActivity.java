@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,8 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ScrollView mainLayout;
 
     private Button cityManagerButton;
 
@@ -141,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mainLayout = (ScrollView) findViewById(R.id.main_weather_layout);
         currentDegree = (TextView) findViewById(R.id.forecast_now_degree);
         currentCity = (TextView) findViewById(R.id.title_city);
         updateTime = (TextView) findViewById(R.id.title_update_time);
@@ -192,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //no cache and request from server
             String weatherId = "CN101050101";
+            mainLayout.setVisibility(View.INVISIBLE);
             requestWeatherFromServer(weatherId);
         }
     }
@@ -307,17 +312,18 @@ public class MainActivity extends AppCompatActivity {
         /*daily forecast*/
         dailyForecastTodayDate.setText("今天");
         dailyForecastTodayMaxMinDegree.setText(dailyForecastToday.temperature.min + "~" + dailyForecastToday.temperature.max + "°C");
-        dailyForecastTodayPrecipitationProbability.setText(dailyForecastToday.precipitationProbability);
+        dailyForecastTodayPrecipitationProbability.setText(dailyForecastToday.precipitationProbability + "%");
         dailyForecastTodayInfo.setText("今天白天" + dailyForecastToday.condition.dayConditon + "," + "夜晚" + dailyForecastToday.condition.nightCondition + "。" + "最高气温" + dailyForecastToday.temperature.max + "°C，" + dailyForecastToday.wind.direction + dailyForecastToday.wind.windFore);
         dailyForecastTomorrowDate.setText("明天");
         dailyForecastTomorrowMaxMinDegree.setText(dailyForecastAfterTomorrow.temperature.min + "~" + dailyForecastTomorrow.temperature.max + "°C");
-        dailyForecastTomorrowPrecipitationProbability.setText(dailyForecastAfterTomorrow.precipitationProbability);
+        dailyForecastTomorrowPrecipitationProbability.setText(dailyForecastTomorrow.precipitationProbability + "%");
         dailyForecastTomorrowInfo.setText("今天白天" + dailyForecastTomorrow.condition.dayConditon + "," + "夜晚" + dailyForecastTomorrow.condition.nightCondition + "。" + "最高气温" + dailyForecastTomorrow.temperature.max + "°C，" + dailyForecastTomorrow.wind.direction +dailyForecastTomorrow.wind.windFore);
         dailyForecastAfterTomorrowDate.setText("后天");
         dailyForecastAfterTomorrowMaxMinDegree.setText(dailyForecastAfterTomorrow.temperature.min + "~" + dailyForecastAfterTomorrow.temperature.max + "°C");
-        dailyForecastAfterTomorrowPrecipitationProbability.setText(dailyForecastAfterTomorrow.precipitationProbability);
+        dailyForecastAfterTomorrowPrecipitationProbability.setText(dailyForecastAfterTomorrow.precipitationProbability + "%");
         dailyForecastAfterTomorrowInfo.setText("今天白天" + dailyForecastAfterTomorrow.condition.dayConditon + "," + "夜晚" + dailyForecastAfterTomorrow.condition.nightCondition + "。" + "最高气温" + dailyForecastAfterTomorrow.temperature.max + "°C，" + dailyForecastAfterTomorrow.wind.direction + dailyForecastAfterTomorrow.wind.windFore);
 
+        mainLayout.setVisibility(View.VISIBLE);
     }
 }
 
