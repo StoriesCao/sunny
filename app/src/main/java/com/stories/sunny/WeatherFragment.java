@@ -39,7 +39,7 @@ public class WeatherFragment extends Fragment {
 
     String weatherId;
 
-    private List<CityStoraged> cityStoragedJudgeEmpty;
+    private List<CityStoraged> cityStoragedList;
 
     private ScrollView mainLayout;
 
@@ -137,18 +137,22 @@ public class WeatherFragment extends Fragment {
 
     private TextView dailyForecastAfterTomorrowInfo;
 
-    private Intent startMainActivityIntent;
 
     /* start */
-    public static WeatherFragment newInstance() {
-
-        return new WeatherFragment();
+    public static WeatherFragment newInstance(String weatherId) {
+        Bundle args = new Bundle();
+        args.putString("weather_id", weatherId);
+        WeatherFragment weatherFragment = new WeatherFragment();
+        weatherFragment.setArguments(args);
+        return weatherFragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.weather_main, container, false);
+
+        weatherId = getArguments().getString("weather_id");
 
         mainLayout = (ScrollView) view.findViewById(R.id.main_weather_layout);
         currentDegree = (TextView) view.findViewById(R.id.forecast_now_degree);
@@ -225,17 +229,20 @@ public class WeatherFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        cityStoragedJudgeEmpty = DataSupport.findAll(CityStoraged.class); //查找用户是否存储了相关城市
+        cityStoragedList = DataSupport.findAll(CityStoraged.class); //查找用户是否存储了相关城市
 
-        if (cityStoragedJudgeEmpty.size() == 0) { //用户并没有添加任何城市
+        if (cityStoragedList.size() == 0) { //用户并没有添加任何城市
             Intent startCityManagerActivity = new Intent(getActivity(), CityManagerActivity.class);
             startActivity(startCityManagerActivity);
+        } else {
+            mainLayout.setVisibility(View.INVISIBLE);
+            requestWeatherFromServer(weatherId);
         }
 
 
     }
 
-
+/*
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String weatherJSON = preferences.getString("weatherJSON", null);
         if (weatherJSON != null) {
@@ -254,9 +261,7 @@ public class WeatherFragment extends Fragment {
             public void onRefresh() {
                 requestWeatherFromServer(weatherId);
             }
-        });
-
-    }
+        });*/
 
 
     /**
@@ -387,4 +392,3 @@ public class WeatherFragment extends Fragment {
     }
 }
 
-}
