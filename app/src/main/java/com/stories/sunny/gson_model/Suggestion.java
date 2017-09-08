@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Suggestion {
 
+    public AirCondition air;
+
     @SerializedName("comf")
     public Comf comfort;  //舒适指数
 
@@ -24,7 +26,7 @@ public class Suggestion {
     @SerializedName("trav")
     public Travel travel;   //旅行指数
 
-    @SerializedName("uw")
+    @SerializedName("uv")
     public UltravioletRay ultravioletRay; //紫外线指数
 
     public class Comf {
@@ -85,6 +87,15 @@ public class Suggestion {
 
         @SerializedName("brf")
         public String briefInfo;
+
+        @SerializedName("txt")
+        public String info;
+    }
+
+    public class AirCondition {
+
+        @SerializedName("brf")
+        public String brifInfo;
 
         @SerializedName("txt")
         public String info;

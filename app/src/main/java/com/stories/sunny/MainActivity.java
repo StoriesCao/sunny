@@ -51,6 +51,37 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView currentRelativeHumidity;
 
+    private TextView suggestionAirBrif;
+
+    private TextView suggestionAirInfo;
+
+    private TextView suggestionComfBrif;
+
+    private TextView suggestionComfInfo;
+
+    private TextView suggestionCarWashBrif;
+
+    private TextView suggestionCarWashInfo;
+
+    private TextView suggestionDressBrif;
+
+    private TextView suggestionDressInfo;
+
+    private TextView suggestionFluBrif;
+
+    private TextView suggestionFluInfo;
+
+    private TextView suggestionSportBrif;
+
+    private TextView suggestionSportInfo;
+
+    private TextView suggestionTravelBrif;
+
+    private TextView suggestionTravelInfo;
+
+    private TextView suggestionUvBrif;
+
+    private TextView suggestionUvInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +108,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        currentDegree = (TextView) findViewById(R.id.forecast_now_degree);
+        currentCity = (TextView) findViewById(R.id.title_city);
+        updateTime = (TextView) findViewById(R.id.title_update_time);
+        currentWeatherTxt = (TextView) findViewById(R.id.forecast_now_info);
+        currentWeatherIcon = (ImageView) findViewById(R.id.forecast_now_icon);
+        currentWindSpeed = (TextView) findViewById(R.id.forecast_now_wind_speed);
+        currentWindDir = (TextView) findViewById(R.id.forecast_now_wind_dir);
+        currentPrecipitation = (TextView) findViewById(R.id.forecast_now_precipitation);
+        currentRealFeel = (TextView) findViewById(R.id.forecast_now_real_feel_degree);
+        currentAtmosphericPressure = (TextView) findViewById(R.id.forecast_now_atmospheric_pressure);
+        currentVisibility = (TextView) findViewById(R.id.forecast_now_visibility);
+        currentRelativeHumidity = (TextView) findViewById(R.id.forecast_now_relative_humidity);
+        suggestionAirBrif = (TextView) findViewById(R.id.suggestion_air_brif);
+        suggestionAirInfo = (TextView) findViewById(R.id.suggestion_air_info);
+        suggestionComfBrif = (TextView) findViewById(R.id.suggestion_comf_brif);
+        suggestionComfInfo = (TextView) findViewById(R.id.suggestion_comf_info);
+        suggestionCarWashBrif = (TextView) findViewById(R.id.suggestion_car_wash_brif);
+        suggestionCarWashInfo = (TextView) findViewById(R.id.suggestion_car_wash_info);
+        suggestionDressBrif = (TextView) findViewById(R.id.suggestion_dress_brif);
+        suggestionDressInfo = (TextView) findViewById(R.id.suggestion_dress_info);
+        suggestionFluBrif = (TextView) findViewById(R.id.suggestion_flu_brif);
+        suggestionFluInfo = (TextView) findViewById(R.id.suggestion_flu_info);
+        suggestionSportBrif = (TextView) findViewById(R.id.suggestion_sport_brif);
+        suggestionSportInfo = (TextView) findViewById(R.id.suggestion_sport_info);
+        suggestionTravelBrif = (TextView) findViewById(R.id.suggestion_travel_brif);
+        suggestionTravelInfo = (TextView) findViewById(R.id.suggestion_travel_info);
+        suggestionUvBrif = (TextView) findViewById(R.id.suggestion_uv_brif);
+        suggestionUvInfo = (TextView) findViewById(R.id.suggestion_uv_info);
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherJSON = preferences.getString("weatherJSON", null);
         if (weatherJSON != null) {
@@ -85,7 +145,8 @@ public class MainActivity extends AppCompatActivity {
             showWeather(weather);
         } else {
             //no cache and request from server
-
+            String weatherId = "CN101050101";
+            requestWeatherFromServer(weatherId);
         }
     }
 
@@ -129,20 +190,70 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showWeather(Weather weather) {
+
+        /* Now */
         String currentCityName = weather.basic.cityName;
-        String updateTime = weather.basic.update.updateTime.split(" ")[1]; //12:00
-        String currentDegree = weather.now.Temperature;
-        String currentWeatherTxt = weather.now.condition.weatherInfo;
+        String updateTimeData = weather.basic.update.updateTime.split(" ")[1]; //12:00
+        String currentDegreeData = weather.now.Temperature;
+        String currentWeatherTxtData = weather.now.condition.weatherInfo;
         int currentWeatherCode = Integer.valueOf(weather.now.condition.code).intValue();
-        String currentWindSpeed = weather.now.wind.windSpeed;
-        String currentWindDir = weather.now.wind.direction;
-        String currentPrecipitation = weather.now.precipitation;
-        String currentRealFeel = weather.now.realFeel;
-        String currentAtmosphericPressure = weather.now.atmosphericPressure;
-        String currentVisibility = weather.now.visibility;
-        String currentRelativeHumidity = weather.now.relativeHumidity;
+        String currentWindSpeedData = weather.now.wind.windSpeed + "km/h";
+        String currentWindDirData = weather.now.wind.direction;
+        String currentPrecipitationData = weather.now.precipitation + "mm";
+        String currentRealFeelData = weather.now.realFeel + "°C";
+        String currentAtmosphericPressureData = weather.now.atmosphericPressure + "mb";
+        String currentVisibilityData = weather.now.visibility;
+        String currentRelativeHumidityData = weather.now.relativeHumidity + "%";
 
+        currentCity.setText(currentCityName);
+        updateTime.setText(updateTimeData);
+        currentDegree.setText(currentDegreeData);
+        currentWeatherTxt.setText(currentWeatherTxtData);
+        currentWindSpeed.setText(currentWindSpeedData);
+        currentWindDir.setText(currentWindDirData);
+        currentPrecipitation.setText(currentPrecipitationData);
+        currentRealFeel.setText(currentRealFeelData);
+        currentAtmosphericPressure.setText(currentAtmosphericPressureData);
+        currentVisibility.setText(currentVisibilityData);
+        currentRelativeHumidity.setText(currentRelativeHumidityData);
 
+        /* suggestions */
+        String comfortBrifData = "舒适度: " + weather.suggestion.comfort.briefInfo;
+        String comfortData = weather.suggestion.comfort.info;
+        String airConditionBrifData = "空气情况: " + weather.suggestion.air.brifInfo;
+        String airConditionData = weather.suggestion.air.info;
+        String carWashBrifData = "洗车建议: " + weather.suggestion.carWash.briefInfo;
+        String carWashData = weather.suggestion.carWash.info;
+        String dressBrifData = "穿衣建议: " + weather.suggestion.dress.briefInfo;
+        String dressData = weather.suggestion.dress.info;
+        String fluBrifData = "感冒指数: " + weather.suggestion.flu.briefInfo;
+        String fluData = weather.suggestion.flu.info;
+        String sportBrifData = "运动指数: " + weather.suggestion.sport.briefInfo;
+        String sportData = weather.suggestion.sport.info;
+        String travelBrifData = "旅行指数: " + weather.suggestion.travel.briefInfo;
+        String travelData = weather.suggestion.travel.info;
+        String uvBrifData = "紫外线指数: " + weather.suggestion.ultravioletRay.briefInfo;
+        String uvData = weather.suggestion.ultravioletRay.info;
+
+        suggestionAirBrif.setText(airConditionBrifData);
+        suggestionAirInfo.setText(airConditionData);
+        suggestionComfBrif.setText(comfortBrifData);
+        suggestionComfInfo.setText(comfortData);
+        suggestionCarWashBrif.setText(carWashBrifData);
+        suggestionCarWashInfo.setText(carWashData);
+        suggestionDressBrif.setText(dressBrifData);
+        suggestionDressInfo.setText(dressData);
+        suggestionFluBrif.setText(fluBrifData);
+        suggestionFluInfo.setText(fluData);
+        suggestionSportBrif.setText(sportBrifData);
+        suggestionSportInfo.setText(sportData);
+        suggestionTravelBrif.setText(travelBrifData);
+        suggestionTravelInfo.setText(travelData);
+        suggestionUvBrif.setText(uvBrifData);
+        suggestionUvInfo.setText(uvData);
+
+        /*daily forecast*/
+       
 
     }
 }

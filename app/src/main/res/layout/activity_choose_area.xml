@@ -4,6 +4,7 @@
               android:layout_height="match_parent">
 
     <fragment
+        android:id="@+id/choose_area"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:name="com.stories.sunny.ChooseAreaFragment"/>

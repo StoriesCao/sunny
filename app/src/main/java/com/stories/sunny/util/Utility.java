@@ -109,7 +109,7 @@ public class Utility {
     public static Weather parseWeatherJson(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
-            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather5");
             String weatherContent = jsonArray.getJSONObject(0).toString();
             return new Gson().fromJson(weatherContent, Weather.class);
         } catch (JSONException e) {

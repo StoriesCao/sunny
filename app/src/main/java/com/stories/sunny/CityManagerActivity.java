@@ -2,6 +2,7 @@ package com.stories.sunny;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +34,7 @@ public class CityManagerActivity extends AppCompatActivity {
 
 
         /* ****** */
-        Button addCityButton = (Button) findViewById(R.id.add_city);
+        FloatingActionButton addCityButton = (FloatingActionButton) findViewById(R.id.add_city);
         addCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
