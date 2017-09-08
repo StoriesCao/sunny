@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,18 +14,28 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.stories.sunny.db_model.CityStoraged;
 import com.stories.sunny.gson_model.DailyForecast;
 import com.stories.sunny.gson_model.Weather;
 import com.stories.sunny.util.HttpUtil;
 import com.stories.sunny.util.Utility;
 
+import org.litepal.crud.DataSupport;
+
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
+
+    String weatherId;
+
+    private List<CityStoraged> cityStoragedJudgeEmpty;
 
     private ScrollView mainLayout;
 
@@ -122,10 +133,14 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView dailyForecastAfterTomorrowInfo;
 
+    private Intent startMainActivityIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        cityStoragedJudgeEmpty = DataSupport.findAll(CityStoraged.class); //查找用户是否存储了相关城市
 
         /* ****** */
         cityManagerButton = (Button) findViewById(R.id.place_manager);
@@ -146,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         mainLayout = (ScrollView) findViewById(R.id.main_weather_layout);
         currentDegree = (TextView) findViewById(R.id.forecast_now_degree);
@@ -191,10 +205,14 @@ public class MainActivity extends AppCompatActivity {
         dailyForecastAfterTomorrowPrecipitationProbability = (TextView) findViewById(R.id.daily_forecast_after_tomorrow_precipitation_probability);
         dailyForecastAfterTomorrowInfo = (TextView) findViewById(R.id.daily_forecast_after_tomorrow_info);
 
+        if (cityStoragedJudgeEmpty.size() == 0) { //用户并没有添加任何城市
+            Intent startCityManagerActivity = new Intent(MainActivity.this,CityManagerActivity.class);
+            startActivity(startCityManagerActivity);
+        }
+
          /* ****** */
         swipeRefresher = (SwipeRefreshLayout) findViewById(R.id.main_weather_refresher);
         swipeRefresher.setColorSchemeResources(R.color.dark);
-        final String weatherId;
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherJSON = preferences.getString("weatherJSON", null);
@@ -204,12 +222,10 @@ public class MainActivity extends AppCompatActivity {
             weatherId = weather.basic.weatherId;
             showWeather(weather);
         } else {
-            //no cache and request from server
-            weatherId = "CN101050101";
+            weatherId = getIntent().getStringExtra("weather_id");
             mainLayout.setVisibility(View.INVISIBLE);
             requestWeatherFromServer(weatherId);
         }
-
 
         swipeRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -219,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
     /**
      * Request Weather info (JSON) from server.

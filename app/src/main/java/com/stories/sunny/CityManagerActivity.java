@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.stories.sunny.adapter.CityStoragedAdapter;
+import com.stories.sunny.db_model.CityStoraged;
 
-import java.util.ArrayList;
+import org.litepal.crud.DataSupport;
+
 import java.util.List;
 
 /**
@@ -19,18 +20,18 @@ import java.util.List;
 
 public class CityManagerActivity extends AppCompatActivity {
 
-    private List<CityStoraged> cityStoragedDataList = new ArrayList<>();
+    private List<CityStoraged> cityStoragedList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_city);
 
-        init();
+        cityStoragedList = DataSupport.findAll(CityStoraged.class);
 
-        ListView cityStoragedList = (ListView) findViewById(R.id.add_city_list);
-        CityStoragedAdapter cityStoragedAdapter = new CityStoragedAdapter(CityManagerActivity.this, R.layout.city_storaged, cityStoragedDataList);
-        cityStoragedList.setAdapter(cityStoragedAdapter);
+        ListView cityStoragedListView = (ListView) findViewById(R.id.add_city_list);
+        CityStoragedAdapter cityStoragedAdapter = new CityStoragedAdapter(CityManagerActivity.this, R.layout.city_storaged, cityStoragedList);
+        cityStoragedListView.setAdapter(cityStoragedAdapter);
 
 
         /* ****** */
@@ -46,15 +47,4 @@ public class CityManagerActivity extends AppCompatActivity {
 
     }
 
-    private void init() {
-
-        for (int i = 1; i <= 3; i++) {
-            CityStoraged cityStoraged1 = new CityStoraged("北京", "8 ~ 15 °C", R.drawable.ic_heavy_rain);
-            cityStoragedDataList.add(cityStoraged1);
-            CityStoraged cityStoraged2 = new CityStoraged("北京", "8 ~ 15 °C", R.drawable.ic_heavy_rain);
-            cityStoragedDataList.add(cityStoraged2);
-            CityStoraged cityStoraged3 = new CityStoraged("北京", "8 ~ 15 °C", R.drawable.ic_heavy_rain);
-            cityStoragedDataList.add(cityStoraged3);
-        }
-    }
 }

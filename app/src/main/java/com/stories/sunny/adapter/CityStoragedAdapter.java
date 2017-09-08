@@ -11,8 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.stories.sunny.CityStoraged;
 import com.stories.sunny.R;
+import com.stories.sunny.db_model.CityStoraged;
 
 import java.util.List;
 
@@ -35,13 +35,13 @@ public class CityStoragedAdapter extends ArrayAdapter {
         CityStoraged cityStoraged = (CityStoraged) getItem(position);
         View view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
 
-        ImageView cityStoragedIcon = (ImageView) view.findViewById(R.id.city_storaged_icon);
+        //ImageView cityStoragedIcon = (ImageView) view.findViewById(R.id.city_storaged_icon);
         TextView cityStoragedName = (TextView) view.findViewById(R.id.city_storaged_name);
-        TextView cityStoragedTemp = (TextView) view.findViewById(R.id.city_storaged_temp);
+        //TextView cityStoragedTemp = (TextView) view.findViewById(R.id.city_storaged_temp);
 
-        cityStoragedIcon.setImageResource(cityStoraged.getWeatherImageId());
-        cityStoragedName.setText(cityStoraged.getCityName());
-        cityStoragedTemp.setText(cityStoraged.getCuurentDegree());
+        //cityStoragedIcon.setImageResource(cityStoraged.getWeatherImgId());
+        cityStoragedName.setText(cityStoraged.getCityStoragedName());
+        //cityStoragedTemp.setText(cityStoraged.getMaxMinDegree());
 
         return view;
     }

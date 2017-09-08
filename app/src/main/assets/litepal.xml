@@ -3,12 +3,13 @@
 
     <dbname value="location" />
 
-    <version value="1" />
+    <version value="2" />
 
     <list>
         <mapping class="com.stories.sunny.db_model.Province" />
         <mapping class="com.stories.sunny.db_model.City" />
         <mapping class="com.stories.sunny.db_model.County" />
+        <mapping class="com.stories.sunny.db_model.CityStoraged" />
     </list>
 
 </litepal>

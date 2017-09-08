@@ -1,6 +1,7 @@
 package com.stories.sunny;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stories.sunny.db_model.City;
+import com.stories.sunny.db_model.CityStoraged;
 import com.stories.sunny.db_model.County;
 import com.stories.sunny.db_model.Province;
 import com.stories.sunny.util.HttpUtil;
@@ -83,9 +85,23 @@ public class ChooseAreaFragment extends Fragment {
                } else if (currentLevel == LEVEL_CITY) {
                    selectedCity = mCityList.get(i);
                    queryCounties();
-                }
+               } else if (currentLevel == LEVEL_COUNTY) {
+                   County county = mCountyList.get(i);
+                   String weatherId = county.getWeatherId();
+
+                   Intent intent = new Intent(getActivity(), MainActivity.class);
+                   intent.putExtra("weather_id", weatherId);
+                   /* ***将选择的城市添加到城市管理数据库*** */
+                   CityStoraged city = new CityStoraged();
+                   city.setCityStoragedName(county.getName());
+                   city.save();
+
+                   startActivity(intent);
+                   getActivity().finish();
+               }
            }
        });
+
        mBackButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
