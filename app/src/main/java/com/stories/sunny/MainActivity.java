@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.stories.sunny.gson_model.DailyForecast;
 import com.stories.sunny.gson_model.Weather;
 import com.stories.sunny.util.HttpUtil;
 import com.stories.sunny.util.Utility;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView currentWindDir;
 
     private TextView currentPrecipitation;
+
+    private TextView currentPrecipitationProbability;
 
     private TextView currentRealFeel;
 
@@ -83,6 +86,36 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView suggestionUvInfo;
 
+    private DailyForecast dailyForecastToday;
+
+    private DailyForecast dailyForecastTomorrow;
+
+    private DailyForecast dailyForecastAfterTomorrow;
+
+    private TextView dailyForecastTodayDate;
+
+    private TextView dailyForecastTodayMaxMinDegree;
+
+    private TextView dailyForecastTodayPrecipitationProbability;
+
+    private TextView dailyForecastTodayInfo;
+
+    private TextView dailyForecastTomorrowDate;
+
+    private TextView dailyForecastTomorrowMaxMinDegree;
+
+    private TextView dailyForecastTomorrowPrecipitationProbability;
+
+    private TextView dailyForecastTomorrowInfo;
+
+    private TextView dailyForecastAfterTomorrowDate;
+
+    private TextView dailyForecastAfterTomorrowMaxMinDegree;
+
+    private TextView dailyForecastAfterTomorrowPrecipitationProbability;
+
+    private TextView dailyForecastAfterTomorrowInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         currentWindSpeed = (TextView) findViewById(R.id.forecast_now_wind_speed);
         currentWindDir = (TextView) findViewById(R.id.forecast_now_wind_dir);
         currentPrecipitation = (TextView) findViewById(R.id.forecast_now_precipitation);
+        currentPrecipitationProbability = (TextView) findViewById(R.id.forecast_now_precipitation_probability);
         currentRealFeel = (TextView) findViewById(R.id.forecast_now_real_feel_degree);
         currentAtmosphericPressure = (TextView) findViewById(R.id.forecast_now_atmospheric_pressure);
         currentVisibility = (TextView) findViewById(R.id.forecast_now_visibility);
@@ -136,6 +170,18 @@ public class MainActivity extends AppCompatActivity {
         suggestionTravelInfo = (TextView) findViewById(R.id.suggestion_travel_info);
         suggestionUvBrif = (TextView) findViewById(R.id.suggestion_uv_brif);
         suggestionUvInfo = (TextView) findViewById(R.id.suggestion_uv_info);
+        dailyForecastTodayDate = (TextView) findViewById(R.id.daily_forecast_date_today);
+        dailyForecastTodayMaxMinDegree = (TextView) findViewById(R.id.daily_forecast_today_max_min_temp);
+        dailyForecastTodayPrecipitationProbability = (TextView) findViewById(R.id.daily_forecast_today_precipitation_probability);
+        dailyForecastTodayInfo = (TextView) findViewById(R.id.daily_forecast_today_info);
+        dailyForecastTomorrowDate = (TextView) findViewById(R.id.daily_forecast_date_tomorrow);
+        dailyForecastTomorrowMaxMinDegree = (TextView) findViewById(R.id.daily_forecast_tomorrow_max_min_temp);
+        dailyForecastTomorrowPrecipitationProbability = (TextView) findViewById(R.id.daily_forecast_tomorrow_precipitation_probability);
+        dailyForecastTomorrowInfo = (TextView) findViewById(R.id.daily_forecast_tomorrow_info);
+        dailyForecastAfterTomorrowDate = (TextView) findViewById(R.id.daily_forecast_date_after_tomorrow);
+        dailyForecastAfterTomorrowMaxMinDegree = (TextView) findViewById(R.id.daily_forecast_after_tomorrow_max_min_temp);
+        dailyForecastAfterTomorrowPrecipitationProbability = (TextView) findViewById(R.id.daily_forecast_after_tomorrow_precipitation_probability);
+        dailyForecastAfterTomorrowInfo = (TextView) findViewById(R.id.daily_forecast_after_tomorrow_info);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherJSON = preferences.getString("weatherJSON", null);
@@ -191,19 +237,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void showWeather(Weather weather) {
 
+        dailyForecastToday = weather.dailyForecastList.get(0);
+        dailyForecastTomorrow = weather.dailyForecastList.get(1);
+        dailyForecastAfterTomorrow = weather.dailyForecastList.get(2);
+
         /* Now */
         String currentCityName = weather.basic.cityName;
         String updateTimeData = weather.basic.update.updateTime.split(" ")[1]; //12:00
         String currentDegreeData = weather.now.Temperature;
         String currentWeatherTxtData = weather.now.condition.weatherInfo;
         int currentWeatherCode = Integer.valueOf(weather.now.condition.code).intValue();
-        String currentWindSpeedData = weather.now.wind.windSpeed + "km/h";
+        String currentWindSpeedData = weather.now.wind.windSpeed + " km/h";
         String currentWindDirData = weather.now.wind.direction;
-        String currentPrecipitationData = weather.now.precipitation + "mm";
-        String currentRealFeelData = weather.now.realFeel + "°C";
-        String currentAtmosphericPressureData = weather.now.atmosphericPressure + "mb";
-        String currentVisibilityData = weather.now.visibility;
-        String currentRelativeHumidityData = weather.now.relativeHumidity + "%";
+        String currentPrecipitationData = weather.now.precipitation + " mm";
+        String currentPrecipitationProbabilityData = dailyForecastToday.precipitationProbability + " %";
+        String currentRealFeelData = weather.now.realFeel + " °C";
+        String currentAtmosphericPressureData = weather.now.atmosphericPressure + " mb";
+        String currentVisibilityData = weather.now.visibility + " km";
+        String currentRelativeHumidityData = weather.now.relativeHumidity + " %";
 
         currentCity.setText(currentCityName);
         updateTime.setText(updateTimeData);
@@ -216,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
         currentAtmosphericPressure.setText(currentAtmosphericPressureData);
         currentVisibility.setText(currentVisibilityData);
         currentRelativeHumidity.setText(currentRelativeHumidityData);
+        currentPrecipitationProbability.setText(currentPrecipitationProbabilityData);
 
         /* suggestions */
         String comfortBrifData = "舒适度: " + weather.suggestion.comfort.briefInfo;
@@ -253,7 +305,18 @@ public class MainActivity extends AppCompatActivity {
         suggestionUvInfo.setText(uvData);
 
         /*daily forecast*/
-       
+        dailyForecastTodayDate.setText("今天");
+        dailyForecastTodayMaxMinDegree.setText(dailyForecastToday.temperature.min + "~" + dailyForecastToday.temperature.max + "°C");
+        dailyForecastTodayPrecipitationProbability.setText(dailyForecastToday.precipitationProbability);
+        dailyForecastTodayInfo.setText("今天白天" + dailyForecastToday.condition.dayConditon + "," + "夜晚" + dailyForecastToday.condition.nightCondition + "。" + "最高气温" + dailyForecastToday.temperature.max + "°C，" + dailyForecastToday.wind.direction + dailyForecastToday.wind.windFore);
+        dailyForecastTomorrowDate.setText("明天");
+        dailyForecastTomorrowMaxMinDegree.setText(dailyForecastAfterTomorrow.temperature.min + "~" + dailyForecastTomorrow.temperature.max + "°C");
+        dailyForecastTomorrowPrecipitationProbability.setText(dailyForecastAfterTomorrow.precipitationProbability);
+        dailyForecastTomorrowInfo.setText("今天白天" + dailyForecastTomorrow.condition.dayConditon + "," + "夜晚" + dailyForecastTomorrow.condition.nightCondition + "。" + "最高气温" + dailyForecastTomorrow.temperature.max + "°C，" + dailyForecastTomorrow.wind.direction +dailyForecastTomorrow.wind.windFore);
+        dailyForecastAfterTomorrowDate.setText("后天");
+        dailyForecastAfterTomorrowMaxMinDegree.setText(dailyForecastAfterTomorrow.temperature.min + "~" + dailyForecastAfterTomorrow.temperature.max + "°C");
+        dailyForecastAfterTomorrowPrecipitationProbability.setText(dailyForecastAfterTomorrow.precipitationProbability);
+        dailyForecastAfterTomorrowInfo.setText("今天白天" + dailyForecastAfterTomorrow.condition.dayConditon + "," + "夜晚" + dailyForecastAfterTomorrow.condition.nightCondition + "。" + "最高气温" + dailyForecastAfterTomorrow.temperature.max + "°C，" + dailyForecastAfterTomorrow.wind.direction + dailyForecastAfterTomorrow.wind.windFore);
 
     }
 }
