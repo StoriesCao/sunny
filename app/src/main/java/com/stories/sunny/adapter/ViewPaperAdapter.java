@@ -25,7 +25,7 @@ public class ViewPaperAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return WeatherFragment.newInstance(cityStoragedList.get(position).getWeatherId());
+        return WeatherFragment.newInstance(cityStoragedList.get(position).getWeatherId(), cityStoragedList.get(position).getCityStoragedName());
     }
 
     @Override

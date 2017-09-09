@@ -139,9 +139,10 @@ public class WeatherFragment extends Fragment {
 
 
     /* start */
-    public static WeatherFragment newInstance(String weatherId) {
+    public static WeatherFragment newInstance(String weatherId, String cityName) {
         Bundle args = new Bundle();
         args.putString("weather_id", weatherId);
+        args.putString("city_name", cityName);
         WeatherFragment weatherFragment = new WeatherFragment();
         weatherFragment.setArguments(args);
         return weatherFragment;
@@ -221,6 +222,12 @@ public class WeatherFragment extends Fragment {
          /* ****** */
         swipeRefresher = (SwipeRefreshLayout) view.findViewById(R.id.main_weather_refresher);
         swipeRefresher.setColorSchemeResources(R.color.dark);
+        swipeRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestWeatherFromServer(weatherId);
+            }
+        });
 
         return view;
     }
@@ -231,10 +238,18 @@ public class WeatherFragment extends Fragment {
 
         cityStoragedList = DataSupport.findAll(CityStoraged.class); //查找用户是否存储了相关城市
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());  //是否存在当前城市的缓存
+        String currentWeatherJSON = preferences.getString(getArguments().getString("city_name") + "weatherJSON", null);
+
         if (cityStoragedList.size() == 0) { //用户并没有添加任何城市
             Intent startCityManagerActivity = new Intent(getActivity(), CityManagerActivity.class);
             startActivity(startCityManagerActivity);
+        } else if (currentWeatherJSON != null){
+            //have cache
+            Weather weather = Utility.parseWeatherJson(currentWeatherJSON);
+            showWeather(weather);
         } else {
+            //no cache and request from server
             mainLayout.setVisibility(View.INVISIBLE);
             requestWeatherFromServer(weatherId);
         }
@@ -242,26 +257,8 @@ public class WeatherFragment extends Fragment {
 
     }
 
-/*
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String weatherJSON = preferences.getString("weatherJSON", null);
-        if (weatherJSON != null) {
-            //have cache
-            Weather weather = Utility.parseWeatherJson(weatherJSON);
-            weatherId = weather.basic.weatherId;
-            showWeather(weather);
-        } else {
-            weatherId = getIntent().getStringExtra("weather_id");
-            mainLayout.setVisibility(View.INVISIBLE);
-            requestWeatherFromServer(weatherId);
-        }
 
-        swipeRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                requestWeatherFromServer(weatherId);
-            }
-        });*/
+
 
 
     /**
