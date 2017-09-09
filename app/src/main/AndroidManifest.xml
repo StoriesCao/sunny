@@ -27,8 +27,11 @@
             android:label="地点"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".ChooseAreaActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ChooseAreaActivity"
+            android:screenOrientation="portrait"
+            android:label="选择城市"
+            android:theme="@style/ChooseAreaActivityTheme"/>
 
         <activity android:name=".AQIActivity"/>
 
