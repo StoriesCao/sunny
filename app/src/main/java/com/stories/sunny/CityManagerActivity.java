@@ -1,16 +1,22 @@
 package com.stories.sunny;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.stories.sunny.adapter.CityStoragedAdapter;
+import com.stories.sunny.adapter.ViewPaperAdapter;
 import com.stories.sunny.db_model.CityStoraged;
 
 import org.litepal.crud.DataSupport;
@@ -32,11 +38,46 @@ public class CityManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_city);
 
+        FragmentManager fm = getSupportFragmentManager();
+        final ViewPaperAdapter adapter = new ViewPaperAdapter(fm);
+
         cityStoragedList = DataSupport.findAll(CityStoraged.class);
 
         ListView cityStoragedListView = (ListView) findViewById(R.id.add_city_list);
-        CityStoragedAdapter cityStoragedAdapter = new CityStoragedAdapter(CityManagerActivity.this, R.layout.city_storaged, cityStoragedList);
+        final CityStoragedAdapter cityStoragedAdapter = new CityStoragedAdapter(CityManagerActivity.this, R.layout.city_storaged, cityStoragedList);
         cityStoragedListView.setAdapter(cityStoragedAdapter);
+        cityStoragedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(CityManagerActivity.this, cityStoragedList.get(i).getCityStoragedName() + "短", Toast.LENGTH_SHORT).show();
+            }
+        });
+        cityStoragedListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(CityManagerActivity.this);
+                dialog.setTitle("警告：");
+                dialog.setMessage("确定要删除 " + cityStoragedList.get(position).getCityStoragedName() + " 吗？");
+                dialog.setCancelable(false);
+                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DataSupport.deleteAll(CityStoraged.class, "citystoragedname = ?", cityStoragedList.get(position).getCityStoragedName());
+                        cityStoragedAdapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                dialog.show();
+
+                return true;
+            }
+        });
 
         /* ****** */
         toolbar = (Toolbar) findViewById(R.id.city_manager_toolbar);

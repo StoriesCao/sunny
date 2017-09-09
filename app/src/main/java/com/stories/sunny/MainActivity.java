@@ -34,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
         ViewPaperAdapter viewPaperAdapter = new ViewPaperAdapter(fragmentManager);
         viewPager.setAdapter(viewPaperAdapter);
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }
 
 

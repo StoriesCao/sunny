@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,6 +138,13 @@ public class WeatherFragment extends Fragment {
 
     private TextView dailyForecastAfterTomorrowInfo;
 
+    /* ****** */
+    private CardView cardViewToday;
+
+    private CardView cardViewTomorrow;
+
+    private CardView cardViewAfterTomorrow;
+
 
     /* start */
     public static WeatherFragment newInstance(String weatherId, String cityName) {
@@ -197,7 +205,9 @@ public class WeatherFragment extends Fragment {
         dailyForecastAfterTomorrowMaxMinDegree = (TextView) view.findViewById(R.id.daily_forecast_after_tomorrow_max_min_temp);
         dailyForecastAfterTomorrowPrecipitationProbability = (TextView) view.findViewById(R.id.daily_forecast_after_tomorrow_precipitation_probability);
         dailyForecastAfterTomorrowInfo = (TextView) view.findViewById(R.id.daily_forecast_after_tomorrow_info);
-
+        cardViewToday = (CardView) view.findViewById(R.id.daily_forecast_today_bg);
+        cardViewTomorrow = (CardView) view.findViewById(R.id.daily_forecast_tomorrow_bg);
+        cardViewAfterTomorrow = (CardView) view.findViewById(R.id.daily_forecast_after_tomorrow_bg);
 
         /* ****** */
         cityManagerButton = (Button) view.findViewById(R.id.place_manager);
@@ -241,7 +251,7 @@ public class WeatherFragment extends Fragment {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());  //是否存在当前城市的缓存
         String currentWeatherJSON = preferences.getString(getArguments().getString("city_name") + "weatherJSON", null);
 
-        if (cityStoragedList.size() == 0) { //用户并没有添加任何城市
+        if (cityStoragedList.size() == 0) {  //用户并没有添加任何城市
             Intent startCityManagerActivity = new Intent(getActivity(), CityManagerActivity.class);
             startActivity(startCityManagerActivity);
         } else if (currentWeatherJSON != null){
@@ -307,6 +317,10 @@ public class WeatherFragment extends Fragment {
         dailyForecastToday = weather.dailyForecastList.get(0);
         dailyForecastTomorrow = weather.dailyForecastList.get(1);
         dailyForecastAfterTomorrow = weather.dailyForecastList.get(2);
+
+        CityStoraged city = new CityStoraged(); //为了将温度信息传递到城市管理页面
+        city.setMaxMinDegree(dailyForecastToday.temperature.min + "~" + dailyForecastToday.temperature.max + "°C");
+        city.updateAll("citystoragedname = ?", weather.basic.cityName);
 
         /* Now */
         String currentCityName = weather.basic.cityName;
@@ -384,6 +398,45 @@ public class WeatherFragment extends Fragment {
         dailyForecastAfterTomorrowMaxMinDegree.setText(dailyForecastAfterTomorrow.temperature.min + "~" + dailyForecastAfterTomorrow.temperature.max + "°C");
         dailyForecastAfterTomorrowPrecipitationProbability.setText(dailyForecastAfterTomorrow.precipitationProbability + "%");
         dailyForecastAfterTomorrowInfo.setText("后天白天" + dailyForecastAfterTomorrow.condition.dayConditon + "," + "夜晚" + dailyForecastAfterTomorrow.condition.nightCondition + "。" + "最高气温" + dailyForecastAfterTomorrow.temperature.max + "°C，" + dailyForecastAfterTomorrow.wind.direction + dailyForecastAfterTomorrow.wind.windFore);
+
+        /* ***** */
+        if (Integer.parseInt(dailyForecastToday.condition.code_d) >= 100 && Integer.parseInt(dailyForecastToday.condition.code_d) <= 204) {
+            cardViewToday.setBackgroundColor(getResources().getColor(R.color.sunny));
+        } else  if (Integer.parseInt(dailyForecastToday.condition.code_d) >= 205 && Integer.parseInt(dailyForecastToday.condition.code_d) <= 213) {
+            cardViewToday.setCardBackgroundColor(getResources().getColor(R.color.wind));
+        } else if (Integer.parseInt(dailyForecastToday.condition.code_d) >= 300 && Integer.parseInt(dailyForecastToday.condition.code_d) <= 313) {
+            cardViewToday.setCardBackgroundColor(getResources().getColor(R.color.rain));
+        } else if (Integer.parseInt(dailyForecastToday.condition.code_d) >= 500 && Integer.parseInt(dailyForecastToday.condition.code_d) <= 501) {
+            cardViewToday.setCardBackgroundColor(getResources().getColor(R.color.fog));
+        }else if (Integer.parseInt(dailyForecastToday.condition.code_d) >= 502 && Integer.parseInt(dailyForecastToday.condition.code_d) <= 508) {
+            cardViewToday.setCardBackgroundColor(getResources().getColor(R.color.dust));
+        }
+
+        if (Integer.parseInt(dailyForecastTomorrow.condition.code_d) >= 100 && Integer.parseInt(dailyForecastTomorrow.condition.code_d) <= 204) {
+            cardViewTomorrow.setBackgroundColor(getResources().getColor(R.color.sunny));
+        } else  if (Integer.parseInt(dailyForecastTomorrow.condition.code_d) >= 205 && Integer.parseInt(dailyForecastTomorrow.condition.code_d) <= 213) {
+            cardViewTomorrow.setCardBackgroundColor(getResources().getColor(R.color.wind));
+        } else if (Integer.parseInt(dailyForecastTomorrow.condition.code_d) >= 300 && Integer.parseInt(dailyForecastTomorrow.condition.code_d) <= 313) {
+            cardViewTomorrow.setCardBackgroundColor(getResources().getColor(R.color.rain));
+        } else if (Integer.parseInt(dailyForecastTomorrow.condition.code_d) >= 500 && Integer.parseInt(dailyForecastTomorrow.condition.code_d) <= 501) {
+            cardViewTomorrow.setCardBackgroundColor(getResources().getColor(R.color.fog));
+        }else if (Integer.parseInt(dailyForecastTomorrow.condition.code_d) >= 502 && Integer.parseInt(dailyForecastTomorrow.condition.code_d) <= 508) {
+            cardViewTomorrow.setCardBackgroundColor(getResources().getColor(R.color.dust));
+        }
+
+        if (Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) >= 100 && Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) <= 204) {
+            cardViewAfterTomorrow.setBackgroundColor(getResources().getColor(R.color.sunny));
+        } else  if (Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) >= 205 && Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) <= 213) {
+            cardViewAfterTomorrow.setCardBackgroundColor(getResources().getColor(R.color.wind));
+        } else if (Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) >= 300 && Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) <= 313) {
+            cardViewAfterTomorrow.setCardBackgroundColor(getResources().getColor(R.color.rain));
+        } else if (Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) >= 500 && Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) <= 501) {
+            cardViewAfterTomorrow.setCardBackgroundColor(getResources().getColor(R.color.fog));
+        }else if (Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) >= 502 && Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) <= 508) {
+            cardViewAfterTomorrow.setCardBackgroundColor(getResources().getColor(R.color.dust));
+        }
+
+
 
         mainLayout.setVisibility(View.VISIBLE);
     }
