@@ -6,23 +6,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#000000">
+    android:background="@color/dark">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:title="地点"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/add_city_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/city_manager_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+            <ListView
+                android:id="@+id/add_city_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/add_city"
@@ -34,6 +42,7 @@
             app:elevation="8dp"
             app:backgroundTint="@color/lightGray"
             app:rippleColor="@color/gray"/>
+
     </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>

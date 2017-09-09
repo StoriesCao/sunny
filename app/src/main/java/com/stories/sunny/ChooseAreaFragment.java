@@ -87,10 +87,8 @@ public class ChooseAreaFragment extends Fragment {
                    queryCounties();
                } else if (currentLevel == LEVEL_COUNTY) {
                    County county = mCountyList.get(i);
-                   String weatherId = county.getWeatherId();
 
                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                   intent.putExtra("weather_id", weatherId);
 
                    /* ***将选择的城市添加到城市管理数据库*** */
                    CityStoraged city = new CityStoraged();
