@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +26,7 @@ import java.util.List;
  * Created by Charlottecao on 9/5/17.
  */
 
-public class CityManagerActivity extends AppCompatActivity {
+public class CityManagerActivity extends BaseActivity {
 
     private List<CityStoraged> cityStoragedList;
 

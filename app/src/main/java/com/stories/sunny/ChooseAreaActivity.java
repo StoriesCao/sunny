@@ -3,7 +3,6 @@ package com.stories.sunny;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -11,7 +10,7 @@ import android.view.MenuItem;
  * Created by Charlottecao on 9/7/17.
  */
 
-public class ChooseAreaActivity extends AppCompatActivity {
+public class ChooseAreaActivity extends BaseActivity {
 
     private Toolbar toolbar;
 

@@ -13,7 +13,7 @@ import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private ViewPager viewPager;
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        BaseActivity.finishAllActivity();
     }
 }
 
