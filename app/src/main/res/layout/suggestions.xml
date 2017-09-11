@@ -31,8 +31,8 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingLeft="10dp"
-                android:paddingRight="15dp">
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -71,8 +71,8 @@
                         android:id="@+id/suggestion_air_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/dark"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
                         tools:text="天气较好，温度较高，天气较热，但有微风相伴，还是比较适宜旅游的，不过外出时要注意防暑防晒哦！"/>
 
                 </LinearLayout>
@@ -91,7 +91,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="10dp">
+                android:padding="20dp">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -130,8 +130,8 @@
                         android:id="@+id/suggestion_comf_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/dark"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
                         tools:text="天气较好，温度较高，天气较热，但有微风相伴，还是比较适宜旅游的，不过外出时要注意防暑防晒哦！"/>
 
                 </LinearLayout>
@@ -150,11 +150,11 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="10dp">
+                android:padding="20dp">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:src="@drawable/ic_carwash"
                     android:layout_centerInParent="true"/>
 
@@ -189,8 +189,8 @@
                         android:id="@+id/suggestion_car_wash_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/dark"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
                         tools:text="天气较好，温度较高，天气较热，但有微风相伴，还是比较适宜旅游的，不过外出时要注意防暑防晒哦！"/>
 
                 </LinearLayout>
@@ -209,11 +209,11 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="10dp">
+                android:padding="20dp">
 
                 <ImageView
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:src="@drawable/ic_dress"
                     android:layout_centerInParent="true"/>
 
@@ -248,8 +248,8 @@
                         android:id="@+id/suggestion_dress_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/dark"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
                         tools:text="天气较好，温度较高，天气较热，但有微风相伴，还是比较适宜旅游的，不过外出时要注意防暑防晒哦！"/>
 
                 </LinearLayout>
@@ -268,7 +268,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="10dp">
+                android:padding="20dp">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -307,8 +307,8 @@
                         android:id="@+id/suggestion_flu_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/dark"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
                         tools:text="天气较好，温度较高，天气较热，但有微风相伴，还是比较适宜旅游的，不过外出时要注意防暑防晒哦！"/>
 
                 </LinearLayout>
@@ -327,7 +327,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="10dp">
+                android:padding="20dp">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -366,8 +366,8 @@
                         android:id="@+id/suggestion_sport_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/dark"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
                         tools:text="天气较好，温度较高，天气较热，但有微风相伴，还是比较适宜旅游的，不过外出时要注意防暑防晒哦！"/>
 
                 </LinearLayout>
@@ -386,7 +386,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="10dp">
+                android:padding="20dp">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -425,8 +425,8 @@
                         android:id="@+id/suggestion_travel_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/dark"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
                         tools:text="天气较好，温度较高，天气较热，但有微风相伴，还是比较适宜旅游的，不过外出时要注意防暑防晒哦！"/>
 
                 </LinearLayout>
@@ -445,7 +445,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="10dp">
+                android:padding="20dp">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -484,8 +484,8 @@
                         android:id="@+id/suggestion_uv_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/dark"
+                        android:textSize="13sp"
+                        android:textColor="@color/gray"
                         tools:text="天气较好，温度较高，天气较热，但有微风相伴，还是比较适宜旅游的，不过外出时要注意防暑防晒哦！"/>
 
                 </LinearLayout>

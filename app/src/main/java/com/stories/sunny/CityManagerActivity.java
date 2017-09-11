@@ -51,7 +51,7 @@ public class CityManagerActivity extends BaseActivity {
                 Toast.makeText(CityManagerActivity.this, cityStoragedList.get(i).getCityStoragedName() + "短", Toast.LENGTH_SHORT).show();
             }
         });
-        cityStoragedListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        cityStoragedListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() { // 长按删除存储的城市
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(CityManagerActivity.this);
@@ -62,6 +62,7 @@ public class CityManagerActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         DataSupport.deleteAll(CityStoraged.class, "citystoragedname = ?", cityStoragedList.get(position).getCityStoragedName());
+                        cityStoragedList = DataSupport.findAll(CityStoraged.class);
                         cityStoragedAdapter.notifyDataSetChanged();
                         adapter.notifyDataSetChanged();
                     }
