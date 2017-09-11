@@ -2,7 +2,9 @@ package com.stories.sunny;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -20,6 +22,7 @@ import com.stories.sunny.db_model.CityStoraged;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +31,7 @@ import java.util.List;
 
 public class CityManagerActivity extends BaseActivity {
 
-    private List<CityStoraged> cityStoragedList;
+    private List<CityStoraged> cityStoragedList = new ArrayList<>();
 
     private Toolbar toolbar;
 
@@ -42,7 +45,7 @@ public class CityManagerActivity extends BaseActivity {
 
         cityStoragedList = DataSupport.findAll(CityStoraged.class);
 
-        ListView cityStoragedListView = (ListView) findViewById(R.id.add_city_list);
+        final ListView cityStoragedListView = (ListView) findViewById(R.id.add_city_list);
         final CityStoragedAdapter cityStoragedAdapter = new CityStoragedAdapter(CityManagerActivity.this, R.layout.city_storaged, cityStoragedList);
         cityStoragedListView.setAdapter(cityStoragedAdapter);
         cityStoragedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,8 +65,18 @@ public class CityManagerActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         DataSupport.deleteAll(CityStoraged.class, "citystoragedname = ?", cityStoragedList.get(position).getCityStoragedName());
-                        cityStoragedList = DataSupport.findAll(CityStoraged.class);
+
+                        cityStoragedList.remove(position); //仅仅从数据库删除了此条数据，List集合里面并没有删除
+
+                        /* 为什么此种方法删除List集合不成功，全部删除？
+                        cityStoragedList.clear();
+                        cityStoragedList = DataSupport.findAll(CityStoraged.class);*/
+
                         cityStoragedAdapter.notifyDataSetChanged();
+
+                        //删除相应的JSON数据
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                        
                         adapter.notifyDataSetChanged();
                     }
                 });

@@ -35,8 +35,8 @@
                 android:paddingRight="20dp">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
                     android:src="@drawable/ic_air_quality"
                     android:layout_centerInParent="true"/>
 
@@ -212,8 +212,8 @@
                 android:padding="20dp">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_dress"
                     android:layout_centerInParent="true"/>
 
@@ -271,8 +271,8 @@
                 android:padding="20dp">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:src="@drawable/ic_flu"
                     android:layout_centerInParent="true"/>
 
@@ -389,8 +389,8 @@
                 android:padding="20dp">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
                     android:src="@drawable/ic_travel"
                     android:layout_centerInParent="true"/>
 
@@ -448,8 +448,8 @@
                 android:padding="20dp">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
                     android:src="@drawable/ic_ultraviolet_ray"
                     android:layout_centerInParent="true"/>
 
