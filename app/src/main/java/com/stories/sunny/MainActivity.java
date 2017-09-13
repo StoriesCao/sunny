@@ -33,6 +33,11 @@ public class MainActivity extends BaseActivity {
         viewPager = (ViewPager) findViewById(R.id.view_paper);
         ViewPaperAdapter viewPaperAdapter = new ViewPaperAdapter(fragmentManager);
         viewPager.setAdapter(viewPaperAdapter);
+
+       /* String position = getIntent().getStringExtra("position");
+        if (position != null) {
+            viewPager.setCurrentItem(Integer.parseInt(position));
+        }*/
     }
 
     @Override

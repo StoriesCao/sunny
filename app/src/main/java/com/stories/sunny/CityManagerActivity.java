@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.stories.sunny.adapter.CityStoragedAdapter;
 import com.stories.sunny.adapter.ViewPaperAdapter;
@@ -44,8 +43,8 @@ public class CityManagerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_city);
 
-        /*FragmentManager fm = getSupportFragmentManager();
-        final ViewPaperAdapter adapter = new ViewPaperAdapter(fm);*/
+        FragmentManager fm = getSupportFragmentManager();
+        final ViewPaperAdapter adapter = new ViewPaperAdapter(fm);
 
         cityStoragedList = DataSupport.findAll(CityStoraged.class);
 
@@ -55,7 +54,9 @@ public class CityManagerActivity extends BaseActivity {
         cityStoragedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(CityManagerActivity.this, cityStoragedList.get(i).getCityStoragedName() + "短", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CityManagerActivity.this, MainActivity.class);
+                intent.putExtra("position", i);
+                startActivity(intent);
             }
         });
         cityStoragedListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() { // 长按删除存储的城市
