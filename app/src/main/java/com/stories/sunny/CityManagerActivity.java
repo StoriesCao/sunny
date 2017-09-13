@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,11 +26,14 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Created by Charlottecao on 9/5/17.
  */
 
 public class CityManagerActivity extends BaseActivity {
+
+    private static final String TAG = "CityManagerActivity";
 
     private List<CityStoraged> cityStoragedList = new ArrayList<>();
 
@@ -40,8 +44,8 @@ public class CityManagerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_city);
 
-        FragmentManager fm = getSupportFragmentManager();
-        final ViewPaperAdapter adapter = new ViewPaperAdapter(fm);
+        /*FragmentManager fm = getSupportFragmentManager();
+        final ViewPaperAdapter adapter = new ViewPaperAdapter(fm);*/
 
         cityStoragedList = DataSupport.findAll(CityStoraged.class);
 
@@ -64,9 +68,18 @@ public class CityManagerActivity extends BaseActivity {
                 dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        //先删除相应的JSON数据
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CityManagerActivity.this);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        if (preferences.getString(cityStoragedList.get(position).getCityStoragedName() + "weatherJSON", null) != null) {
+                            /*
+                            无法删除？？
+                            editor.remove(cityStoragedList.get(position).getCityStoragedName() + "weatherJSON");
+                             */
+                            editor.putString(cityStoragedList.get(position).getCityStoragedName() + "weatherJSON", null);
+                        }
                         DataSupport.deleteAll(CityStoraged.class, "citystoragedname = ?", cityStoragedList.get(position).getCityStoragedName());
-
-                        cityStoragedList.remove(position); //仅仅从数据库删除了此条数据，List集合里面并没有删除
+                        cityStoragedList.remove(position); //仅仅从数据库删除了此条数据，List集合里面并没有删除，size - 1
 
                         /* 为什么此种方法删除List集合不成功，全部删除？
                         cityStoragedList.clear();
@@ -74,10 +87,7 @@ public class CityManagerActivity extends BaseActivity {
 
                         cityStoragedAdapter.notifyDataSetChanged();
 
-                        //删除相应的JSON数据
-                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-                        
-                        adapter.notifyDataSetChanged();
+                        //adapter.notifyDataSetChanged();
                     }
                 });
                 dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {

@@ -17,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.stories.sunny.db_model.CityStoraged;
 import com.stories.sunny.gson_model.DailyForecast;
 import com.stories.sunny.gson_model.Weather;
@@ -59,6 +60,8 @@ public class WeatherFragment extends Fragment {
     private TextView currentAQI;
 
     private ImageView currentWeatherIcon;
+
+    private ImageView titleBackground;
 
     private TextView currentWindSpeed;
 
@@ -169,6 +172,7 @@ public class WeatherFragment extends Fragment {
         updateTime = (TextView) view.findViewById(R.id.title_update_time);
         currentWeatherTxt = (TextView) view.findViewById(R.id.forecast_now_info);
         currentWeatherIcon = (ImageView) view.findViewById(R.id.forecast_now_icon);
+        titleBackground = (ImageView) view.findViewById(R.id.title_bg);
         currentWindSpeed = (TextView) view.findViewById(R.id.forecast_now_wind_speed);
         currentWindDir = (TextView) view.findViewById(R.id.forecast_now_wind_dir);
         currentPrecipitation = (TextView) view.findViewById(R.id.forecast_now_precipitation);
@@ -252,8 +256,7 @@ public class WeatherFragment extends Fragment {
         String currentWeatherJSON = preferences.getString(getArguments().getString("city_name") + "weatherJSON", null);
 
         if (cityStoragedList.size() == 0) {  //用户并没有添加任何城市
-            Intent startCityManagerActivity = new Intent(getActivity(), CityManagerActivity.class);
-            startActivity(startCityManagerActivity);
+            startActivity(new Intent(getActivity(), CityManagerActivity.class));
         } else if (currentWeatherJSON != null){
             //have cache
             Weather weather = Utility.parseWeatherJson(currentWeatherJSON);
@@ -350,6 +353,13 @@ public class WeatherFragment extends Fragment {
         currentRelativeHumidity.setText(currentRelativeHumidityData);
         currentPrecipitationProbability.setText(currentPrecipitationProbabilityData);
 
+        if (updateTimeData.split(":")[0] != null) {
+            if (Integer.parseInt(updateTimeData.split(":")[0]) >= 6 && Integer.parseInt(updateTimeData.split(":")[0]) <= 18) {
+                Glide.with(getActivity()).load(R.drawable.bg_daylight).into(titleBackground);
+            } else {
+                Glide.with(getActivity()).load(R.drawable.bg_night).into(titleBackground);
+            }
+        }
         /* suggestions */
         String comfortBrifData = "舒适度: " + weather.suggestion.comfort.briefInfo;
         String comfortData = weather.suggestion.comfort.info;

@@ -88,15 +88,13 @@ public class ChooseAreaFragment extends Fragment {
                } else if (currentLevel == LEVEL_COUNTY) {
                    County county = mCountyList.get(i);
 
-                   Intent intent = new Intent(getActivity(), MainActivity.class);
-
                    /* ***将选择的城市添加到城市管理数据库*** */
                    CityStoraged city = new CityStoraged();
                    city.setCityStoragedName(county.getName());
                    city.setWeatherId(county.getWeatherId());
                    city.save();
 
-                   startActivity(intent);
+                   startActivity(new Intent(getActivity(), MainActivity.class));
 
                    getActivity().finish();
                }
