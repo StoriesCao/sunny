@@ -37,7 +37,7 @@ import okhttp3.Response;
  * Created by Charlottecao on 9/8/17.
  */
 
-public class WeatherFragment extends Fragment {
+public class WeatherFragment extends Fragment implements View.OnClickListener{
 
     String weatherId;
 
@@ -48,6 +48,8 @@ public class WeatherFragment extends Fragment {
     private SwipeRefreshLayout swipeRefresher;
 
     private Button cityManagerButton;
+
+    private Button mSettingButton;
 
     private TextView currentDegree;
 
@@ -223,6 +225,12 @@ public class WeatherFragment extends Fragment {
             }
         });
 
+        /**
+         *
+         */
+        mSettingButton = (Button) view.findViewById(R.id.setting);
+        mSettingButton.setOnClickListener(this);
+
          /* ****** */
         currentAQI = (TextView) view.findViewById(R.id.forecast_now_air_quality);
         currentAQI.setOnClickListener(new View.OnClickListener() {
@@ -244,6 +252,16 @@ public class WeatherFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.setting:
+                startActivity(new Intent(getActivity(), SettingActivity.class));
+                break;
+
+        }
     }
 
     @Override
@@ -453,5 +471,6 @@ public class WeatherFragment extends Fragment {
 
         mainLayout.setVisibility(View.VISIBLE);
     }
+
 }
 

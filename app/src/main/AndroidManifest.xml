@@ -22,16 +22,23 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".CityManagerActivity"
             android:label="地点"
             android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ChooseAreaActivity"
             android:label="选择城市"
             android:screenOrientation="portrait"
             android:theme="@style/ChooseAreaActivityTheme"/>
+
         <activity android:name=".AQIActivity"/>
+
+        <activity
+            android:name=".SettingActivity"
+            android:label="Setting"/>
 
         <service
             android:name=".AutoUpdayeService"
