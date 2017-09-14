@@ -325,6 +325,9 @@ public class WeatherFragment extends Fragment {
         city.setMaxMinDegree(dailyForecastToday.temperature.min + "~" + dailyForecastToday.temperature.max + "°C");
         city.updateAll("citystoragedname = ?", weather.basic.cityName);
 
+        Intent intent = new Intent(getActivity(), AutoUpdayeService.class);
+        getActivity().startService(intent);
+
         /* Now */
         String currentCityName = weather.basic.cityName;
         String updateTimeData = weather.basic.update.updateTime.split(" ")[1]; //12:00

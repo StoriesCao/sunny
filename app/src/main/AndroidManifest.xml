@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.stories.sunny">
 
-    <!--发送网络请求-->
+    <!-- 发送网络请求 -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -21,19 +22,22 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".CityManagerActivity"
             android:label="地点"
             android:screenOrientation="portrait"/>
-
         <activity
             android:name=".ChooseAreaActivity"
-            android:screenOrientation="portrait"
             android:label="选择城市"
+            android:screenOrientation="portrait"
             android:theme="@style/ChooseAreaActivityTheme"/>
-
         <activity android:name=".AQIActivity"/>
+
+        <service
+            android:name=".AutoUpdayeService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
 
     </application>
 
