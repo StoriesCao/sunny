@@ -15,6 +15,5 @@ public class AQIActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_air_quality);
 
-
     }
 }

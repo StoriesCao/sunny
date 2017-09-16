@@ -1,5 +1,8 @@
 package com.stories.sunny.gson_model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -8,7 +11,7 @@ import java.util.List;
  * Created by Charlottecao on 9/5/17.
  */
 
-public class Weather {
+public class Weather implements Parcelable{
 
     public String status;
 
@@ -25,4 +28,14 @@ public class Weather {
 
     @SerializedName("hourly_forecast")
     public List<HourlyForecast> hourlyForecastList;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+    }
 }

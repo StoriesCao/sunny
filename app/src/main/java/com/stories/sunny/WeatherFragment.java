@@ -61,7 +61,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
     private TextView currentCity;
     private TextView updateTime;
     private TextView currentWeatherTxt;
-    private TextView currentAQI;
+    private TextView mCurrentAQI;
     private ImageView mCurrentWeatherIcon;
     private ImageView titleBackground;
     private TextView currentWindSpeed;
@@ -171,8 +171,8 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         mSettingButton.setOnClickListener(this);
 
          /* ****** */
-        currentAQI = (TextView) view.findViewById(R.id.forecast_now_air_quality);
-        currentAQI.setOnClickListener(this);
+        mCurrentAQI = (TextView) view.findViewById(R.id.forecast_now_air_quality);
+        mCurrentAQI.setOnClickListener(this);
 
          /* ****** */
         swipeRefresher = (SwipeRefreshLayout) view.findViewById(R.id.main_weather_refresher);
@@ -194,6 +194,12 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
             case R.id.forecast_now_air_quality:
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                String currentJSON = preferences.getString(getArguments().getString("city_name") + "weatherJSON", null);
+                if (currentJSON != null) {
+                    Weather weather = Utility.parseWeatherJson(currentJSON);
+
+                }
                 startActivity(new Intent(getActivity(), AQIActivity.class));
                 break;
             case R.id.place_manager:
@@ -280,13 +286,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
         mDailyForecastToday = weather.dailyForecastList.get(0);
 
-        /**
-         * 为了将温度信息传递到城市管理页面
-         */
-        CityStoraged city = new CityStoraged();
-        city.setMaxMinDegree(mDailyForecastToday.temperature.min + "~" + mDailyForecastToday.temperature.max + "°C");
-        city.updateAll("citystoragedname = ?", weather.basic.cityName);
-
         Intent intent = new Intent(getActivity(), AutoUpdayeService.class);
         getActivity().startService(intent);
 
@@ -297,6 +296,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         String updateTimeData = weather.basic.update.updateTime.split(" ")[1]; //12:00
         String currentDegreeData = weather.now.Temperature;
         String currentWeatherTxtData = weather.now.condition.weatherInfo;
+        String currentAQI = weather.aqi.city.aqi;
         int currentWeatherCode = Integer.valueOf(weather.now.condition.code).intValue();
         String currentWindSpeedData = weather.now.wind.windSpeed + " km/h";
         String currentWindDirData = weather.now.wind.direction;
@@ -307,34 +307,54 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         String currentVisibilityData = weather.now.visibility + " km";
         String currentRelativeHumidityData = weather.now.relativeHumidity + " %";
 
+        /**
+         * 为了将温度信息传递到城市管理页面
+         */
+        CityStoraged city = new CityStoraged();
+        city.setMaxMinDegree(mDailyForecastToday.temperature.min + "~" + mDailyForecastToday.temperature.max + "°C");
 
         if (currentWeatherCode == 100) { // 晴
             mCurrentWeatherIcon.setImageResource(R.drawable.ic_sunny);
+            city.setWeatherImgId(R.drawable.ic_sunny);
         } else if (currentWeatherCode >= 101  && currentWeatherCode <= 104) { //阴
             mCurrentWeatherIcon.setImageResource(R.drawable.ic_cloud);
+            city.setWeatherImgId(R.drawable.ic_cloud);
         } else if (currentWeatherCode >= 200 && currentWeatherCode <= 213) { //风
             mCurrentWeatherIcon.setImageResource(R.drawable.ic_wind);
+            city.setWeatherImgId(R.drawable.ic_wind);
         } else if ((currentWeatherCode >= 300 && currentWeatherCode <= 301) || currentWeatherCode == 305 || currentWeatherCode == 309) { //阵雨
             mCurrentWeatherIcon.setImageResource(R.drawable.ic_light_rain);
+            city.setWeatherImgId(R.drawable.ic_light_rain);
         } else if (currentWeatherCode >= 302 && currentWeatherCode <= 304) { //雷阵雨
             mCurrentWeatherIcon.setImageResource(R.drawable.ic_thunder);
+            city.setWeatherImgId(R.drawable.ic_thunder);
         } else if ((currentWeatherCode >= 306 && currentWeatherCode <= 308) || (currentWeatherCode >= 310 && currentWeatherCode <= 313)) { //大（暴）雨
             mCurrentWeatherIcon.setImageResource(R.drawable.ic_heavy_rain);
+            city.setWeatherImgId(R.drawable.ic_heavy_rain);
         } else if (currentWeatherCode == 400 || currentWeatherCode == 406 || currentWeatherCode == 407) { //小雪 阵雪
             mCurrentWeatherIcon.setImageResource(R.drawable.ic_light_snow);
+            city.setWeatherImgId(R.drawable.ic_light_snow);
         } else if (currentWeatherCode == 401) { //中雪
             mCurrentWeatherIcon.setImageResource(R.drawable.ic_medium_snow);
+            city.setWeatherImgId(R.drawable.ic_medium_snow);
         } else if (currentWeatherCode >= 402 && currentWeatherCode <= 405) { //大雪
             mCurrentWeatherIcon.setImageResource(R.drawable.ic_heavy_snow);
+            city.setWeatherImgId(R.drawable.ic_heavy_snow);
         } else if (currentWeatherCode >= 500 && currentWeatherCode <= 508) { //雾 、 霾
             mCurrentWeatherIcon.setImageResource(R.drawable.ic_fog);
+            city.setWeatherImgId(R.drawable.ic_fog);
         } else {
             mCurrentWeatherIcon.setImageResource(R.drawable.ic_unknown);
+            city.setWeatherImgId(R.drawable.ic_unknown);
         }
+
+        city.updateAll("citystoragedname = ?", weather.basic.cityName);
+
         currentCity.setText(currentCityName);
         updateTime.setText(updateTimeData);
         currentDegree.setText(currentDegreeData);
         currentWeatherTxt.setText(currentWeatherTxtData);
+        mCurrentAQI.setText("|  AQI:" + currentAQI + " >");
         currentWindSpeed.setText(currentWindSpeedData);
         currentWindDir.setText(currentWindDirData);
         currentPrecipitation.setText(currentPrecipitationData);
