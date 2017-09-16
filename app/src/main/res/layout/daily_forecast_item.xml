@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="5dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/daily_forecast_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/daily_forecast_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/ic_heavy_rain"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/daily_forecast_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="今天 (星期三)"
+                        android:textSize="20sp"
+                        android:textColor="@color/dark"/>
+
+                    <TextView
+                        android:id="@+id/daily_forecast_precipitation_probability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="2dp"
+                        tools:text=" 50 %"
+                        android:textColor="@color/dark"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:id="@+id/daily_forecast_symbol_precipitation_probability"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_toLeftOf="@id/daily_forecast_precipitation_probability"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginTop="2dp"
+                        android:src="@drawable/ic_precipitation"/>
+
+                    <TextView
+                        android:id="@+id/daily_forecast_max_min_temp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@id/daily_forecast_symbol_precipitation_probability"
+                        android:layout_marginRight="10dp"
+                        tools:text="8 ~ 15 °C"
+                        android:textColor="@color/dark"
+                        android:textSize="20sp"/>
+
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/daily_forecast_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    tools:text="大雨。最高气温19 °C， 东北风 二级（7 km/h）"
+                    android:textSize="15sp"
+                    android:textColor="@color/gray"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

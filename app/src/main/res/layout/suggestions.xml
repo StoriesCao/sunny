@@ -5,10 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="3dp"
+    app:cardCornerRadius="5dp"
     android:layout_marginBottom="15dp"
     android:layout_marginRight="15dp"
-    android:layout_marginLeft="15dp">
+    android:layout_marginLeft="15dp"
+    android:layout_marginTop="10dp"><!-- daily forecast item marginBottom = 5dp -->
+
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,9 +48,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
     private SwipeRefreshLayout swipeRefresher;
 
-    private Button cityManagerButton;
-
-    private Button mSettingButton;
+    private Button cityManagerButton, mSettingButton;
 
     private TextView currentDegree;
 
@@ -81,74 +80,37 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
     private TextView currentRelativeHumidity;
 
+    /**
+     * Suggestions
+     */
     private TextView suggestionAirBrif;
-
     private TextView suggestionAirInfo;
-
     private TextView suggestionComfBrif;
-
     private TextView suggestionComfInfo;
-
     private TextView suggestionCarWashBrif;
-
     private TextView suggestionCarWashInfo;
-
     private TextView suggestionDressBrif;
-
     private TextView suggestionDressInfo;
-
     private TextView suggestionFluBrif;
-
     private TextView suggestionFluInfo;
-
     private TextView suggestionSportBrif;
-
     private TextView suggestionSportInfo;
-
     private TextView suggestionTravelBrif;
-
     private TextView suggestionTravelInfo;
-
     private TextView suggestionUvBrif;
-
     private TextView suggestionUvInfo;
 
-    private DailyForecast dailyForecastToday;
-
-    private DailyForecast dailyForecastTomorrow;
-
-    private DailyForecast dailyForecastAfterTomorrow;
-
-    private TextView dailyForecastTodayDate;
-
-    private TextView dailyForecastTodayMaxMinDegree;
-
-    private TextView dailyForecastTodayPrecipitationProbability;
-
-    private TextView dailyForecastTodayInfo;
-
-    private TextView dailyForecastTomorrowDate;
-
-    private TextView dailyForecastTomorrowMaxMinDegree;
-
-    private TextView dailyForecastTomorrowPrecipitationProbability;
-
-    private TextView dailyForecastTomorrowInfo;
-
-    private TextView dailyForecastAfterTomorrowDate;
-
-    private TextView dailyForecastAfterTomorrowMaxMinDegree;
-
-    private TextView dailyForecastAfterTomorrowPrecipitationProbability;
-
-    private TextView dailyForecastAfterTomorrowInfo;
-
-    /* ****** */
-    private CardView cardViewToday;
-
-    private CardView cardViewTomorrow;
-
-    private CardView cardViewAfterTomorrow;
+    /**
+     * Daily Forecast
+     */
+    private DailyForecast mDailyForecastToday; // 预报中第一天即今天，有今天的更多信息
+    private LinearLayout mDailyForecastLayout;
+    private ImageView mDailyForecastIcon;
+    private TextView mDailyForecastDate;
+    private TextView mDailyForecastMaxMinDegree;
+    private TextView mDailyForecastPrecipitationProbability;
+    private TextView mDailyForecastInfo;
+    private CardView mDailyForecastCardView;
 
 
     /* start */
@@ -168,7 +130,9 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
         weatherId = getArguments().getString("weather_id");
 
+        mDailyForecastLayout = (LinearLayout) view.findViewById(R.id.daily_forecast_layout);
         mainLayout = (ScrollView) view.findViewById(R.id.main_weather_layout);
+
         currentDegree = (TextView) view.findViewById(R.id.forecast_now_degree);
         currentCity = (TextView) view.findViewById(R.id.title_city);
         updateTime = (TextView) view.findViewById(R.id.title_update_time);
@@ -183,6 +147,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         currentAtmosphericPressure = (TextView) view.findViewById(R.id.forecast_now_atmospheric_pressure);
         currentVisibility = (TextView) view.findViewById(R.id.forecast_now_visibility);
         currentRelativeHumidity = (TextView) view.findViewById(R.id.forecast_now_relative_humidity);
+
         suggestionAirBrif = (TextView) view.findViewById(R.id.suggestion_air_brif);
         suggestionAirInfo = (TextView) view.findViewById(R.id.suggestion_air_info);
         suggestionComfBrif = (TextView) view.findViewById(R.id.suggestion_comf_brif);
@@ -199,21 +164,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         suggestionTravelInfo = (TextView) view.findViewById(R.id.suggestion_travel_info);
         suggestionUvBrif = (TextView) view.findViewById(R.id.suggestion_uv_brif);
         suggestionUvInfo = (TextView) view.findViewById(R.id.suggestion_uv_info);
-        dailyForecastTodayDate = (TextView) view.findViewById(R.id.daily_forecast_date_today);
-        dailyForecastTodayMaxMinDegree = (TextView) view.findViewById(R.id.daily_forecast_today_max_min_temp);
-        dailyForecastTodayPrecipitationProbability = (TextView) view.findViewById(R.id.daily_forecast_today_precipitation_probability);
-        dailyForecastTodayInfo = (TextView) view.findViewById(R.id.daily_forecast_today_info);
-        dailyForecastTomorrowDate = (TextView) view.findViewById(R.id.daily_forecast_date_tomorrow);
-        dailyForecastTomorrowMaxMinDegree = (TextView) view.findViewById(R.id.daily_forecast_tomorrow_max_min_temp);
-        dailyForecastTomorrowPrecipitationProbability = (TextView) view.findViewById(R.id.daily_forecast_tomorrow_precipitation_probability);
-        dailyForecastTomorrowInfo = (TextView) view.findViewById(R.id.daily_forecast_tomorrow_info);
-        dailyForecastAfterTomorrowDate = (TextView) view.findViewById(R.id.daily_forecast_date_after_tomorrow);
-        dailyForecastAfterTomorrowMaxMinDegree = (TextView) view.findViewById(R.id.daily_forecast_after_tomorrow_max_min_temp);
-        dailyForecastAfterTomorrowPrecipitationProbability = (TextView) view.findViewById(R.id.daily_forecast_after_tomorrow_precipitation_probability);
-        dailyForecastAfterTomorrowInfo = (TextView) view.findViewById(R.id.daily_forecast_after_tomorrow_info);
-        cardViewToday = (CardView) view.findViewById(R.id.daily_forecast_today_bg);
-        cardViewTomorrow = (CardView) view.findViewById(R.id.daily_forecast_tomorrow_bg);
-        cardViewAfterTomorrow = (CardView) view.findViewById(R.id.daily_forecast_after_tomorrow_bg);
+
 
         /* ****** */
         cityManagerButton = (Button) view.findViewById(R.id.place_manager);
@@ -335,18 +286,21 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
     private void showWeather(Weather weather) {
 
-        dailyForecastToday = weather.dailyForecastList.get(0);
-        dailyForecastTomorrow = weather.dailyForecastList.get(1);
-        dailyForecastAfterTomorrow = weather.dailyForecastList.get(2);
+        mDailyForecastToday = weather.dailyForecastList.get(0);
 
-        CityStoraged city = new CityStoraged(); //为了将温度信息传递到城市管理页面
-        city.setMaxMinDegree(dailyForecastToday.temperature.min + "~" + dailyForecastToday.temperature.max + "°C");
+        /**
+         * 为了将温度信息传递到城市管理页面
+         */
+        CityStoraged city = new CityStoraged();
+        city.setMaxMinDegree(mDailyForecastToday.temperature.min + "~" + mDailyForecastToday.temperature.max + "°C");
         city.updateAll("citystoragedname = ?", weather.basic.cityName);
 
         Intent intent = new Intent(getActivity(), AutoUpdayeService.class);
         getActivity().startService(intent);
 
-        /* Now */
+        /**
+         * Now Info
+         */
         String currentCityName = weather.basic.cityName;
         String updateTimeData = weather.basic.update.updateTime.split(" ")[1]; //12:00
         String currentDegreeData = weather.now.Temperature;
@@ -355,7 +309,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         String currentWindSpeedData = weather.now.wind.windSpeed + " km/h";
         String currentWindDirData = weather.now.wind.direction;
         String currentPrecipitationData = weather.now.precipitation + " mm";
-        String currentPrecipitationProbabilityData = dailyForecastToday.precipitationProbability + " %";
+        String currentPrecipitationProbabilityData = mDailyForecastToday.precipitationProbability + " %";
         String currentRealFeelData = weather.now.realFeel + " °C";
         String currentAtmosphericPressureData = weather.now.atmosphericPressure + " mb";
         String currentVisibilityData = weather.now.visibility + " km";
@@ -381,7 +335,9 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
                 Glide.with(getActivity()).load(R.drawable.bg_night).into(titleBackground);
             }
         }
-        /* suggestions */
+        /**
+         *  Suggestions
+         */
         String comfortBrifData = "舒适度: " + weather.suggestion.comfort.briefInfo;
         String comfortData = weather.suggestion.comfort.info;
         String airConditionBrifData = "空气情况: " + weather.suggestion.air.brifInfo;
@@ -416,22 +372,31 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         suggestionUvBrif.setText(uvBrifData);
         suggestionUvInfo.setText(uvData);
 
-        /*daily forecast*/
-        dailyForecastTodayDate.setText("今天");
-        dailyForecastTodayMaxMinDegree.setText(dailyForecastToday.temperature.min + "~" + dailyForecastToday.temperature.max + "°C");
-        dailyForecastTodayPrecipitationProbability.setText(dailyForecastToday.precipitationProbability + "%");
-        dailyForecastTodayInfo.setText("今天白天" + dailyForecastToday.condition.dayConditon + "," + "夜晚" + dailyForecastToday.condition.nightCondition + "。" + "最高气温" + dailyForecastToday.temperature.max + "°C，" + dailyForecastToday.wind.direction + dailyForecastToday.wind.windFore);
-        dailyForecastTomorrowDate.setText("明天");
-        dailyForecastTomorrowMaxMinDegree.setText(dailyForecastAfterTomorrow.temperature.min + "~" + dailyForecastTomorrow.temperature.max + "°C");
-        dailyForecastTomorrowPrecipitationProbability.setText(dailyForecastTomorrow.precipitationProbability + "%");
-        dailyForecastTomorrowInfo.setText("明天白天" + dailyForecastTomorrow.condition.dayConditon + "," + "夜晚" + dailyForecastTomorrow.condition.nightCondition + "。" + "最高气温" + dailyForecastTomorrow.temperature.max + "°C，" + dailyForecastTomorrow.wind.direction +dailyForecastTomorrow.wind.windFore);
-        dailyForecastAfterTomorrowDate.setText("后天");
-        dailyForecastAfterTomorrowMaxMinDegree.setText(dailyForecastAfterTomorrow.temperature.min + "~" + dailyForecastAfterTomorrow.temperature.max + "°C");
-        dailyForecastAfterTomorrowPrecipitationProbability.setText(dailyForecastAfterTomorrow.precipitationProbability + "%");
-        dailyForecastAfterTomorrowInfo.setText("后天白天" + dailyForecastAfterTomorrow.condition.dayConditon + "," + "夜晚" + dailyForecastAfterTomorrow.condition.nightCondition + "。" + "最高气温" + dailyForecastAfterTomorrow.temperature.max + "°C，" + dailyForecastAfterTomorrow.wind.direction + dailyForecastAfterTomorrow.wind.windFore);
+
+
+        /**
+         * daily forecast
+         */
+        for (DailyForecast forecast : weather.dailyForecastList) {
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.daily_forecast_item, mDailyForecastLayout, false);
+            //init
+            mDailyForecastIcon = (ImageView) view.findViewById(R.id.daily_forecast_icon);
+            mDailyForecastDate = (TextView) view.findViewById(R.id.daily_forecast_date);
+            mDailyForecastMaxMinDegree = (TextView) view.findViewById(R.id.daily_forecast_max_min_temp);
+            mDailyForecastPrecipitationProbability = (TextView) view.findViewById(R.id.daily_forecast_precipitation_probability);
+            mDailyForecastInfo = (TextView) view.findViewById(R.id.daily_forecast_info);
+            mDailyForecastCardView = (CardView) view.findViewById(R.id.daily_forecast_item);
+
+            mDailyForecastDate.setText(forecast.date.split("-")[2] + "号");
+            mDailyForecastMaxMinDegree.setText(forecast.temperature.min + "~" + forecast.temperature.max + "°C");
+            mDailyForecastPrecipitationProbability.setText(forecast.precipitationProbability + "%");
+            mDailyForecastInfo.setText(mDailyForecastDate.getText() + "白天" + forecast.condition.dayConditon + "," + "夜晚" + forecast.condition.nightCondition + "。" + "最高气温" + forecast.temperature.max + "°C，" + forecast.wind.direction + " " +forecast.wind.windFore);
+
+            mDailyForecastLayout.addView(view);
+        }
 
         /* ***** */
-        if (Integer.parseInt(dailyForecastToday.condition.code_d) >= 100 && Integer.parseInt(dailyForecastToday.condition.code_d) <= 204) {
+       /* if (Integer.parseInt(dailyForecastToday.condition.code_d) >= 100 && Integer.parseInt(dailyForecastToday.condition.code_d) <= 204) {
             cardViewToday.setBackgroundColor(getResources().getColor(R.color.sunny));
         } else  if (Integer.parseInt(dailyForecastToday.condition.code_d) >= 205 && Integer.parseInt(dailyForecastToday.condition.code_d) <= 213) {
             cardViewToday.setCardBackgroundColor(getResources().getColor(R.color.wind));
@@ -466,7 +431,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         }else if (Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) >= 502 && Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) <= 508) {
             cardViewAfterTomorrow.setCardBackgroundColor(getResources().getColor(R.color.dust));
         }
-
+*/
 
 
         mainLayout.setVisibility(View.VISIBLE);
