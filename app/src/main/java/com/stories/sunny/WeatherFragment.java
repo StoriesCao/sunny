@@ -415,16 +415,22 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
             mDailyForecastWeatherCode = Integer.parseInt(forecast.condition.code_d);
             if (mDailyForecastWeatherCode == 100) { // 晴
                 mDailyForecastIcon.setImageResource(R.drawable.ic_sunny);
+                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.sunny));
             } else if (mDailyForecastWeatherCode >= 101  && mDailyForecastWeatherCode <= 104) { //阴
                 mDailyForecastIcon.setImageResource(R.drawable.ic_cloud);
+                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.fog_or_cloud));
             } else if (mDailyForecastWeatherCode >= 200 && mDailyForecastWeatherCode <= 213) { //风
                 mDailyForecastIcon.setImageResource(R.drawable.ic_wind);
+                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.wind));
             } else if ((mDailyForecastWeatherCode >= 300 && mDailyForecastWeatherCode <= 301) || mDailyForecastWeatherCode == 305 || mDailyForecastWeatherCode == 309) { //阵雨
                 mDailyForecastIcon.setImageResource(R.drawable.ic_light_rain);
+                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.rain));
             } else if (mDailyForecastWeatherCode >= 302 && mDailyForecastWeatherCode <= 304) { //雷阵雨
                 mDailyForecastIcon.setImageResource(R.drawable.ic_thunder);
+                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.rain));
             } else if ((mDailyForecastWeatherCode >= 306 && mDailyForecastWeatherCode <= 308) || (mDailyForecastWeatherCode >= 310 && mDailyForecastWeatherCode <= 313)) { //大（暴）雨
                 mDailyForecastIcon.setImageResource(R.drawable.ic_heavy_rain);
+                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.rain));
             } else if (mDailyForecastWeatherCode == 400 || mDailyForecastWeatherCode == 406 || mDailyForecastWeatherCode == 407) { //小雪 阵雪
                 mDailyForecastIcon.setImageResource(R.drawable.ic_light_snow);
             } else if (mDailyForecastWeatherCode == 401) { //中雪
@@ -433,6 +439,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
                 mDailyForecastIcon.setImageResource(R.drawable.ic_heavy_snow);
             } else if (mDailyForecastWeatherCode >= 500 && mDailyForecastWeatherCode <= 508) { //雾 、 霾
                 mDailyForecastIcon.setImageResource(R.drawable.ic_fog);
+                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.fog_or_cloud));
             } else {
                 mDailyForecastIcon.setImageResource(R.drawable.ic_unknown);
             }

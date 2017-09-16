@@ -8,9 +8,9 @@
     <color name="gray">#3d3c3c</color>
     <color name="lightGray">#c1bdbd</color>
 
-    <color name="sunny">#fcd238</color>
-    <color name="rain">#118ed1</color>
-    <color name="wind">#6ab3f2</color>
-    <color name="fog">#867f7b</color>
-    <color name="dust">#e28336</color>
+    <color name="sunny">#f9d44b</color>
+    <color name="rain">#2cacf1</color>
+    <color name="wind">#72b5ef</color>
+    <color name="fog_or_cloud">#867f7b</color>
+    <color name="dust">#6b4b32</color>
 </resources>
