@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,8 @@ import okhttp3.Response;
 
 public class WeatherFragment extends Fragment implements View.OnClickListener{
 
+    private static final String TAG = "WeatherFragment";
+
     String weatherId;
 
     private List<CityStoraged> cityStoragedList;
@@ -50,34 +53,24 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
     private Button cityManagerButton, mSettingButton;
 
+
+    /**
+     * Now
+     */
     private TextView currentDegree;
-
     private TextView currentCity;
-
     private TextView updateTime;
-
     private TextView currentWeatherTxt;
-
     private TextView currentAQI;
-
     private ImageView mCurrentWeatherIcon;
-
     private ImageView titleBackground;
-
     private TextView currentWindSpeed;
-
     private TextView currentWindDir;
-
     private TextView currentPrecipitation;
-
     private TextView currentPrecipitationProbability;
-
     private TextView currentRealFeel;
-
     private TextView currentAtmosphericPressure;
-
     private TextView currentVisibility;
-
     private TextView currentRelativeHumidity;
 
     /**
@@ -114,7 +107,9 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
     private CardView mDailyForecastCardView;
 
 
-    /* start */
+    /**
+     *  Start
+     */
     public static WeatherFragment newInstance(String weatherId, String cityName) {
         Bundle args = new Bundle();
         args.putString("weather_id", weatherId);
@@ -169,29 +164,15 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
         /* ****** */
         cityManagerButton = (Button) view.findViewById(R.id.place_manager);
-        cityManagerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CityManagerActivity.class);
-                startActivity(intent);
-            }
-        });
+        cityManagerButton.setOnClickListener(this);
 
-        /**
-         *
-         */
+        /* ****** */
         mSettingButton = (Button) view.findViewById(R.id.setting);
         mSettingButton.setOnClickListener(this);
 
          /* ****** */
         currentAQI = (TextView) view.findViewById(R.id.forecast_now_air_quality);
-        currentAQI.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AQIActivity.class);
-                startActivity(intent);
-            }
-        });
+        currentAQI.setOnClickListener(this);
 
          /* ****** */
         swipeRefresher = (SwipeRefreshLayout) view.findViewById(R.id.main_weather_refresher);
@@ -211,6 +192,12 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         switch (view.getId()) {
             case R.id.setting:
                 startActivity(new Intent(getActivity(), SettingActivity.class));
+                break;
+            case R.id.forecast_now_air_quality:
+                startActivity(new Intent(getActivity(), AQIActivity.class));
+                break;
+            case R.id.place_manager:
+                startActivity(new Intent(getActivity(), CityManagerActivity.class));
                 break;
 
         }
@@ -285,6 +272,10 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
     }
 
+    /**
+     * Display detailed info about weather
+     * @param weather
+     */
     private void showWeather(Weather weather) {
 
         mDailyForecastToday = weather.dailyForecastList.get(0);
@@ -353,6 +344,9 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         currentRelativeHumidity.setText(currentRelativeHumidityData);
         currentPrecipitationProbability.setText(currentPrecipitationProbabilityData);
 
+        /**
+         * Title Background
+         */
         if (updateTimeData.split(":")[0] != null) {
             if (Integer.parseInt(updateTimeData.split(":")[0]) >= 6 && Integer.parseInt(updateTimeData.split(":")[0]) <= 18) {
                 Glide.with(getActivity()).load(R.drawable.bg_daylight).into(titleBackground);
@@ -360,6 +354,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
                 Glide.with(getActivity()).load(R.drawable.bg_night).into(titleBackground);
             }
         }
+
         /**
          *  Suggestions
          */
@@ -397,12 +392,12 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         suggestionUvBrif.setText(uvBrifData);
         suggestionUvInfo.setText(uvData);
 
-
-
         /**
          * daily forecast
          */
         for (DailyForecast forecast : weather.dailyForecastList) {
+            Log.d(TAG, "dailyForecastList:" + weather.dailyForecastList.size());
+
             View view = LayoutInflater.from(getContext()).inflate(R.layout.daily_forecast_item, mDailyForecastLayout, false);
             //init
             mDailyForecastIcon = (ImageView) view.findViewById(R.id.daily_forecast_icon);
@@ -451,45 +446,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
             mDailyForecastLayout.addView(view);
         }
-
-        /* ***** */
-       /* if (Integer.parseInt(dailyForecastToday.condition.code_d) >= 100 && Integer.parseInt(dailyForecastToday.condition.code_d) <= 204) {
-            cardViewToday.setBackgroundColor(getResources().getColor(R.color.sunny));
-        } else  if (Integer.parseInt(dailyForecastToday.condition.code_d) >= 205 && Integer.parseInt(dailyForecastToday.condition.code_d) <= 213) {
-            cardViewToday.setCardBackgroundColor(getResources().getColor(R.color.wind));
-        } else if (Integer.parseInt(dailyForecastToday.condition.code_d) >= 300 && Integer.parseInt(dailyForecastToday.condition.code_d) <= 313) {
-            cardViewToday.setCardBackgroundColor(getResources().getColor(R.color.rain));
-        } else if (Integer.parseInt(dailyForecastToday.condition.code_d) >= 500 && Integer.parseInt(dailyForecastToday.condition.code_d) <= 501) {
-            cardViewToday.setCardBackgroundColor(getResources().getColor(R.color.fog));
-        }else if (Integer.parseInt(dailyForecastToday.condition.code_d) >= 502 && Integer.parseInt(dailyForecastToday.condition.code_d) <= 508) {
-            cardViewToday.setCardBackgroundColor(getResources().getColor(R.color.dust));
-        }
-
-        if (Integer.parseInt(dailyForecastTomorrow.condition.code_d) >= 100 && Integer.parseInt(dailyForecastTomorrow.condition.code_d) <= 204) {
-            cardViewTomorrow.setBackgroundColor(getResources().getColor(R.color.sunny));
-        } else  if (Integer.parseInt(dailyForecastTomorrow.condition.code_d) >= 205 && Integer.parseInt(dailyForecastTomorrow.condition.code_d) <= 213) {
-            cardViewTomorrow.setCardBackgroundColor(getResources().getColor(R.color.wind));
-        } else if (Integer.parseInt(dailyForecastTomorrow.condition.code_d) >= 300 && Integer.parseInt(dailyForecastTomorrow.condition.code_d) <= 313) {
-            cardViewTomorrow.setCardBackgroundColor(getResources().getColor(R.color.rain));
-        } else if (Integer.parseInt(dailyForecastTomorrow.condition.code_d) >= 500 && Integer.parseInt(dailyForecastTomorrow.condition.code_d) <= 501) {
-            cardViewTomorrow.setCardBackgroundColor(getResources().getColor(R.color.fog));
-        }else if (Integer.parseInt(dailyForecastTomorrow.condition.code_d) >= 502 && Integer.parseInt(dailyForecastTomorrow.condition.code_d) <= 508) {
-            cardViewTomorrow.setCardBackgroundColor(getResources().getColor(R.color.dust));
-        }
-
-        if (Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) >= 100 && Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) <= 204) {
-            cardViewAfterTomorrow.setBackgroundColor(getResources().getColor(R.color.sunny));
-        } else  if (Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) >= 205 && Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) <= 213) {
-            cardViewAfterTomorrow.setCardBackgroundColor(getResources().getColor(R.color.wind));
-        } else if (Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) >= 300 && Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) <= 313) {
-            cardViewAfterTomorrow.setCardBackgroundColor(getResources().getColor(R.color.rain));
-        } else if (Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) >= 500 && Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) <= 501) {
-            cardViewAfterTomorrow.setCardBackgroundColor(getResources().getColor(R.color.fog));
-        }else if (Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) >= 502 && Integer.parseInt(dailyForecastAfterTomorrow.condition.code_d) <= 508) {
-            cardViewAfterTomorrow.setCardBackgroundColor(getResources().getColor(R.color.dust));
-        }
-*/
-
 
         mainLayout.setVisibility(View.VISIBLE);
     }

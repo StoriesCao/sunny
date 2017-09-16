@@ -19,6 +19,8 @@ public class MainActivity extends BaseActivity {
 
     private List<CityStoraged> cityStoragedList = DataSupport.findAll(CityStoraged.class);
 
+    public static ViewPaperAdapter mViewPaperAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,13 +33,19 @@ public class MainActivity extends BaseActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         viewPager = (ViewPager) findViewById(R.id.view_paper);
-        ViewPaperAdapter viewPaperAdapter = new ViewPaperAdapter(fragmentManager);
-        viewPager.setAdapter(viewPaperAdapter);
+        mViewPaperAdapter = new ViewPaperAdapter(fragmentManager);
+        viewPager.setAdapter(mViewPaperAdapter);
 
        /* String position = getIntent().getStringExtra("position");
         if (position != null) {
             viewPager.setCurrentItem(Integer.parseInt(position));
         }*/
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mViewPaperAdapter.notifyDataSetChanged();
     }
 
     @Override

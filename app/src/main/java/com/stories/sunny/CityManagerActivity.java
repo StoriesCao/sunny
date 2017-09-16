@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.stories.sunny.adapter.CityStoragedAdapter;
-import com.stories.sunny.adapter.ViewPaperAdapter;
 import com.stories.sunny.db_model.CityStoraged;
 
 import org.litepal.crud.DataSupport;
@@ -42,9 +40,6 @@ public class CityManagerActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_city);
-
-        FragmentManager fm = getSupportFragmentManager();
-        final ViewPaperAdapter adapter = new ViewPaperAdapter(fm);
 
         cityStoragedList = DataSupport.findAll(CityStoraged.class);
 
@@ -88,7 +83,7 @@ public class CityManagerActivity extends BaseActivity {
 
                         cityStoragedAdapter.notifyDataSetChanged();
 
-                        //adapter.notifyDataSetChanged();
+                        MainActivity.mViewPaperAdapter.notifyDataSetChanged();
                     }
                 });
                 dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {

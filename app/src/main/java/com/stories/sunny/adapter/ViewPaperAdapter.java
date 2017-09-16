@@ -19,6 +19,8 @@ public class ViewPaperAdapter extends FragmentPagerAdapter {
 
     private List<CityStoraged> cityStoragedList = DataSupport.findAll(CityStoraged.class);
 
+    private int mChildCount = 0;
+
     public ViewPaperAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -31,5 +33,21 @@ public class ViewPaperAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return cityStoragedList.size();
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        mChildCount = getCount();
+        super.notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        /*if (mChildCount > 0) {
+            mChildCount--;
+            return POSITION_NONE;
+        }
+        return super.getItemPosition(object);*/
+        return POSITION_NONE;
     }
 }
