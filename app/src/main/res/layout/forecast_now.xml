@@ -51,7 +51,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="25dp"
-                android:src="@drawable/ic_cloud"/>
+                android:src="@drawable/ic_unknown"/>
 
             <TextView
                 android:id="@+id/forecast_now_symbol_now"

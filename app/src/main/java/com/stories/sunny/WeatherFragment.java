@@ -60,7 +60,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
     private TextView currentAQI;
 
-    private ImageView currentWeatherIcon;
+    private ImageView mCurrentWeatherIcon;
 
     private ImageView titleBackground;
 
@@ -104,6 +104,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
      * Daily Forecast
      */
     private DailyForecast mDailyForecastToday; // 预报中第一天即今天，有今天的更多信息
+    private int mDailyForecastWeatherCode;
     private LinearLayout mDailyForecastLayout;
     private ImageView mDailyForecastIcon;
     private TextView mDailyForecastDate;
@@ -137,7 +138,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         currentCity = (TextView) view.findViewById(R.id.title_city);
         updateTime = (TextView) view.findViewById(R.id.title_update_time);
         currentWeatherTxt = (TextView) view.findViewById(R.id.forecast_now_info);
-        currentWeatherIcon = (ImageView) view.findViewById(R.id.forecast_now_icon);
+        mCurrentWeatherIcon = (ImageView) view.findViewById(R.id.forecast_now_icon);
         titleBackground = (ImageView) view.findViewById(R.id.title_bg);
         currentWindSpeed = (TextView) view.findViewById(R.id.forecast_now_wind_speed);
         currentWindDir = (TextView) view.findViewById(R.id.forecast_now_wind_dir);
@@ -315,6 +316,30 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         String currentVisibilityData = weather.now.visibility + " km";
         String currentRelativeHumidityData = weather.now.relativeHumidity + " %";
 
+
+        if (currentWeatherCode == 100) { // 晴
+            mCurrentWeatherIcon.setImageResource(R.drawable.ic_sunny);
+        } else if (currentWeatherCode >= 101  && currentWeatherCode <= 104) { //阴
+            mCurrentWeatherIcon.setImageResource(R.drawable.ic_cloud);
+        } else if (currentWeatherCode >= 200 && currentWeatherCode <= 213) { //风
+            mCurrentWeatherIcon.setImageResource(R.drawable.ic_wind);
+        } else if ((currentWeatherCode >= 300 && currentWeatherCode <= 301) || currentWeatherCode == 305 || currentWeatherCode == 309) { //阵雨
+            mCurrentWeatherIcon.setImageResource(R.drawable.ic_light_rain);
+        } else if (currentWeatherCode >= 302 && currentWeatherCode <= 304) { //雷阵雨
+            mCurrentWeatherIcon.setImageResource(R.drawable.ic_thunder);
+        } else if ((currentWeatherCode >= 306 && currentWeatherCode <= 308) || (currentWeatherCode >= 310 && currentWeatherCode <= 313)) { //大（暴）雨
+            mCurrentWeatherIcon.setImageResource(R.drawable.ic_heavy_rain);
+        } else if (currentWeatherCode == 400 || currentWeatherCode == 406 || currentWeatherCode == 407) { //小雪 阵雪
+            mCurrentWeatherIcon.setImageResource(R.drawable.ic_light_snow);
+        } else if (currentWeatherCode == 401) { //中雪
+            mCurrentWeatherIcon.setImageResource(R.drawable.ic_medium_snow);
+        } else if (currentWeatherCode >= 402 && currentWeatherCode <= 405) { //大雪
+            mCurrentWeatherIcon.setImageResource(R.drawable.ic_heavy_snow);
+        } else if (currentWeatherCode >= 500 && currentWeatherCode <= 508) { //雾 、 霾
+            mCurrentWeatherIcon.setImageResource(R.drawable.ic_fog);
+        } else {
+            mCurrentWeatherIcon.setImageResource(R.drawable.ic_unknown);
+        }
         currentCity.setText(currentCityName);
         updateTime.setText(updateTimeData);
         currentDegree.setText(currentDegreeData);
@@ -386,6 +411,31 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
             mDailyForecastPrecipitationProbability = (TextView) view.findViewById(R.id.daily_forecast_precipitation_probability);
             mDailyForecastInfo = (TextView) view.findViewById(R.id.daily_forecast_info);
             mDailyForecastCardView = (CardView) view.findViewById(R.id.daily_forecast_item);
+
+            mDailyForecastWeatherCode = Integer.parseInt(forecast.condition.code_d);
+            if (mDailyForecastWeatherCode == 100) { // 晴
+                mDailyForecastIcon.setImageResource(R.drawable.ic_sunny);
+            } else if (mDailyForecastWeatherCode >= 101  && mDailyForecastWeatherCode <= 104) { //阴
+                mDailyForecastIcon.setImageResource(R.drawable.ic_cloud);
+            } else if (mDailyForecastWeatherCode >= 200 && mDailyForecastWeatherCode <= 213) { //风
+                mDailyForecastIcon.setImageResource(R.drawable.ic_wind);
+            } else if ((mDailyForecastWeatherCode >= 300 && mDailyForecastWeatherCode <= 301) || mDailyForecastWeatherCode == 305 || mDailyForecastWeatherCode == 309) { //阵雨
+                mDailyForecastIcon.setImageResource(R.drawable.ic_light_rain);
+            } else if (mDailyForecastWeatherCode >= 302 && mDailyForecastWeatherCode <= 304) { //雷阵雨
+                mDailyForecastIcon.setImageResource(R.drawable.ic_thunder);
+            } else if ((mDailyForecastWeatherCode >= 306 && mDailyForecastWeatherCode <= 308) || (mDailyForecastWeatherCode >= 310 && mDailyForecastWeatherCode <= 313)) { //大（暴）雨
+                mDailyForecastIcon.setImageResource(R.drawable.ic_heavy_rain);
+            } else if (mDailyForecastWeatherCode == 400 || mDailyForecastWeatherCode == 406 || mDailyForecastWeatherCode == 407) { //小雪 阵雪
+                mDailyForecastIcon.setImageResource(R.drawable.ic_light_snow);
+            } else if (mDailyForecastWeatherCode == 401) { //中雪
+                mDailyForecastIcon.setImageResource(R.drawable.ic_medium_snow);
+            } else if (mDailyForecastWeatherCode >= 402 && mDailyForecastWeatherCode <= 405) { //大雪
+                mDailyForecastIcon.setImageResource(R.drawable.ic_heavy_snow);
+            } else if (mDailyForecastWeatherCode >= 500 && mDailyForecastWeatherCode <= 508) { //雾 、 霾
+                mDailyForecastIcon.setImageResource(R.drawable.ic_fog);
+            } else {
+                mDailyForecastIcon.setImageResource(R.drawable.ic_unknown);
+            }
 
             mDailyForecastDate.setText(forecast.date.split("-")[2] + "号");
             mDailyForecastMaxMinDegree.setText(forecast.temperature.min + "~" + forecast.temperature.max + "°C");
