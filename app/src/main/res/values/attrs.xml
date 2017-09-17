@@ -2,9 +2,12 @@
 <resources>
     <declare-styleable name="CircleProgressView">
         <attr name="radius" format="dimension"/> <!--半径-->
-        <attr name="progress_bar_width" format="dimension"/> <!--进度条宽度-->
-        <attr name="progress_bar_color" format="reference|color"/> <!--进度条颜色-->
-        <attr name="text_color" format="reference|color"/><!--中间文本颜色-->
-        <attr name="max_progress" format="integer"/><!--进度条最大值-->
+        <attr name="progressBarWidth" format="dimension"/> <!--进度条宽度-->
+        <attr name="progressBarColor" format="reference|color"/> <!--进度条颜色-->
+        <attr name="innerCircleColor" format="reference|color"/><!--内圆颜色-->
+        <attr name="outerCircleColor" format="reference|color"/><!--外圆颜色-->
+        <attr name="textColor" format="reference|color"/><!--文本颜色-->
+        <attr name="textSize" format="dimension"/><!--文本大小-->
+        <attr name="maxProgress" format="integer"/><!--进度条最大值-->
     </declare-styleable>
 </resources>
