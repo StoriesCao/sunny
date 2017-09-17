@@ -26,6 +26,8 @@
 
                 <include layout="@layout/forecast_now"/>
 
+                <include layout="@layout/air_quality"/>
+
                 <include layout="@layout/daily_forecast"/>
 
                 <include layout="@layout/suggestions" />

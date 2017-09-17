@@ -34,8 +34,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/ChooseAreaActivityTheme"/>
 
-        <activity android:name=".AQIActivity"/>
-
         <activity
             android:name=".SettingActivity"
             android:label="Setting"/>

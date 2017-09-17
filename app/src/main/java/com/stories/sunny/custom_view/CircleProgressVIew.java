@@ -47,7 +47,7 @@ public class CircleProgressVIew extends View {
     private int mCircleCenterX;
     private int mCircleCenterY;
 
-    private String mTextString;
+    private String mTextString = "优";
 
     private float mTextHeight;
     private float mTextWidth;
@@ -78,7 +78,7 @@ public class CircleProgressVIew extends View {
         mInnerCircleColor = typedArray.getColor(R.styleable.CircleProgressView_innerCircleColor, Color.WHITE);
         mOuterCircleColor = typedArray.getColor(R.styleable.CircleProgressView_outerCircleColor, Color.WHITE);
         mTextColor = typedArray.getColor(R.styleable.CircleProgressView_textColor, Color.BLACK);
-        mTextSize = typedArray.getDimensionPixelSize(R.styleable.CircleProgressView_textSize, 10);
+        mTextSize = typedArray.getDimensionPixelSize(R.styleable.CircleProgressView_textSize, 30);
         mMaxProgress = typedArray.getInt(R.styleable.CircleProgressView_maxProgress, 100);
         typedArray.recycle();
 
@@ -149,7 +149,7 @@ public class CircleProgressVIew extends View {
             oval.bottom = mCircleCenterY + mRadius + mProgressBarWidth / 2;
             canvas.drawArc(oval, -180, ((float) mCurrentProgress / mMaxProgress) * 360, false, mArcPaint);
 
-            if (!"".equals(mTextString)) {
+            if (!mTextString.isEmpty()) {
                 mTextWidth =  mTextPaint.measureText(mTextString, 0, mTextString.length());
                 canvas.drawText(mTextString, mCircleCenterX - mTextWidth / 2, mCircleCenterY + mTextHeight / 4, mTextPaint);
             }

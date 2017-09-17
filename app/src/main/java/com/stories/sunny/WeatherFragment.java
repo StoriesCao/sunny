@@ -143,6 +143,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         currentAtmosphericPressure = (TextView) view.findViewById(R.id.forecast_now_atmospheric_pressure);
         currentVisibility = (TextView) view.findViewById(R.id.forecast_now_visibility);
         currentRelativeHumidity = (TextView) view.findViewById(R.id.forecast_now_relative_humidity);
+        mCurrentAQI = (TextView) view.findViewById(R.id.forecast_now_air_quality);
 
         suggestionAirBrif = (TextView) view.findViewById(R.id.suggestion_air_brif);
         suggestionAirInfo = (TextView) view.findViewById(R.id.suggestion_air_info);
@@ -170,9 +171,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         mSettingButton = (Button) view.findViewById(R.id.setting);
         mSettingButton.setOnClickListener(this);
 
-         /* ****** */
-        mCurrentAQI = (TextView) view.findViewById(R.id.forecast_now_air_quality);
-        mCurrentAQI.setOnClickListener(this);
+
 
          /* ****** */
         swipeRefresher = (SwipeRefreshLayout) view.findViewById(R.id.main_weather_refresher);
@@ -192,18 +191,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         switch (view.getId()) {
             case R.id.setting:
                 startActivity(new Intent(getActivity(), SettingActivity.class));
-                break;
-            case R.id.forecast_now_air_quality:
-               /* SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                String currentJSON = preferences.getString(getArguments().getString("city_name") + "weatherJSON", null);
-                if (currentJSON != null) {
-                    Weather weather = Utility.parseWeatherJson(currentJSON);
-                    Intent intent = new Intent(getActivity(), AQIActivity.class);
-                    intent.putExtra("weatherObject", weather);
-                    startActivity(intent);
-                }
-                startActivity(new Intent(getActivity(), AQIActivity.class));*/
-                startActivity(new Intent(getActivity(), AQIActivity.class));
                 break;
             case R.id.place_manager:
                 startActivity(new Intent(getActivity(), CityManagerActivity.class));
