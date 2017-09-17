@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.stories.sunny.custom_view.CircleProgressView;
 import com.stories.sunny.db_model.CityStoraged;
 import com.stories.sunny.gson_model.DailyForecast;
 import com.stories.sunny.gson_model.Weather;
@@ -106,6 +107,16 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
     private TextView mDailyForecastInfo;
     private CardView mDailyForecastCardView;
 
+    /**
+     * Air quality
+     */
+    private CircleProgressView mAirQualityView;
+    private TextView mCOTextView;
+    private TextView mNO2TextView;
+    private TextView mO3TextView;
+    private TextView mPM10TextView;
+    private TextView mPm25TextView;
+    private TextView mSO2TextView;
 
     /**
      *  Start
@@ -162,6 +173,13 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         suggestionUvBrif = (TextView) view.findViewById(R.id.suggestion_uv_brif);
         suggestionUvInfo = (TextView) view.findViewById(R.id.suggestion_uv_info);
 
+        mAirQualityView = (CircleProgressView) view.findViewById(R.id.air_progress);
+        mCOTextView = (TextView) view.findViewById(R.id.air_quality_co);
+        mNO2TextView = (TextView) view.findViewById(R.id.air_quality_no2);
+        mO3TextView = (TextView) view.findViewById(R.id.air_quality_o3);
+        mPM10TextView = (TextView) view.findViewById(R.id.air_quality_pm10);
+        mPm25TextView = (TextView) view.findViewById(R.id.air_quality_pm25);
+        mSO2TextView = (TextView) view.findViewById(R.id.air_quality_so2);
 
         /* ****** */
         cityManagerButton = (Button) view.findViewById(R.id.place_manager);
@@ -366,8 +384,21 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         }
 
         /**
-         *  Suggestions
+         * Air Show
          */
+        int aqi = Integer.parseInt(weather.aqi.city.aqi);
+        mAirQualityView.setProgress(aqi);
+        mAirQualityView.setTextString(weather.aqi.city.airQulity);
+
+        mCOTextView.setText(weather.aqi.city.co);
+        mNO2TextView.setText(weather.aqi.city.no2);
+        mO3TextView.setText(weather.aqi.city.o3);
+        mPM10TextView.setText(weather.aqi.city.pm10);
+        mPm25TextView.setText(weather.aqi.city.pm25);
+        mSO2TextView.setText(weather.aqi.city.so2);
+                                                        /**
+                                                         *  Suggestions
+                                                         */
         String comfortBrifData = "舒适度: " + weather.suggestion.comfort.briefInfo;
         String comfortData = weather.suggestion.comfort.info;
         String airConditionBrifData = "空气情况: " + weather.suggestion.air.brifInfo;

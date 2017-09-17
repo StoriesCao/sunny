@@ -16,7 +16,7 @@ import com.stories.sunny.R;
  * Created by Charlottecao on 9/16/17.
  */
 
-public class CircleProgressVIew extends View {
+public class CircleProgressView extends View {
 
     /**
      * Custom preference
@@ -42,6 +42,7 @@ public class CircleProgressVIew extends View {
     private Paint mOuterCirclePaint;
     private Paint mInnerCirclePaint;
     private Paint mArcPaint;
+    private Paint mArcFillPaint;
     private Paint mTextPaint;
 
     private int mCircleCenterX;
@@ -52,20 +53,20 @@ public class CircleProgressVIew extends View {
     private float mTextHeight;
     private float mTextWidth;
 
-    private int mCurrentProgress = 20;
+    private int mCurrentProgress = 60;
 
     /**
      * Constructor
      */
-    public CircleProgressVIew(Context context) {
+    public CircleProgressView(Context context) {
         this(context, null);
     }
 
-    public CircleProgressVIew(Context context, @Nullable AttributeSet attrs) {
+    public CircleProgressView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CircleProgressVIew(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CircleProgressView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         /**
@@ -105,6 +106,12 @@ public class CircleProgressVIew extends View {
         mArcPaint.setStrokeWidth(mProgressBarWidth);
         mArcPaint.setStrokeCap(Paint.Cap.ROUND);
         mArcPaint.setColor(mProgressBarColor);
+
+        mArcFillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mArcFillPaint.setStrokeCap(Paint.Cap.ROUND);
+        mArcFillPaint.setColor(Color.GRAY);
+        mArcFillPaint.setStrokeWidth(mProgressBarWidth);
+        mArcFillPaint.setStyle(Paint.Style.STROKE);
 
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setStyle(Paint.Style.FILL);
@@ -147,6 +154,7 @@ public class CircleProgressVIew extends View {
             oval.top = (mCircleCenterY - mRadius - mProgressBarWidth / 2);
             oval.right = mCircleCenterX + mRadius + mProgressBarWidth / 2;
             oval.bottom = mCircleCenterY + mRadius + mProgressBarWidth / 2;
+            canvas.drawArc(oval, -180, 180, false, mArcFillPaint);
             canvas.drawArc(oval, -180, ((float) mCurrentProgress / mMaxProgress) * 360, false, mArcPaint);
 
             if (!mTextString.isEmpty()) {
