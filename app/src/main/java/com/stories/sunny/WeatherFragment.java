@@ -194,12 +194,15 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
             case R.id.forecast_now_air_quality:
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+               /* SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                 String currentJSON = preferences.getString(getArguments().getString("city_name") + "weatherJSON", null);
                 if (currentJSON != null) {
                     Weather weather = Utility.parseWeatherJson(currentJSON);
-
+                    Intent intent = new Intent(getActivity(), AQIActivity.class);
+                    intent.putExtra("weatherObject", weather);
+                    startActivity(intent);
                 }
+                startActivity(new Intent(getActivity(), AQIActivity.class));*/
                 startActivity(new Intent(getActivity(), AQIActivity.class));
                 break;
             case R.id.place_manager:
