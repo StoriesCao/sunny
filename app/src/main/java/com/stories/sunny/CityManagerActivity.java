@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -35,6 +37,8 @@ public class CityManagerActivity extends BaseActivity {
     private List<CityStoraged> cityStoragedList = new ArrayList<>();
 
     private Toolbar toolbar;
+
+    private FloatingActionButton mAddCityButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,15 +112,25 @@ public class CityManagerActivity extends BaseActivity {
         }
 
         /* ****** */
-        FloatingActionButton addCityButton = (FloatingActionButton) findViewById(R.id.add_city);
-        addCityButton.setOnClickListener(new View.OnClickListener() {
+        mAddCityButton = (FloatingActionButton) findViewById(R.id.add_city);
+        mAddCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Animation animation = AnimationUtils.loadAnimation(CityManagerActivity.this, R.anim.anim_rotate_float_button);
+                mAddCityButton.startAnimation(animation);
                 Intent intent = new Intent(CityManagerActivity.this, ChooseAreaActivity.class);
                 startActivity(intent);
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_float_button);
+        mAddCityButton.startAnimation(animation);
     }
 
     @Override
