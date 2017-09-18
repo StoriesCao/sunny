@@ -113,6 +113,9 @@ public class CityManagerActivity extends BaseActivity {
 
         /* ****** */
         mAddCityButton = (FloatingActionButton) findViewById(R.id.add_city);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_float_button);
+        animation.setStartOffset(500);
+        mAddCityButton.startAnimation(animation);
         mAddCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,14 +144,6 @@ public class CityManagerActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_float_button);
-        animation.setStartOffset(500);
-        mAddCityButton.startAnimation(animation);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
