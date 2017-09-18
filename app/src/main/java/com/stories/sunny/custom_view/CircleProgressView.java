@@ -154,7 +154,7 @@ public class CircleProgressView extends View {
             oval.top = (mCircleCenterY - mRadius - mProgressBarWidth / 2);
             oval.right = mCircleCenterX + mRadius + mProgressBarWidth / 2;
             oval.bottom = mCircleCenterY + mRadius + mProgressBarWidth / 2;
-            canvas.drawArc(oval, -180, 180, false, mArcFillPaint);
+            canvas.drawArc(oval, -180, 360, false, mArcFillPaint);
             canvas.drawArc(oval, -180, ((float) mCurrentProgress / mMaxProgress) * 360, false, mArcPaint);
 
             if (!mTextString.isEmpty()) {

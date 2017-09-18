@@ -13,4 +13,8 @@
     <color name="wind">#72b5ef</color>
     <color name="fog_or_cloud">#867f7b</color>
     <color name="dust">#6b4b32</color>
+    
+    <color name="air_A">#7ffa6f</color>
+    <color name="air_B">#cdec42</color>
+    <color name="air_C">#fd8d4d</color>
 </resources>

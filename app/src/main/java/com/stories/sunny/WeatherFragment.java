@@ -117,6 +117,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
     private TextView mPM10TextView;
     private TextView mPm25TextView;
     private TextView mSO2TextView;
+    private CardView mAirQualityCardView;
 
     /**
      *  Start
@@ -180,6 +181,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         mPM10TextView = (TextView) view.findViewById(R.id.air_quality_pm10);
         mPm25TextView = (TextView) view.findViewById(R.id.air_quality_pm25);
         mSO2TextView = (TextView) view.findViewById(R.id.air_quality_so2);
+        mAirQualityCardView = (CardView) view.findViewById(R.id.air_quality_card_view);
 
         /* ****** */
         cityManagerButton = (Button) view.findViewById(R.id.place_manager);
@@ -396,9 +398,18 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         mPM10TextView.setText(weather.aqi.city.pm10);
         mPm25TextView.setText(weather.aqi.city.pm25);
         mSO2TextView.setText(weather.aqi.city.so2);
-                                                        /**
-                                                         *  Suggestions
-                                                         */
+
+        if ("优".equals(weather.aqi.city.airQulity)) {
+            mAirQualityCardView.setCardBackgroundColor(getResources().getColor(R.color.air_A));
+        } else if ("良".equals(weather.aqi.city.airQulity)) {
+            mAirQualityCardView.setCardBackgroundColor(getResources().getColor(R.color.air_B));
+        } else {
+            mAirQualityCardView.setCardBackgroundColor(getResources().getColor(R.color.air_C));
+        }
+
+        /**
+         *  Suggestions
+         */
         String comfortBrifData = "舒适度: " + weather.suggestion.comfort.briefInfo;
         String comfortData = weather.suggestion.comfort.info;
         String airConditionBrifData = "空气情况: " + weather.suggestion.air.brifInfo;
