@@ -118,8 +118,24 @@ public class CityManagerActivity extends BaseActivity {
             public void onClick(View view) {
                 Animation animation = AnimationUtils.loadAnimation(CityManagerActivity.this, R.anim.anim_rotate_float_button);
                 mAddCityButton.startAnimation(animation);
-                Intent intent = new Intent(CityManagerActivity.this, ChooseAreaActivity.class);
-                startActivity(intent);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        Intent intent = new Intent(CityManagerActivity.this, ChooseAreaActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
             }
         });
 
@@ -130,6 +146,7 @@ public class CityManagerActivity extends BaseActivity {
         super.onResume();
 
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_float_button);
+        animation.setStartOffset(500);
         mAddCityButton.startAnimation(animation);
     }
 
