@@ -9,7 +9,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -113,7 +112,7 @@ public class CityManagerActivity extends BaseActivity {
 
         /* ****** */
         mAddCityButton = (FloatingActionButton) findViewById(R.id.add_city);
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_float_button);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_press_float_button);
         animation.setStartOffset(500);
         mAddCityButton.startAnimation(animation);
         mAddCityButton.setOnClickListener(new View.OnClickListener() {

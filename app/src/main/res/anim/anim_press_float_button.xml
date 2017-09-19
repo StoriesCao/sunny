@@ -5,10 +5,6 @@
     android:shareInterpolator="true"
     android:duration="500">
 
-    <alpha
-        android:fromAlpha="0.0"
-        android:toAlpha="1.0"/>
-
     <scale
         android:fromXScale="0.0"
         android:toXScale="1"

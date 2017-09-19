@@ -10,4 +10,11 @@
         <attr name="textSize" format="dimension"/><!--文本大小-->
         <attr name="maxProgress" format="integer"/><!--进度条最大值-->
     </declare-styleable>
+
+    <declare-styleable name="LineCharView">
+        <attr name="timeLineInterval" format="dimension"/>
+        <attr name="minPointHeight" format="dimension"/>
+        <attr name="backgroundColor" format="color|reference"/>
+    </declare-styleable>
+
 </resources>
