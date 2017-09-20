@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.stories.sunny.custom_view.CircleProgressView;
+import com.stories.sunny.custom_view.LineCharView;
 import com.stories.sunny.db_model.CityStoraged;
 import com.stories.sunny.gson_model.DailyForecast;
 import com.stories.sunny.gson_model.Weather;
@@ -108,6 +109,11 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
     private CardView mDailyForecastCardView;
 
     /**
+     * Hourly
+     */
+    private LineCharView mHourlyForecastLineCharView;
+
+    /**
      * Air quality
      */
     private CircleProgressView mAirQualityView;
@@ -140,6 +146,8 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
         mDailyForecastLayout = (LinearLayout) view.findViewById(R.id.daily_forecast_layout);
         mainLayout = (ScrollView) view.findViewById(R.id.main_weather_layout);
+
+        mHourlyForecastLineCharView = (LineCharView) view.findViewById(R.id.hourly_forecast_line_chart);
 
         currentDegree = (TextView) view.findViewById(R.id.forecast_now_degree);
         currentCity = (TextView) view.findViewById(R.id.title_city);
@@ -498,6 +506,11 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
             mDailyForecastLayout.addView(view);
         }
+
+        /**
+         * Hourly
+         */
+        mHourlyForecastLineCharView.setData(weather.hourlyForecastList);
 
         mainLayout.setVisibility(View.VISIBLE);
     }
