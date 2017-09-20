@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.util.AttributeSet;
@@ -323,6 +324,8 @@ public class LineCharView extends View {
         drawTemperature(canvas);
         
         drawDifferentWeatherLine(canvas);
+
+        drawWeatherIcon(canvas);
     }
 
     /**
@@ -434,7 +437,7 @@ public class LineCharView extends View {
         mLinePaint.setAlpha(0xcc);
 
         //设置画笔画出虚线
-        float[] f = {dp2pxF(getContext(), 5), dp2pxF(getContext(), 1)};  //两个值分别为循环的实线长度、空白长度
+        float[] f = {dp2pxF(getContext(), 8), dp2pxF(getContext(), 2)};  //两个值分别为循环的实线长度、空白长度
         PathEffect pathEffect = new DashPathEffect(f, 0);
         mLinePaint.setPathEffect(pathEffect);
 
@@ -473,7 +476,89 @@ public class LineCharView extends View {
         mLinePaint.setAlpha(0xff);
         canvas.restore();
     }
-    
+
+
+    /**
+     * 画天气图标和它下方文字
+     * 若相邻虚线都在屏幕内，图标的x位置即在两虚线的中间
+     * 若有一条虚线在屏幕外，图标的x位置即在屏幕边沿到另一条虚线的中间
+     * 若两条都在屏幕外，图标x位置紧贴某一条虚线或屏幕中间
+     */
+    private void drawWeatherIcon(Canvas canvas) {
+        canvas.save();
+
+        mTextPaint.setTextSize(0.9f * mTextSize); //字体缩小一丢丢
+
+        boolean leftUsedScreenLeft = false;
+        boolean rightUsedScreenRight = false;
+
+        int scrollX = getScrollX();  //范围控制在0 ~ viewWidth-screenWidth
+        float left, right;
+        float iconX, iconY;
+        float textY;     //文字的x坐标跟图标是一样的，无需额外声明
+
+        iconY = mViewHeight - (mDefaultPadding + mMinPointHeight / 2.0f);
+        textY = iconY + mIconWidth / 2.0f + dp2pxF(getContext(), 10);
+        Paint.FontMetrics metrics = mTextPaint.getFontMetrics();
+        for (int i = 0; i < mDifferentWeatherXData.size() - 1; i++) {
+            left = mDifferentWeatherXData.get(i);
+            right = mDifferentWeatherXData.get(i + 1);
+
+            //以下校正的情况为：两条虚线都在屏幕内或只有一条在屏幕内
+
+            if (left < scrollX &&    //仅左虚线在屏幕外
+                    right < scrollX + mScreenWidth) {
+                left = scrollX;
+                leftUsedScreenLeft = true;
+            }
+            
+            if (right > scrollX + mScreenWidth &&  //仅右虚线在屏幕外
+                    left > scrollX) {
+                right = scrollX + mScreenWidth;
+                rightUsedScreenRight = true;
+            }
+
+            if (right - left > mIconWidth) {    //经过上述校正之后左右距离还大于图标宽度
+                iconX = left + (right - left) / 2.0f;
+            } else {                          //经过上述校正之后左右距离小于图标宽度，则贴着在屏幕内的虚线
+                if (leftUsedScreenLeft) {
+                    iconX = right - mIconWidth / 2.0f;
+                } else {
+                    iconX = left + mIconWidth / 2.0f;
+                }
+            }
+
+            //以下校正的情况为：两条虚线都在屏幕之外
+
+            if (right < scrollX) {  //两条都在屏幕左侧，图标紧贴右虚线
+                iconX = right - mIconWidth / 2.0f;
+            } else if (left > scrollX + mScreenWidth) {   //两条都在屏幕右侧，图标紧贴左虚线
+                iconX = left + mIconWidth / 2.0f;
+            } else if (left < scrollX && right > scrollX + mScreenWidth) {  //一条在屏幕左 一条在屏幕右，图标居中
+                iconX = scrollX + (mScreenWidth / 2.0f);
+            }
+
+
+            Bitmap icon = mIcons.get(mSameWeatherGroupData.get(i).second);
+
+            //经过上述校正之后可以得到图标和文字的绘制区域
+            RectF iconRect = new RectF(iconX - mIconWidth / 2.0f,
+                    iconY - mIconWidth / 2.0f,
+                    iconX + mIconWidth / 2.0f,
+                    iconY + mIconWidth / 2.0f);
+
+            canvas.drawBitmap(icon, null, iconRect, null);  //画图标
+            canvas.drawText(mSameWeatherGroupData.get(i).second, iconX,
+                    textY - (metrics.ascent+metrics.descent)/2,
+                    mTextPaint); //画图标下方文字
+
+            leftUsedScreenLeft = rightUsedScreenRight = false; //重置标志位
+        }
+
+        mTextPaint.setTextSize(mTextSize);
+        canvas.restore();
+    }
+
     /**
      *Utils
      */

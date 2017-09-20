@@ -126,6 +126,17 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
     private CardView mAirQualityCardView;
 
     /**
+     * Astronomy
+     */
+    private ImageView mMoonImageView;
+    private ImageView mSunImageView;
+    private TextView mMoonTimeTextView;
+    private TextView mMoonInfoTextView;
+    private TextView mSunTimeTextView;
+    private TextView mSunInfoTextView;
+
+
+    /**
      *  Start
      */
     public static WeatherFragment newInstance(String weatherId, String cityName) {
@@ -190,6 +201,13 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         mPm25TextView = (TextView) view.findViewById(R.id.air_quality_pm25);
         mSO2TextView = (TextView) view.findViewById(R.id.air_quality_so2);
         mAirQualityCardView = (CardView) view.findViewById(R.id.air_quality_card_view);
+
+        mMoonImageView = (ImageView) view.findViewById(R.id.forecast_now_moon_icon);
+        mSunImageView = (ImageView) view.findViewById(R.id.forecast_now_sun_icon);
+        mMoonTimeTextView = (TextView) view.findViewById(R.id.forecast_now_moon_time);
+        mMoonInfoTextView = (TextView) view.findViewById(R.id.forecast_now_moon_info);
+        mSunTimeTextView = (TextView) view.findViewById(R.id.forecast_now_sun_time);
+        mSunInfoTextView = (TextView) view.findViewById(R.id.forecast_now_sun_info);
 
         /* ****** */
         cityManagerButton = (Button) view.findViewById(R.id.place_manager);
@@ -511,6 +529,28 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
          * Hourly
          */
         mHourlyForecastLineCharView.setData(weather.hourlyForecastList);
+
+        /**
+         * Astronomy
+         */
+        if (Integer.parseInt(weather.basic.update.updateTime.split(" ")[1].split(":")[0]) <= 18 && Integer.parseInt(weather.basic.update.updateTime.split(" ")[1].split(":")[0]) >= 10) { //显示日落  月初  时间
+            Glide.with(getActivity()).load(R.drawable.ic_sunset).into(mSunImageView);
+            mSunTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.sunset);
+            mSunInfoTextView.setText("日落时间");
+
+            Glide.with(getActivity()).load(R.drawable.ic_moonrise).into(mMoonImageView);
+            mMoonTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.moonrise);
+            mMoonInfoTextView.setText("月出时间");
+        } else {
+            Glide.with(getActivity()).load(R.drawable.ic_sunrise).into(mSunImageView);
+            mSunTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.sunrise);
+            mSunInfoTextView.setText("日出时间");
+
+            Glide.with(getActivity()).load(R.drawable.ic_moonset).into(mMoonImageView);
+            mMoonTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.moonset);
+            mMoonInfoTextView.setText("月落时间");
+        }
+
 
         mainLayout.setVisibility(View.VISIBLE);
     }

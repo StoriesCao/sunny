@@ -19,7 +19,7 @@
                 android:layout_centerHorizontal="true">
 
                 <ImageView
-                    android:id="@+id/forecast_now_icon_set"
+                    android:id="@+id/forecast_now_moon_icon"
                     android:layout_width="23dp"
                     android:layout_height="23dp"
                     android:layout_marginLeft="5dp"
@@ -31,10 +31,10 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/forecast_now_icon_set">
+                    android:layout_toRightOf="@id/forecast_now_moon_icon">
 
                     <TextView
-                        android:id="@+id/forecast_now_set_time"
+                        android:id="@+id/forecast_now_moon_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark"
@@ -42,7 +42,7 @@
                         tools:text="19:00"/>
 
                     <TextView
-                        android:id="@+id/forecast_now_txt_set"
+                        android:id="@+id/forecast_now_moon_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/gray"
@@ -68,7 +68,7 @@
                 android:layout_centerHorizontal="true">
 
                 <ImageView
-                    android:id="@+id/forecast_now_icon_rise"
+                    android:id="@+id/forecast_now_sun_icon"
                     android:layout_width="23dp"
                     android:layout_height="23dp"
                     android:layout_marginTop="5dp"
@@ -79,10 +79,10 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/forecast_now_icon_rise">
+                    android:layout_toRightOf="@id/forecast_now_sun_icon">
 
                     <TextView
-                        android:id="@+id/forecast_now_rise_time"
+                        android:id="@+id/forecast_now_sun_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark"
@@ -90,7 +90,7 @@
                         tools:text="05:20"/>
 
                     <TextView
-                        android:id="@+id/forecast_now_txt_rise"
+                        android:id="@+id/forecast_now_sun_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/gray"
