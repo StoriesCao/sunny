@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PointF;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.stories.sunny.R.attr.backgroundColor;
 
 
 /**
@@ -313,9 +316,12 @@ public class LineCharView extends View {
 
         drawAxis(canvas); // 画时间轴
 
-
+        drawLinesAndPoints(canvas);
     }
 
+    /**
+     * 画时间坐标轴
+     */
     private void drawAxis(Canvas canvas) {
         canvas.save();
 
@@ -333,6 +339,57 @@ public class LineCharView extends View {
             centerX = mDefaultPadding + i * mTimeLineInterval;
             Paint.FontMetrics m = mTextPaint.getFontMetrics();
             canvas.drawText(text, 0, text.length(), centerX, centerY - (m.ascent + m.descent) / 2, mTextPaint);
+        }
+        canvas.restore();
+    }
+
+    /**
+     * 画折线和它拐点的园
+     */
+    private void drawLinesAndPoints(Canvas canvas) {
+        canvas.save();
+
+        mLinePaint.setColor(Color.GRAY);
+        mLinePaint.setStrokeWidth(dp2pxF(getContext(), 1));
+        mLinePaint.setStyle(Paint.Style.STROKE);
+
+        Path linePath = new Path();  //用于绘制折线
+        mPoints.clear();
+        int baseHeight = mDefaultPadding + mMinPointHeight;
+        float centerX;
+        float centerY;
+        for (int i = 0; i < mHourlyForecastList.size(); i++) {
+            int temp = Integer.parseInt(mHourlyForecastList.get(i).temperature);
+            temp = temp - mMinTemperature;
+            centerY = (int) (mViewHeight - (baseHeight + temp * mPointGap));
+            centerX = mDefaultPadding + i * mTimeLineInterval;
+            mPoints.add(new PointF(centerX, centerY));
+            if (i == 0) {
+                linePath.moveTo(centerX, centerY);
+            } else {
+                linePath.lineTo(centerX, centerY);
+            }
+        }
+        canvas.drawPath(linePath, mLinePaint); //画出折线
+
+        //接下来画折线拐点的园
+        float x, y;
+        for (int i = 0; i < mPoints.size(); i++) {
+            x = mPoints.get(i).x;
+            y = mPoints.get(i).y;
+
+            //先画一个颜色为背景颜色的实心园覆盖掉折线拐角
+            mPointPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+            mPointPaint.setColor(mBackgroundColor);
+            canvas.drawCircle(x, y,
+                    mPointRadius + dp2pxF(getContext(), 1),
+                    mPointPaint);
+            //再画出正常的空心园
+            mPointPaint.setStyle(Paint.Style.STROKE);
+            mPointPaint.setColor(Color.BLACK);
+            canvas.drawCircle(x, y,
+                    mPointRadius,
+                    mPointPaint);
         }
         canvas.restore();
     }
