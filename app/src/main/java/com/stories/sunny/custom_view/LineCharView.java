@@ -6,8 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathEffect;
 import android.graphics.PointF;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
@@ -317,6 +319,10 @@ public class LineCharView extends View {
         drawAxis(canvas); // 画时间轴
 
         drawLinesAndPoints(canvas);
+
+        drawTemperature(canvas);
+        
+        drawDifferentWeatherLine(canvas);
     }
 
     /**
@@ -394,6 +400,80 @@ public class LineCharView extends View {
         canvas.restore();
     }
 
+    /**
+     * 画温度描述值
+     */
+    private void drawTemperature(Canvas canvas) {
+        canvas.save();
+
+        mTextPaint.setTextSize(1.2f * mTextSize); //字体放大一丢丢
+        float centerX;
+        float centerY;
+        String text;
+        for (int i = 0; i < mPoints.size(); i++) {
+            text = mHourlyForecastList.get(i).temperature + "°";
+            centerX = mPoints.get(i).x;
+            centerY = mPoints.get(i).y - dp2pxF(getContext(), 15);
+            Paint.FontMetrics metrics = mTextPaint.getFontMetrics();
+            canvas.drawText(text,
+                    centerX, centerY - (metrics.ascent + metrics.descent/2),
+                    mTextPaint);
+        }
+        mTextPaint.setTextSize(mTextSize);
+        canvas.restore();
+    }
+
+    /**
+     * 画不同天气之间的虚线
+     */
+    private void drawDifferentWeatherLine(Canvas canvas) {
+        canvas.save();
+        
+        mLinePaint.setColor(Color.GRAY);
+        mLinePaint.setStrokeWidth(dp2pxF(getContext(), 0.5f));
+        mLinePaint.setAlpha(0xcc);
+
+        //设置画笔画出虚线
+        float[] f = {dp2pxF(getContext(), 5), dp2pxF(getContext(), 1)};  //两个值分别为循环的实线长度、空白长度
+        PathEffect pathEffect = new DashPathEffect(f, 0);
+        mLinePaint.setPathEffect(pathEffect);
+
+        mDifferentWeatherXData.clear();
+        int interval = 0;
+        float startX, startY, endX, endY;
+        endY = mViewHeight - mDefaultPadding;
+
+        //0坐标点的虚线手动画上
+        canvas.drawLine(mDefaultPadding, mPoints.get(0).y + mPointRadius + dp2pxF(getContext(), 2),
+                mDefaultPadding, endY,
+                mLinePaint);
+
+        mDifferentWeatherXData.add((float) mDefaultPadding);
+
+        for (int i = 0; i < mSameWeatherGroupData.size(); i++) {
+            interval += mSameWeatherGroupData.get(i).first;
+            if(interval > mPoints.size()-1){
+                interval = mPoints.size()-1;
+            }
+            startX = endX = mDefaultPadding + interval * mTimeLineInterval;
+            startY = mPoints.get(interval).y + mPointRadius + dp2pxF(getContext(), 2);
+            mDifferentWeatherXData.add(startX);
+
+            canvas.drawLine(startX, startY, endX, endY, mLinePaint);
+        }
+
+        //这里注意一下，当最后一组的连续天气数为1时，是不需要计入虚线集合的，否则会多画一个天气图标
+        //若不理解，可尝试去掉下面这块代码并观察运行效果
+        if(mSameWeatherGroupData.get(mSameWeatherGroupData.size()-1).first == 1
+                && mDifferentWeatherXData.size() > 1){
+            mDifferentWeatherXData.remove(mDifferentWeatherXData.get(mDifferentWeatherXData.size()-1));
+        }
+
+        mLinePaint.setPathEffect(null);
+        mLinePaint.setAlpha(0xff);
+        canvas.restore();
+    }
+    
     /**
      *Utils
      */
