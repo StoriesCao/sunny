@@ -43,5 +43,7 @@ public class HourlyForecast {
 
         @SerializedName("txt")
         public String conditon;
+
+        public String code;
     }
 }

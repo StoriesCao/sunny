@@ -12,13 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.stories.sunny.custom_view.LineCharView
-            android:id="@+id/hourly_forecast_line_chart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:timeLineInterval="60dp"
-            app:minPointHeight="60dp"
-            app:backgroundColor="#ffffff"/>
 
     </RelativeLayout>
 

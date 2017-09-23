@@ -27,8 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.stories.sunny.R.attr.backgroundColor;
-
 
 /**
  * Created by Charlottecao on 9/19/17.

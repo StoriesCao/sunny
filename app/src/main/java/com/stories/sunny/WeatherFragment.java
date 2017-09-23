@@ -1,5 +1,6 @@
 package com.stories.sunny;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.stories.sunny.bean.WeatherBean;
 import com.stories.sunny.custom_view.CircleProgressView;
 import com.stories.sunny.custom_view.LineCharView;
 import com.stories.sunny.db_model.CityStoraged;
@@ -31,6 +33,7 @@ import com.stories.sunny.util.Utility;
 import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -111,7 +114,10 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
     /**
      * Hourly
      */
+    private List<WeatherBean> mWeatherBeanList = new ArrayList<>(); // 小时预报数据源
     private LineCharView mHourlyForecastLineCharView;
+    private boolean mFirstFlag = true; // 是否是当天第一次写入，
+    private int mMaxSize; // 小时预报写入文件的最大数量
 
     /**
      * Air quality
@@ -158,7 +164,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         mDailyForecastLayout = (LinearLayout) view.findViewById(R.id.daily_forecast_layout);
         mainLayout = (ScrollView) view.findViewById(R.id.main_weather_layout);
 
-        mHourlyForecastLineCharView = (LineCharView) view.findViewById(R.id.hourly_forecast_line_chart);
+       // mHourlyForecastLineCharView = (LineCharView) view.findViewById(R.id.hourly_forecast_line_chart);
 
         currentDegree = (TextView) view.findViewById(R.id.forecast_now_degree);
         currentCity = (TextView) view.findViewById(R.id.title_city);
@@ -302,6 +308,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
                             editor.putString(weather.basic.cityName + "weatherJSON", responseText);
                             editor.apply();
+                            putHourlyForecastDataIn(weather); //将小时天气写入文件
                             showWeather(weather);
                         } else {
                             Toast.makeText(getActivity(), "获取天气信息失败", Toast.LENGTH_SHORT).show();
@@ -312,6 +319,22 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
             }
         });
 
+    }
+
+    /**
+     * 新建存放小时预报数据的文件
+     * 不同的时间更新天气小时预报会越来越少
+     */
+    private void putHourlyForecastDataIn(Weather weather) {
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(getArguments().getString("city_name") + "HourlyForecastData", Context.MODE_PRIVATE).edit();
+        for (int i = 0; i < weather.hourlyForecastList.size(); i++) {
+            editor.putString(weather.hourlyForecastList.get(i).date.split(" ")[1], weather.hourlyForecastList.get(i).temperature + "-" + weather.hourlyForecastList.get(i).condition.code + "-" + weather.hourlyForecastList.get(i).condition.conditon);
+            editor.apply();
+        }
+        if (mFirstFlag) {
+            mMaxSize = weather.hourlyForecastList.size();
+            mFirstFlag = false;
+        }
     }
 
     /**
@@ -525,10 +548,16 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
             mDailyForecastLayout.addView(view);
         }
 
+
         /**
          * Hourly
          */
-        mHourlyForecastLineCharView.setData(weather.hourlyForecastList);
+        SharedPreferences preferences = getContext().getSharedPreferences(getArguments().getString("city_name") + "HourlyForecastData", Context.MODE_PRIVATE);
+        
+
+       // mHourlyForecastLineCharView.setData(weather.hourlyForecastList);
+
+
 
         /**
          * Astronomy
