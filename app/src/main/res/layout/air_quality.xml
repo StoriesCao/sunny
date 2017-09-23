@@ -18,82 +18,115 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp">
 
             <LinearLayout
                 android:id="@+id/air_quality_layout_1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="40dp">
+                android:layout_marginBottom="10dp">
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="CO: "
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:textColor="@color/dark"/>
+
+
+                <ProgressBar
+                    android:id="@+id/air_progressBar_co"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:max="200"/>
+
 
                 <TextView
                     android:id="@+id/air_quality_co"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="3dp"
                     tools:text="10"
-                    android:textSize="15sp"
+                    android:textSize="12sp"
                     android:textColor="@color/dark"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/air_quality_layout_2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/air_quality_layout_1"
-                android:layout_marginLeft="40dp"
                 android:layout_marginBottom="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="NO2: "
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:textColor="@color/dark"/>
+
+
+                <ProgressBar
+                    android:id="@+id/air_progressBar_no2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:max="200"/>
 
                 <TextView
                     android:id="@+id/air_quality_no2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
                     tools:text="10"
-                    android:textSize="15sp"
+                    android:textSize="12sp"
                     android:textColor="@color/dark"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/air_quality_layout_2"
-                android:layout_marginLeft="40dp"
-                android:layout_marginBottom="10dp">
+                android:id="@+id/linearLayout">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="O3: "
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:textColor="@color/dark"/>
+
+                <ProgressBar
+                    android:id="@+id/air_progressBar_o3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:max="200"/>
 
                 <TextView
                     android:id="@+id/air_quality_o3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
                     tools:text="10"
-                    android:textSize="15sp"
+                    android:textSize="12sp"
                     android:textColor="@color/dark"/>
             </LinearLayout>
-
 
         </RelativeLayout>
 
@@ -115,76 +148,110 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp">
 
             <LinearLayout
                 android:id="@+id/air_quality_layout_3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginBottom="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="PM10: "
-                    android:textSize="20sp"
+                    android:layout_gravity="center_vertical"
+                    android:text="PM10:"
+                    android:textSize="15sp"
                     android:textColor="@color/dark"/>
+
+                <ProgressBar
+                    android:id="@+id/air_progressBar_pm10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:max="200"/>
 
                 <TextView
                     android:id="@+id/air_quality_pm10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="3dp"
                     tools:text="10"
-                    android:textSize="15sp"
+                    android:textSize="12sp"
                     android:textColor="@color/dark"/>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/air_quality_layout_4"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/air_quality_layout_3"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp">
+                android:layout_marginBottom="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="PM2.5: "
-                    android:textSize="20sp"
+                    android:layout_gravity="center_vertical"
+                    android:text="PM2.5:"
+                    android:textSize="15sp"
                     android:textColor="@color/dark"/>
+
+                <ProgressBar
+                    android:id="@+id/air_progressBar_pm25"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:max="200"/>
 
                 <TextView
                     android:id="@+id/air_quality_pm25"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="3dp"
                     tools:text="10"
-                    android:textSize="15sp"
+                    android:textSize="12sp"
                     android:textColor="@color/dark"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/air_quality_layout_4"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="10dp">
+                android:layout_below="@id/air_quality_layout_4">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="SO2: "
-                    android:textSize="20sp"
+                    android:layout_gravity="center_vertical"
+                    android:text="SO2:"
+                    android:textSize="15sp"
                     android:textColor="@color/dark"/>
+
+                <ProgressBar
+                    android:id="@+id/air_progressBar_so2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:max="200"/>
 
                 <TextView
                     android:id="@+id/air_quality_so2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="3dp"
                     tools:text="10"
-                    android:textSize="15sp"
+                    android:textSize="12sp"
                     android:textColor="@color/dark"/>
             </LinearLayout>
 

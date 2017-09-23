@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -129,6 +130,12 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
     private TextView mPM10TextView;
     private TextView mPm25TextView;
     private TextView mSO2TextView;
+    private ProgressBar mCOProgressBar;
+    private ProgressBar mNO2ProgressBar;
+    private ProgressBar mO3ProgressBar;
+    private ProgressBar mPM10ProgressBar;
+    private ProgressBar mPM25ProgressBar;
+    private ProgressBar mSO2ProgressBar;
     private CardView mAirQualityCardView;
 
     /**
@@ -206,6 +213,12 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         mPM10TextView = (TextView) view.findViewById(R.id.air_quality_pm10);
         mPm25TextView = (TextView) view.findViewById(R.id.air_quality_pm25);
         mSO2TextView = (TextView) view.findViewById(R.id.air_quality_so2);
+        mCOProgressBar = (ProgressBar) view.findViewById(R.id.air_progressBar_co);
+        mNO2ProgressBar = (ProgressBar) view.findViewById(R.id.air_progressBar_no2);
+        mO3ProgressBar = (ProgressBar) view.findViewById(R.id.air_progressBar_o3);
+        mPM10ProgressBar = (ProgressBar) view.findViewById(R.id.air_progressBar_pm10);
+        mPM25ProgressBar = (ProgressBar) view.findViewById(R.id.air_progressBar_pm25);
+        mSO2ProgressBar = (ProgressBar) view.findViewById(R.id.air_progressBar_so2);
         mAirQualityCardView = (CardView) view.findViewById(R.id.air_quality_card_view);
 
         mMoonImageView = (ImageView) view.findViewById(R.id.forecast_now_moon_icon);
@@ -367,6 +380,27 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         String currentRelativeHumidityData = weather.now.relativeHumidity + " %";
 
         /**
+         * Astronomy
+         */
+        if (Integer.parseInt(weather.basic.update.updateTime.split(" ")[1].split(":")[0]) <= 18 && Integer.parseInt(weather.basic.update.updateTime.split(" ")[1].split(":")[0]) >= 10) { //显示日落  月初  时间
+            Glide.with(getActivity()).load(R.drawable.ic_sunset).into(mSunImageView);
+            mSunTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.sunset);
+            mSunInfoTextView.setText("日落时间");
+
+            Glide.with(getActivity()).load(R.drawable.ic_moonrise).into(mMoonImageView);
+            mMoonTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.moonrise);
+            mMoonInfoTextView.setText("月出时间");
+        } else {
+            Glide.with(getActivity()).load(R.drawable.ic_sunrise).into(mSunImageView);
+            mSunTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.sunrise);
+            mSunInfoTextView.setText("日出时间");
+
+            Glide.with(getActivity()).load(R.drawable.ic_moonset).into(mMoonImageView);
+            mMoonTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.moonset);
+            mMoonInfoTextView.setText("月落时间");
+        }
+
+        /**
          * 为了将温度信息传递到城市管理页面
          */
         CityStoraged city = new CityStoraged();
@@ -447,6 +481,13 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         mPM10TextView.setText(weather.aqi.city.pm10);
         mPm25TextView.setText(weather.aqi.city.pm25);
         mSO2TextView.setText(weather.aqi.city.so2);
+        mCOProgressBar.setProgress(Integer.parseInt(weather.aqi.city.co));
+        mNO2ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.no2));
+        mO3ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.o3));
+        mPM10ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.pm10));
+        mPM25ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.pm25));
+        mSO2ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.so2));
+
 
         if ("优".equals(weather.aqi.city.airQulity)) {
             mAirQualityCardView.setCardBackgroundColor(getResources().getColor(R.color.air_A));
@@ -455,6 +496,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         } else {
             mAirQualityCardView.setCardBackgroundColor(getResources().getColor(R.color.air_C));
         }
+
 
         /**
          *  Suggestions
@@ -559,26 +601,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
 
 
-        /**
-         * Astronomy
-         */
-        if (Integer.parseInt(weather.basic.update.updateTime.split(" ")[1].split(":")[0]) <= 18 && Integer.parseInt(weather.basic.update.updateTime.split(" ")[1].split(":")[0]) >= 10) { //显示日落  月初  时间
-            Glide.with(getActivity()).load(R.drawable.ic_sunset).into(mSunImageView);
-            mSunTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.sunset);
-            mSunInfoTextView.setText("日落时间");
-
-            Glide.with(getActivity()).load(R.drawable.ic_moonrise).into(mMoonImageView);
-            mMoonTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.moonrise);
-            mMoonInfoTextView.setText("月出时间");
-        } else {
-            Glide.with(getActivity()).load(R.drawable.ic_sunrise).into(mSunImageView);
-            mSunTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.sunrise);
-            mSunInfoTextView.setText("日出时间");
-
-            Glide.with(getActivity()).load(R.drawable.ic_moonset).into(mMoonImageView);
-            mMoonTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.moonset);
-            mMoonInfoTextView.setText("月落时间");
-        }
 
 
         mainLayout.setVisibility(View.VISIBLE);
