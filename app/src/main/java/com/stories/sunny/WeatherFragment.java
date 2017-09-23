@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.stories.sunny.bean.WeatherBean;
+import com.stories.sunny.db_model.WeatherBean;
 import com.stories.sunny.custom_view.CircleProgressView;
 import com.stories.sunny.custom_view.LineCharView;
 import com.stories.sunny.db_model.CityStoraged;
@@ -117,8 +117,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
      */
     private List<WeatherBean> mWeatherBeanList = new ArrayList<>(); // 小时预报数据源
     private LineCharView mHourlyForecastLineCharView;
-    private boolean mFirstFlag = true; // 是否是当天第一次写入，
-    private int mMaxSize; // 小时预报写入文件的最大数量
 
     /**
      * Air quality
@@ -339,14 +337,26 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
      * 不同的时间更新天气小时预报会越来越少
      */
     private void putHourlyForecastDataIn(Weather weather) {
-        SharedPreferences.Editor editor = getContext().getSharedPreferences(getArguments().getString("city_name") + "HourlyForecastData", Context.MODE_PRIVATE).edit();
         for (int i = 0; i < weather.hourlyForecastList.size(); i++) {
-            editor.putString(weather.hourlyForecastList.get(i).date.split(" ")[1], weather.hourlyForecastList.get(i).temperature + "-" + weather.hourlyForecastList.get(i).condition.code + "-" + weather.hourlyForecastList.get(i).condition.conditon);
-            editor.apply();
-        }
-        if (mFirstFlag) {
-            mMaxSize = weather.hourlyForecastList.size();
-            mFirstFlag = false;
+            //先查询数据库中是否有此城市此时间的数据
+            List<WeatherBean> weatherBeanList = DataSupport.where("cityname = ? and time = ?", getArguments().getString("city_name"), weather.hourlyForecastList.get(i).date.split(" ")[1]).find(WeatherBean.class);
+            if (weatherBeanList.isEmpty()) {  //没有的话直接添加
+                WeatherBean weatherBean = new WeatherBean();
+                weatherBean.setCityName(getArguments().getString("city_name"));
+                weatherBean.setTime(weather.hourlyForecastList.get(i).date.split(" ")[1]);
+                weatherBean.setTemperature(weather.hourlyForecastList.get(i).temperature);
+                weatherBean.setCondition(weather.hourlyForecastList.get(i).condition.conditon);
+                weatherBean.setCode(weather.hourlyForecastList.get(i).condition.code);
+                weatherBean.save();
+            } else {
+                //不支持自定义主键
+                //为防止重复，更新此条数据
+                WeatherBean weatherBean = new WeatherBean();
+                weatherBean.setTemperature(weather.hourlyForecastList.get(i).temperature);
+                weatherBean.setCondition(weather.hourlyForecastList.get(i).condition.conditon);
+                weatherBean.setCode(weather.hourlyForecastList.get(i).condition.code);
+                weatherBean.updateAll("cityname = ? and time = ?", getArguments().getString("city_name"), weather.hourlyForecastList.get(i).date.split(" ")[1]);
+            }
         }
     }
 
@@ -594,14 +604,11 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         /**
          * Hourly
          */
-        SharedPreferences preferences = getContext().getSharedPreferences(getArguments().getString("city_name") + "HourlyForecastData", Context.MODE_PRIVATE);
-        
-
-       // mHourlyForecastLineCharView.setData(weather.hourlyForecastList);
-
-
-
-
+        List<WeatherBean> aaa = DataSupport.where("cityname = ?", getArguments().getString("city_name")).find(WeatherBean.class);
+        Log.d(TAG, aaa.size() + " ");
+        for (int i = 0; i < aaa.size(); i++) {
+            Log.d(TAG, aaa.get(i).getCityName() + "-" + aaa.get(i).getCondition() + "-" + aaa.get(i).getTemperature() + "-" + aaa.get(i).getTime());
+        }
 
         mainLayout.setVisibility(View.VISIBLE);
     }

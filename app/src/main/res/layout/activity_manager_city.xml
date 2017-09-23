@@ -41,7 +41,7 @@
             android:src="@drawable/ic_plus"
             app:elevation="8dp"
             app:backgroundTint="@color/lightGray"
-            app:rippleColor="@color/gray"/>
+            app:rippleColor="@color/dark"/>
 
     </android.support.design.widget.CoordinatorLayout>
 

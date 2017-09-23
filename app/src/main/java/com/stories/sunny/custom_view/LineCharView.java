@@ -20,7 +20,6 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.stories.sunny.R;
-import com.stories.sunny.bean.WeatherBean;
 import com.stories.sunny.gson_model.HourlyForecast;
 
 import java.util.ArrayList;
