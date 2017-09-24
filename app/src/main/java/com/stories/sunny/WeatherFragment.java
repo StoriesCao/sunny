@@ -418,6 +418,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
          */
         CityStoraged city = new CityStoraged();
         city.setMaxMinDegree(mDailyForecastToday.temperature.min + "~" + mDailyForecastToday.temperature.max + "°C");
+        city.setUpdateTime(weather.basic.update.updateTime.split(" ")[1]);
 
         if (currentWeatherCode == 100) { // 晴
             mCurrentWeatherIcon.setImageResource(R.drawable.ic_sunny);

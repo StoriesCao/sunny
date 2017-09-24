@@ -13,7 +13,6 @@ import android.graphics.PathEffect;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -21,12 +20,9 @@ import android.view.View;
 
 import com.stories.sunny.R;
 import com.stories.sunny.db_model.WeatherBean;
-import com.stories.sunny.gson_model.HourlyForecast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -227,6 +223,21 @@ public class LineCharView extends View {
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
+        //如果在xml中自定义padding，则更新
+        int newPaddingLeft = getPaddingLeft();
+        int newPaddingRight = getPaddingRight();
+        int newPaddingBottom = getPaddingBottom();
+        int newPaddingTop = getPaddingTop();
+        if (newPaddingLeft > mLeftPadding) {
+            mLeftPadding = newPaddingLeft;
+        } else if (newPaddingRight > mRightPadding) {
+            mRightPadding = newPaddingRight;
+        } else if (newPaddingBottom > mBottomPadding) {
+            mBottomPadding = newPaddingBottom;
+        } else if (newPaddingTop > mTopPadding) {
+            mTopPadding = newPaddingTop;
+        }
+
         if (heightMode == MeasureSpec.EXACTLY) {    //确定控件的高度
             mViewHeight = Math.min(heightSize, mMinViewHeight);
         } else {
@@ -278,20 +289,6 @@ public class LineCharView extends View {
 
         if (mHourlyForecastList.isEmpty()) {
             return;
-        }
-        //如果在xml中自定义padding，则更新
-        int newPaddingLeft = getPaddingLeft();
-        int newPaddingRight = getPaddingRight();
-        int newPaddingBottom = getPaddingBottom();
-        int newPaddingTop = getPaddingTop();
-        if (newPaddingLeft > mLeftPadding) {
-            mLeftPadding = newPaddingLeft;
-        } else if (newPaddingRight > mRightPadding) {
-            mRightPadding = newPaddingRight;
-        } else if (newPaddingBottom > mBottomPadding) {
-            mBottomPadding = newPaddingBottom;
-        } else if (newPaddingTop > mTopPadding) {
-            mTopPadding = newPaddingTop;
         }
 
         drawAxis(canvas); // 画时间轴

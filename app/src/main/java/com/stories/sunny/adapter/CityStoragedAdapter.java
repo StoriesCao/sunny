@@ -38,10 +38,12 @@ public class CityStoragedAdapter extends ArrayAdapter {
         ImageView cityStoragedIcon = (ImageView) view.findViewById(R.id.city_storaged_icon);
         TextView cityStoragedName = (TextView) view.findViewById(R.id.city_storaged_name);
         TextView cityStoragedTemp = (TextView) view.findViewById(R.id.city_storaged_temp);
+        TextView cityStoragedTime = (TextView) view.findViewById(R.id.city_storaged_date);
 
         cityStoragedIcon.setImageResource(cityStoraged.getWeatherImgId());
         cityStoragedName.setText(cityStoraged.getCityStoragedName());
         cityStoragedTemp.setText(cityStoraged.getMaxMinDegree());
+        cityStoragedTime.setText(cityStoraged.getUpdateTime());
 
         return view;
     }
