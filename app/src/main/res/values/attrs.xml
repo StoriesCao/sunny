@@ -15,6 +15,7 @@
         <attr name="mTimeLineInterval" format="dimension"/>
         <attr name="minPointHeight" format="dimension"/>
         <attr name="backgroundColor" format="color|reference"/>
+        <attr name="LineColor" format="color|reference"/>
     </declare-styleable>
 
 </resources>

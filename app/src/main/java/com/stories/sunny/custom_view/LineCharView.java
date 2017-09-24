@@ -43,6 +43,7 @@ public class LineCharView extends View {
     private int mTimeLineInterval; //时间线段长度
     private int mBackgroundColor; //背景颜色
     private int mMinPointHeight; //折线最低点的高度
+    private int mLineColor; // 折线颜色
 
     private int mMinViewHeight; //控件的最小高度
     private float mPointRadius; //折线点的半径
@@ -110,9 +111,10 @@ public class LineCharView extends View {
         super(context, attrs, defStyleAttr);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LineCharView);
-        mTimeLineInterval = (int) typedArray.getDimension(R.styleable.LineCharView_mTimeLineInterval, dp2px(context, 60));
+        mTimeLineInterval = (int) typedArray.getDimension(R.styleable.LineCharView_mTimeLineInterval, dp2px(context, 70));
         mBackgroundColor = typedArray.getColor(R.styleable.LineCharView_backgroundColor, Color.WHITE);
-        mMinPointHeight = (int) typedArray.getDimension(R.styleable.LineCharView_minPointHeight, dp2pxF(context, 60));
+        mMinPointHeight = (int) typedArray.getDimension(R.styleable.LineCharView_minPointHeight, dp2pxF(context, 45));
+        mLineColor = typedArray.getColor(R.styleable.LineCharView_LineColor, Color.BLACK);
         typedArray.recycle();
 
         setBackgroundColor(mBackgroundColor);
@@ -134,16 +136,16 @@ public class LineCharView extends View {
         mMinViewHeight = 3 * mMinPointHeight;
         mPointRadius = dp2pxF(context, 2.5F);
         mTextSize = sp2px(context, 10);
-        mLeftPadding = mRightPadding = mTopPadding = (int) (0.5F * mMinPointHeight);  //默认0.5倍
-        mBottomPadding = (int)(1.2F * mMinPointHeight);
+        mLeftPadding = mRightPadding  = (int) (0.3F * mMinPointHeight);  //默认0.5倍
+        mTopPadding = mBottomPadding = (int)(0.5F * mMinPointHeight);
         Log.d(TAG, "Pl: " + mLeftPadding + " Pr: " + mRightPadding + " Pt: " + mTopPadding + " Pb: " + mBottomPadding);
         mIconWidth = (1.0f / 3.0f) * mTimeLineInterval; //默认1/3倍
     }
 
     private void initPaint(Context context) {
         mLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mLinePaint.setStrokeWidth(dp2px(context, 1));
-        mLinePaint.setColor(Color.BLACK);
+        mLinePaint.setStrokeWidth(dp2px(context, 3));
+        mLinePaint.setStrokeCap(Paint.Cap.ROUND);
 
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setTextSize(mTextSize);
@@ -226,7 +228,7 @@ public class LineCharView extends View {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
         if (heightMode == MeasureSpec.EXACTLY) {    //确定控件的高度
-            mViewHeight = Math.max(heightSize, mMinViewHeight);
+            mViewHeight = Math.min(heightSize, mMinViewHeight);
         } else {
             mViewHeight = mMinViewHeight;
         }
@@ -309,6 +311,8 @@ public class LineCharView extends View {
     private void drawAxis(Canvas canvas) {
         canvas.save();
 
+        mLinePaint.setColor(Color.GRAY);
+
         canvas.drawLine(mLeftPadding, mViewHeight - mBottomPadding,
                 mViewWidth - mRightPadding, mViewHeight - mBottomPadding,
                 mLinePaint);
@@ -331,8 +335,8 @@ public class LineCharView extends View {
     private void drawLinesAndPoints(Canvas canvas) {
         canvas.save();
 
-        mLinePaint.setStrokeWidth(dp2pxF(getContext(), 1));
         mLinePaint.setStyle(Paint.Style.STROKE);
+        mLinePaint.setColor(mLineColor);
 
         Path linePath = new Path();  //用于绘制折线
         mPoints.clear();
@@ -444,7 +448,7 @@ public class LineCharView extends View {
         float textY;     //文字的x坐标跟图标是一样的，无需额外声明
 
 
-        iconY = mViewHeight - (mBottomPadding+ mMinPointHeight / 2.0f);
+        iconY = mViewHeight - (mBottomPadding+ mMinPointHeight / 2.0f) - dp2px(getContext(), 8);
         textY = iconY + mIconWidth / 2.0f + dp2pxF(getContext(), 10);
 
         Paint.FontMetrics metrics = mTextPaint.getFontMetrics();
