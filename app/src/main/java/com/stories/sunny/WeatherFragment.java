@@ -35,6 +35,8 @@ import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.Call;
@@ -169,7 +171,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         mDailyForecastLayout = (LinearLayout) view.findViewById(R.id.daily_forecast_layout);
         mainLayout = (ScrollView) view.findViewById(R.id.main_weather_layout);
 
-       // mHourlyForecastLineCharView = (LineCharView) view.findViewById(R.id.hourly_forecast_line_chart);
+        mHourlyForecastLineCharView = (LineCharView) view.findViewById(R.id.hourly_forecast_line_chart);
 
         currentDegree = (TextView) view.findViewById(R.id.forecast_now_degree);
         currentCity = (TextView) view.findViewById(R.id.title_city);
@@ -319,7 +321,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
                             editor.putString(weather.basic.cityName + "weatherJSON", responseText);
                             editor.apply();
-                            putHourlyForecastDataIn(weather); //将小时天气写入文件
+                            putHourlyForecastDataIn(weather);  //将小时天气写入数据库
                             showWeather(weather);
                         } else {
                             Toast.makeText(getActivity(), "获取天气信息失败", Toast.LENGTH_SHORT).show();
@@ -333,8 +335,8 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
     }
 
     /**
-     * 新建存放小时预报数据的文件
-     * 不同的时间更新天气小时预报会越来越少
+     * 新建存放不同城市不同时间的小时预报数据
+     * 因为不同的时间更新天气小时预报会越来越少
      */
     private void putHourlyForecastDataIn(Weather weather) {
         for (int i = 0; i < weather.hourlyForecastList.size(); i++) {
@@ -360,6 +362,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    
     /**
      * Display detailed info about weather
      * @param weather
@@ -604,11 +607,31 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         /**
          * Hourly
          */
-        List<WeatherBean> aaa = DataSupport.where("cityname = ?", getArguments().getString("city_name")).find(WeatherBean.class);
-        Log.d(TAG, aaa.size() + " ");
-        for (int i = 0; i < aaa.size(); i++) {
-            Log.d(TAG, aaa.get(i).getCityName() + "-" + aaa.get(i).getCondition() + "-" + aaa.get(i).getTemperature() + "-" + aaa.get(i).getTime());
+
+        List<WeatherBean> currentCityHourlyForecastDataList = DataSupport.where("cityname = ?", getArguments().getString("city_name")).find(WeatherBean.class);
+        Log.d(TAG, "当前城市的小时预报数据量：" + currentCityHourlyForecastDataList.size());
+
+        Collections.sort(currentCityHourlyForecastDataList, new Comparator<WeatherBean>() {  //按照更新时间从小到大排序
+            @Override
+            public int compare(WeatherBean weatherBean1, WeatherBean weatherBean2) {
+                int i = Integer.parseInt(weatherBean1.getTime().split(":")[0]) - Integer.parseInt(weatherBean2.getTime().split(":")[0]);
+                return i;
+            }
+        });
+
+        //检查一下是否正确
+        for (WeatherBean weatherBean : currentCityHourlyForecastDataList) {
+            Log.d(TAG, weatherBean.getCityName() + "-" + weatherBean.getCondition() + "-" + weatherBean.getTemperature() + "-" + weatherBean.getTime());
         }
+        /*
+        哈尔滨-晴-17-10:00
+        哈尔滨-晴-20-13:00
+        哈尔滨-小雨-19-16:00
+        哈尔滨-晴-15-19:00
+        哈尔滨-晴-12-22:00
+         */
+        mHourlyForecastLineCharView.setData(currentCityHourlyForecastDataList);
+
 
         mainLayout.setVisibility(View.VISIBLE);
     }

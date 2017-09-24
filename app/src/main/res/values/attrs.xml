@@ -12,7 +12,7 @@
     </declare-styleable>
 
     <declare-styleable name="LineCharView">
-        <attr name="timeLineInterval" format="dimension"/>
+        <attr name="mTimeLineInterval" format="dimension"/>
         <attr name="minPointHeight" format="dimension"/>
         <attr name="backgroundColor" format="color|reference"/>
     </declare-styleable>
