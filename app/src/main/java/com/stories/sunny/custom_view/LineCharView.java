@@ -71,10 +71,9 @@ public class LineCharView extends View {
     private Paint mTextPaint; //文字画笔
     private Paint mPointPaint; //圆点画笔
 
-    String[] mWeatherConditionsString = {"晴", "阴", "风", "小雨", "雷阵雨", "大雨", "小雪", "中雪", "大雪", "雾", "未知"};
+   // String[] mWeatherConditionsString = {"晴", "阴", "风", "小雨", "雷阵雨", "大雨", "小雪", "中雪", "大雪", "雾", "未知"};
 
     private List<WeatherBean> mHourlyForecastList = new ArrayList<>(); // 源数据集合
-    private Map<String, Bitmap> mIcons = new HashMap<>();   //天气图标集合
     private List<PointF> mPoints = new ArrayList<>(); //折线拐点坐标集合
 
 
@@ -111,9 +110,9 @@ public class LineCharView extends View {
         super(context, attrs, defStyleAttr);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LineCharView);
-        mTimeLineInterval = (int) typedArray.getDimension(R.styleable.LineCharView_mTimeLineInterval, dp2px(context, 50));
+        mTimeLineInterval = (int) typedArray.getDimension(R.styleable.LineCharView_mTimeLineInterval, dp2px(context, 60));
         mBackgroundColor = typedArray.getColor(R.styleable.LineCharView_backgroundColor, Color.WHITE);
-        mMinPointHeight = (int) typedArray.getDimension(R.styleable.LineCharView_minPointHeight, dp2pxF(context, 30));
+        mMinPointHeight = (int) typedArray.getDimension(R.styleable.LineCharView_minPointHeight, dp2pxF(context, 60));
         typedArray.recycle();
 
         setBackgroundColor(mBackgroundColor);
@@ -122,7 +121,6 @@ public class LineCharView extends View {
 
         initPaint(context);
 
-        //initIcon(); ?????
     }
 
     /**
@@ -156,14 +154,6 @@ public class LineCharView extends View {
         mPointPaint.setStrokeWidth(dp2px(context, 1));
     }
 
-    private void initIcon() {
-        mIcons.clear();
-        for (int i = 0; i < mWeatherConditionsString.length; i++) {
-            Bitmap bitmap = getIconBitmap(Integer.parseInt(mHourlyForecastList.get(i).getCode()), mIconWidth, mIconWidth);
-            mIcons.put(mWeatherConditionsString[i], bitmap);  //???//
-        }
-
-    }
 
     /**
      *
@@ -308,9 +298,9 @@ public class LineCharView extends View {
 
         drawTemperature(canvas);
         
-        //drawDifferentWeatherLine(canvas);
+        drawWeatherLine(canvas);
 
-        //drawWeatherIcon(canvas);
+        drawWeatherIcon(canvas);
     }
 
     /**
@@ -410,8 +400,8 @@ public class LineCharView extends View {
 
     /**
      * 画不同天气之间的虚线
-     *//*
-    private void drawDifferentWeatherLine(Canvas canvas) {
+     */
+    private void drawWeatherLine(Canvas canvas) {
         canvas.save();
         
         mLinePaint.setColor(Color.GRAY);
@@ -423,41 +413,20 @@ public class LineCharView extends View {
         PathEffect pathEffect = new DashPathEffect(f, 0);
         mLinePaint.setPathEffect(pathEffect);
 
-        mDifferentWeatherXData.clear();
-        int interval = 0;
         float startX, startY, endX, endY;
-        endY = mViewHeight - mDefaultPadding;
+        endY = mViewHeight - mBottomPadding;
 
-        //0坐标点的虚线手动画上
-        canvas.drawLine(mDefaultPadding, mPoints.get(0).y + mPointRadius + dp2pxF(getContext(), 2),
-                mDefaultPadding, endY,
-                mLinePaint);
-
-        mDifferentWeatherXData.add((float) mDefaultPadding);
-
-        for (int i = 0; i < mSameWeatherGroupData.size(); i++) {
-            interval += mSameWeatherGroupData.get(i).first;
-            if(interval > mPoints.size()-1){
-                interval = mPoints.size()-1;
-            }
-            startX = endX = mDefaultPadding + interval * mTimeLineInterval;
-            startY = mPoints.get(interval).y + mPointRadius + dp2pxF(getContext(), 2);
-            mDifferentWeatherXData.add(startX);
+        for (int i = 0; i < mPoints.size(); i++) {
+            startX = endX = mLeftPadding + i * mTimeLineInterval;
+            startY = mPoints.get(i).y + mPointRadius;
 
             canvas.drawLine(startX, startY, endX, endY, mLinePaint);
-        }
-
-        //这里注意一下，当最后一组的连续天气数为1时，是不需要计入虚线集合的，否则会多画一个天气图标
-        //若不理解，可尝试去掉下面这块代码并观察运行效果
-        if(mSameWeatherGroupData.get(mSameWeatherGroupData.size()-1).first == 1
-                && mDifferentWeatherXData.size() > 1){
-            mDifferentWeatherXData.remove(mDifferentWeatherXData.get(mDifferentWeatherXData.size()-1));
         }
 
         mLinePaint.setPathEffect(null);
         mLinePaint.setAlpha(0xff);
         canvas.restore();
-    } */
+    }
 
 
     /**
@@ -465,63 +434,26 @@ public class LineCharView extends View {
      * 若相邻虚线都在屏幕内，图标的x位置即在两虚线的中间
      * 若有一条虚线在屏幕外，图标的x位置即在屏幕边沿到另一条虚线的中间
      * 若两条都在屏幕外，图标x位置紧贴某一条虚线或屏幕中间
-     *//*
+     */
     private void drawWeatherIcon(Canvas canvas) {
         canvas.save();
 
         mTextPaint.setTextSize(0.9f * mTextSize); //字体缩小一丢丢
 
-        boolean leftUsedScreenLeft = false;
-        boolean rightUsedScreenRight = false;
-
-        int scrollX = getScrollX();  //范围控制在0 ~ viewWidth-screenWidth
-        float left, right;
         float iconX, iconY;
         float textY;     //文字的x坐标跟图标是一样的，无需额外声明
 
-        iconY = mViewHeight - (mDefaultPadding + mMinPointHeight / 2.0f);
+
+        iconY = mViewHeight - (mBottomPadding+ mMinPointHeight / 2.0f);
         textY = iconY + mIconWidth / 2.0f + dp2pxF(getContext(), 10);
+
         Paint.FontMetrics metrics = mTextPaint.getFontMetrics();
-        for (int i = 0; i < mDifferentWeatherXData.size() - 1; i++) {
-            left = mDifferentWeatherXData.get(i);
-            right = mDifferentWeatherXData.get(i + 1);
 
-            //以下校正的情况为：两条虚线都在屏幕内或只有一条在屏幕内
+        for (int i = 0; i < mHourlyForecastList.size() - 1; i++) {
 
-            if (left < scrollX &&    //仅左虚线在屏幕外
-                    right < scrollX + mScreenWidth) {
-                left = scrollX;
-                leftUsedScreenLeft = true;
-            }
-            
-            if (right > scrollX + mScreenWidth &&  //仅右虚线在屏幕外
-                    left > scrollX) {
-                right = scrollX + mScreenWidth;
-                rightUsedScreenRight = true;
-            }
+            iconX = mLeftPadding + (i * mTimeLineInterval + mTimeLineInterval / 2.0F);
 
-            if (right - left > mIconWidth) {    //经过上述校正之后左右距离还大于图标宽度
-                iconX = left + (right - left) / 2.0f;
-            } else {                          //经过上述校正之后左右距离小于图标宽度，则贴着在屏幕内的虚线
-                if (leftUsedScreenLeft) {
-                    iconX = right - mIconWidth / 2.0f;
-                } else {
-                    iconX = left + mIconWidth / 2.0f;
-                }
-            }
-
-            //以下校正的情况为：两条虚线都在屏幕之外
-
-            if (right < scrollX) {  //两条都在屏幕左侧，图标紧贴右虚线
-                iconX = right - mIconWidth / 2.0f;
-            } else if (left > scrollX + mScreenWidth) {   //两条都在屏幕右侧，图标紧贴左虚线
-                iconX = left + mIconWidth / 2.0f;
-            } else if (left < scrollX && right > scrollX + mScreenWidth) {  //一条在屏幕左 一条在屏幕右，图标居中
-                iconX = scrollX + (mScreenWidth / 2.0f);
-            }
-
-
-            Bitmap icon = mIcons.get(mSameWeatherGroupData.get(i).second);
+            Bitmap icon = getIconBitmap(Integer.parseInt(mHourlyForecastList.get(i).getCode()), mIconWidth, mIconWidth);
 
             //经过上述校正之后可以得到图标和文字的绘制区域
             RectF iconRect = new RectF(iconX - mIconWidth / 2.0f,
@@ -530,17 +462,17 @@ public class LineCharView extends View {
                     iconY + mIconWidth / 2.0f);
 
             canvas.drawBitmap(icon, null, iconRect, null);  //画图标
-            canvas.drawText(mSameWeatherGroupData.get(i).second, iconX,
-                    textY - (metrics.ascent+metrics.descent)/2,
+
+            canvas.drawText(mHourlyForecastList.get(i).getCondition(),
+                    iconX, textY - (metrics.ascent+metrics.descent)/2,
                     mTextPaint); //画图标下方文字
 
-            leftUsedScreenLeft = rightUsedScreenRight = false; //重置标志位
         }
 
         mTextPaint.setTextSize(mTextSize);
         canvas.restore();
     }
-*/
+
     /**
      *Utils
      */
