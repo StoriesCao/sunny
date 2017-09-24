@@ -5,4 +5,8 @@
     <string name="visibility">Visibility</string>
     <string name="atmospheric_pressure">Press</string>
     <string name="relative_humidity">Humid</string>
+    <string name="sunset">Sunset</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="moonset">Moonset</string>
+    <string name="moonrise">Moonrise</string>
 </resources>

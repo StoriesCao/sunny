@@ -398,19 +398,19 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         if (Integer.parseInt(weather.basic.update.updateTime.split(" ")[1].split(":")[0]) <= 18 && Integer.parseInt(weather.basic.update.updateTime.split(" ")[1].split(":")[0]) >= 10) { //显示日落  月初  时间
             Glide.with(getActivity()).load(R.drawable.ic_sunset).into(mSunImageView);
             mSunTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.sunset);
-            mSunInfoTextView.setText("日落时间");
+            mSunInfoTextView.setText(R.string.sunset);
 
             Glide.with(getActivity()).load(R.drawable.ic_moonrise).into(mMoonImageView);
             mMoonTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.moonrise);
-            mMoonInfoTextView.setText("月出时间");
+            mMoonInfoTextView.setText(R.string.moonrise);
         } else {
             Glide.with(getActivity()).load(R.drawable.ic_sunrise).into(mSunImageView);
             mSunTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.sunrise);
-            mSunInfoTextView.setText("日出时间");
+            mSunInfoTextView.setText(R.string.sunrise);
 
             Glide.with(getActivity()).load(R.drawable.ic_moonset).into(mMoonImageView);
             mMoonTimeTextView.setText(weather.dailyForecastList.get(0).astronomy.moonset);
-            mMoonInfoTextView.setText("月落时间");
+            mMoonInfoTextView.setText(R.string.moonset);
         }
 
         /**

@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/gray"
                         android:textSize="12sp"
-                        android:text="日落时间"/>
+                        tools:text="日落时间"/>
 
                 </LinearLayout>
 
