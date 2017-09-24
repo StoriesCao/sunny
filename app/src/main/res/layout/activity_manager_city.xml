@@ -39,6 +39,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:src="@drawable/ic_plus"
+            android:padding="8dp"
             app:elevation="8dp"
             app:backgroundTint="@color/lightGray"
             app:rippleColor="@color/dark"/>

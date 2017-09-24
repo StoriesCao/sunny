@@ -59,7 +59,7 @@
                 android:layout_alignLeft="@id/city_storaged_temp"
                 android:layout_alignBottom="@id/city_storaged_icon"
                 android:textSize="16sp"
-                android:textColor="@color/dark"
+                android:textColor="@color/gray"
                 tools:text="18:20"
                 android:gravity="center"/>
 

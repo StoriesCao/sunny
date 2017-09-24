@@ -129,7 +129,7 @@ public class LineCharView extends View {
         mScreenHeight = getResources().getDisplayMetrics().heightPixels;
         Log.d(TAG, "screen width:" + mScreenWidth + "  screen height:" + mScreenHeight);
 
-        mMinViewHeight = 3 * mMinPointHeight;
+        mMinViewHeight = 2 * mMinPointHeight;
         mPointRadius = dp2pxF(context, 2.5F);
         mTextSize = sp2px(context, 10);
         mLeftPadding = mRightPadding  = (int) (0.3F * mMinPointHeight);  //默认0.5倍
