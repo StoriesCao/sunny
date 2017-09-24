@@ -1,3 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Now -->
+    <string name="real_feel">Real feel</string>
+    <string name="visibility">Visibility</string>
+    <string name="atmospheric_pressure">Press</string>
+    <string name="relative_humidity">Humid</string>
 </resources>

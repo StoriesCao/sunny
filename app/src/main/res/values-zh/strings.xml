@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Now -->
+    <string name="real_feel">体感温度</string>
+    <string name="visibility">能见度</string>
+    <string name="atmospheric_pressure">大气压</string>
+    <string name="relative_humidity">相对湿度</string>
+</resources>

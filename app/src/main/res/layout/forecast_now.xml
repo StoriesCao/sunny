@@ -188,7 +188,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/gray"
                             android:textSize="12sp"
-                            android:text="体感温度"/>
+                            android:text="@string/real_feel"/>
 
                     </LinearLayout>
 
@@ -239,7 +239,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/gray"
                         android:textSize="12sp"
-                        android:text="大气压"/>
+                        android:text="@string/atmospheric_pressure"/>
 
                 </LinearLayout>
 
@@ -278,7 +278,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/gray"
                             android:textSize="12sp"
-                            android:text="能见度"/>
+                            android:text="@string/visibility"/>
 
                     </LinearLayout>
 
@@ -307,7 +307,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/gray"
                                 android:textSize="12sp"
-                                android:text="相对湿度"/>
+                                android:text="@string/relative_humidity"/>
 
                         </LinearLayout>
 
