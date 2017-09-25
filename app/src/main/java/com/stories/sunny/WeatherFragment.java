@@ -599,7 +599,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
             mDailyForecastDate.setText(forecast.date.split("-")[2] + "号");
             mDailyForecastMaxMinDegree.setText(forecast.temperature.min + "~" + forecast.temperature.max + "°C");
             mDailyForecastPrecipitationProbability.setText(forecast.precipitationProbability + "%");
-            mDailyForecastInfo.setText(mDailyForecastDate.getText() + "白天" + forecast.condition.dayConditon + "," + "夜晚" + forecast.condition.nightCondition + "。" + "最高气温" + forecast.temperature.max + "°C，" + forecast.wind.direction + " " +forecast.wind.windFore);
+            mDailyForecastInfo.setText(mDailyForecastDate.getText() + getResources().getString(R.string.day_light) + forecast.condition.dayConditon + "," + getResources().getString(R.string.night) + forecast.condition.nightCondition + getResources().getString(R.string.full_stop) + getResources().getString(R.string.max_temperature) + forecast.temperature.max + "°C，" + forecast.wind.direction + " " +forecast.wind.windFore);
 
             mDailyForecastLayout.addView(view);
         }

@@ -9,4 +9,10 @@
     <string name="sunrise">日出时间</string>
     <string name="moonset">月落时间</string>
     <string name="moonrise">月出时间</string>
+
+    <!-- DailyForecast -->
+    <string name="day_light">白天</string>
+    <string name="night">夜晚</string>
+    <string name="full_stop">。</string>
+    <string name="max_temperature">最高气温</string>
 </resources>

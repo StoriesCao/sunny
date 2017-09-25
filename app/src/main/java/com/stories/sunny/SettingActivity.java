@@ -1,11 +1,19 @@
 package com.stories.sunny;
 
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+
+import java.util.Locale;
 
 /**
  * Created by Charlottecao on 9/14/17.
@@ -14,6 +22,8 @@ import android.view.MenuItem;
 public class SettingActivity extends AppCompatActivity {
 
     private Toolbar mSettingToolbar;
+
+    private Switch mSwitchLanguageSwitch;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,6 +37,27 @@ public class SettingActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button);
         }
+
+        mSwitchLanguageSwitch = (Switch) findViewById(R.id.settings_switch_language);
+        mSwitchLanguageSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    Resources resources = getResources();
+                    DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+                    Configuration config = resources.getConfiguration();
+                    // 应用用户选择语言
+                    config.setLocale(Locale.CHINESE);
+                    createConfigurationContext(config);
+
+                    BaseActivity.finishAllActivity();
+                    Intent intent = new Intent(SettingActivity.this, MainActivity.class);
+                    //开始新的activity同时移除之前所有的activity
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override

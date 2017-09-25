@@ -9,4 +9,10 @@
     <string name="sunrise">Sunrise</string>
     <string name="moonset">Moonset</string>
     <string name="moonrise">Moonrise</string>
+    
+    <!-- DailyForecast -->
+    <string name="day_light">Daylight</string>
+    <string name="night">Night</string>
+    <string name="full_stop">.</string>
+    <string name="max_temperature">The max temperature is</string>
 </resources>
