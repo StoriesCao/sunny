@@ -68,7 +68,6 @@ public class LineCharView extends View {
     private Paint mTextPaint; //文字画笔
     private Paint mPointPaint; //圆点画笔
 
-   // String[] mWeatherConditionsString = {"晴", "阴", "风", "小雨", "雷阵雨", "大雨", "小雪", "中雪", "大雪", "雾", "未知"};
 
     private List<WeatherBean> mHourlyForecastList = new ArrayList<>(); // 源数据集合
     private List<PointF> mPoints = new ArrayList<>(); //折线拐点坐标集合
@@ -109,7 +108,7 @@ public class LineCharView extends View {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LineCharView);
         mTimeLineInterval = (int) typedArray.getDimension(R.styleable.LineCharView_mTimeLineInterval, dp2px(context, 70));
         mBackgroundColor = typedArray.getColor(R.styleable.LineCharView_backgroundColor, Color.WHITE);
-        mMinPointHeight = (int) typedArray.getDimension(R.styleable.LineCharView_minPointHeight, dp2pxF(context, 45));
+        mMinPointHeight = (int) typedArray.getDimension(R.styleable.LineCharView_minPointHeight, dp2pxF(context, 50));
         mLineColor = typedArray.getColor(R.styleable.LineCharView_LineColor, Color.BLACK);
         typedArray.recycle();
 
@@ -129,11 +128,11 @@ public class LineCharView extends View {
         mScreenHeight = getResources().getDisplayMetrics().heightPixels;
         Log.d(TAG, "screen width:" + mScreenWidth + "  screen height:" + mScreenHeight);
 
-        mMinViewHeight = 2 * mMinPointHeight;
+        mMinViewHeight = 3 * mMinPointHeight;
         mPointRadius = dp2pxF(context, 2.5F);
         mTextSize = sp2px(context, 10);
-        mLeftPadding = mRightPadding  = (int) (0.3F * mMinPointHeight);  //默认0.5倍
-        mTopPadding = mBottomPadding = (int)(0.5F * mMinPointHeight);
+        mLeftPadding = mRightPadding  = (int) (0.5F * mMinPointHeight);  //默认0.5倍
+        mTopPadding = mBottomPadding = (int)(0.6F * mMinPointHeight);
         Log.d(TAG, "Pl: " + mLeftPadding + " Pr: " + mRightPadding + " Pt: " + mTopPadding + " Pb: " + mBottomPadding);
         mIconWidth = (1.0f / 3.0f) * mTimeLineInterval; //默认1/3倍
     }
@@ -223,23 +222,8 @@ public class LineCharView extends View {
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
-        //如果在xml中自定义padding，则更新
-        int newPaddingLeft = getPaddingLeft();
-        int newPaddingRight = getPaddingRight();
-        int newPaddingBottom = getPaddingBottom();
-        int newPaddingTop = getPaddingTop();
-        if (newPaddingLeft > mLeftPadding) {
-            mLeftPadding = newPaddingLeft;
-        } else if (newPaddingRight > mRightPadding) {
-            mRightPadding = newPaddingRight;
-        } else if (newPaddingBottom > mBottomPadding) {
-            mBottomPadding = newPaddingBottom;
-        } else if (newPaddingTop > mTopPadding) {
-            mTopPadding = newPaddingTop;
-        }
-
         if (heightMode == MeasureSpec.EXACTLY) {    //确定控件的高度
-            mViewHeight = Math.min(heightSize, mMinViewHeight);
+            mViewHeight = Math.max(heightSize, mMinViewHeight);
         } else {
             mViewHeight = mMinViewHeight;
         }
@@ -309,6 +293,7 @@ public class LineCharView extends View {
         canvas.save();
 
         mLinePaint.setColor(Color.GRAY);
+        mLinePaint.setStrokeWidth(dp2px(getContext(), 3));
 
         canvas.drawLine(mLeftPadding, mViewHeight - mBottomPadding,
                 mViewWidth - mRightPadding, mViewHeight - mBottomPadding,
@@ -333,6 +318,7 @@ public class LineCharView extends View {
         canvas.save();
 
         mLinePaint.setStyle(Paint.Style.STROKE);
+        mLinePaint.setStrokeWidth(dp2px(getContext(), 3));
         mLinePaint.setColor(mLineColor);
 
         Path linePath = new Path();  //用于绘制折线
