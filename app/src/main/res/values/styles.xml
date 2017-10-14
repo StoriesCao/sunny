@@ -13,4 +13,8 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="WelcomeActivityTheme" parent="AppTheme">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
 </resources>

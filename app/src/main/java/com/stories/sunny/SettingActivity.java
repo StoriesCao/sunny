@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.util.Locale;
 
