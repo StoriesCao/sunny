@@ -1,10 +1,12 @@
 package com.stories.sunny;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.stories.sunny.adapter.ViewPaperAdapter;
 import com.stories.sunny.db_model.CityStoraged;
@@ -25,6 +27,10 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
 
         if (cityStoragedList.size() == 0) { //用户并没有添加任何城市
             Intent startCityManagerActivity = new Intent(MainActivity.this, CityManagerActivity.class);
