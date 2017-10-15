@@ -245,6 +245,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onRefresh() {
                 requestWeatherFromServer(weatherId);
+                requestHomePic();
             }
         });
 
@@ -331,7 +332,29 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
                 });
             }
         });
+    }
 
+    /**
+     * 刷新以天气的时候，顺便刷新一下HomePic，如果有新图片的话
+     */
+    public void requestHomePic() {
+        String picUrl = "http://guolin.tech/api/bing_pic";
+        HttpUtil.sendOkHttpRequest(picUrl, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                swipeRefresher.setRefreshing(false);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String realBingPicAddress = response.body().string();
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences("BingPic", Context.MODE_PRIVATE).edit();
+                editor.putString("real_bing_pic_address", realBingPicAddress);
+                editor.apply();
+                swipeRefresher.setRefreshing(false);
+            }
+        });
     }
 
     /**
