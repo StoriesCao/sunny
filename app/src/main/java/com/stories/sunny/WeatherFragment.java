@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.stories.sunny.adapter.ViewPaperAdapter;
 import com.stories.sunny.db_model.WeatherBean;
 import com.stories.sunny.custom_view.CircleProgressView;
 import com.stories.sunny.custom_view.LineCharView;
@@ -324,6 +325,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
                             editor.apply();
                             putHourlyForecastDataIn(weather);  //将小时天气写入数据库
                             showWeather(weather);
+                            MainActivity.mViewPaperAdapter.notifyDataSetChanged(); //刷新相应的天气页面
                         } else {
                             Toast.makeText(getActivity(), "获取天气信息失败", Toast.LENGTH_SHORT).show();
                         }
@@ -343,16 +345,26 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
-                swipeRefresher.setRefreshing(false);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefresher.setRefreshing(false);
+                    }
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String realBingPicAddress = response.body().string();
-                SharedPreferences.Editor editor = getActivity().getSharedPreferences("BingPic", Context.MODE_PRIVATE).edit();
-                editor.putString("real_bing_pic_address", realBingPicAddress);
-                editor.apply();
-                swipeRefresher.setRefreshing(false);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SharedPreferences.Editor editor = getActivity().getSharedPreferences("BingPic", Context.MODE_PRIVATE).edit();
+                        editor.putString("real_bing_pic_address", realBingPicAddress);
+                        editor.apply();
+                        swipeRefresher.setRefreshing(false);
+                    }
+                });
             }
         });
     }
@@ -518,12 +530,14 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         mPM10TextView.setText(weather.aqi.city.pm10);
         mPm25TextView.setText(weather.aqi.city.pm25);
         mSO2TextView.setText(weather.aqi.city.so2);
-        mCOProgressBar.setProgress(Integer.parseInt(weather.aqi.city.co));
+
+        //某些城市并没有很全的数据
+       /* mCOProgressBar.setProgress(Integer.parseInt(weather.aqi.city.co));
         mNO2ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.no2));
         mO3ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.o3));
         mPM10ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.pm10));
         mPM25ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.pm25));
-        mSO2ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.so2));
+        mSO2ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.so2));*/
 
 
         if ("优".equals(weather.aqi.city.airQulity)) {

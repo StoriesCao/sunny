@@ -36,18 +36,7 @@ public class ViewPaperAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public void notifyDataSetChanged() {
-        mChildCount = getCount();
-        super.notifyDataSetChanged();
-    }
-
-    @Override
     public int getItemPosition(Object object) {
-        /*if (mChildCount > 0) {
-            mChildCount--;
-            return POSITION_NONE;
-        }
-        return super.getItemPosition(object);*/
-        return POSITION_NONE;
+        return ViewPaperAdapter.POSITION_NONE;
     }
 }
