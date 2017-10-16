@@ -345,12 +345,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefresher.setRefreshing(false);
-                    }
-                });
             }
 
             @Override
@@ -362,7 +356,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
                         SharedPreferences.Editor editor = getActivity().getSharedPreferences("BingPic", Context.MODE_PRIVATE).edit();
                         editor.putString("real_bing_pic_address", realBingPicAddress);
                         editor.apply();
-                        swipeRefresher.setRefreshing(false);
                     }
                 });
             }

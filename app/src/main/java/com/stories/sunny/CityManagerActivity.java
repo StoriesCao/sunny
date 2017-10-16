@@ -44,11 +44,14 @@ public class CityManagerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_city);
 
+        //查找用户所添加的所有城市
         cityStoragedList = DataSupport.findAll(CityStoraged.class);
 
         final ListView cityStoragedListView = (ListView) findViewById(R.id.add_city_list);
         final CityStoragedAdapter cityStoragedAdapter = new CityStoragedAdapter(CityManagerActivity.this, R.layout.city_storaged, cityStoragedList);
         cityStoragedListView.setAdapter(cityStoragedAdapter);
+
+        //在城市管理页面 单击 item 时会回到主天气页面
         cityStoragedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -57,6 +60,8 @@ public class CityManagerActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        //长按  则会删除此城市
         cityStoragedListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() { // 长按删除存储的城市
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
@@ -70,13 +75,14 @@ public class CityManagerActivity extends BaseActivity {
                         //先删除相应的JSON数据
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CityManagerActivity.this);
                         SharedPreferences.Editor editor = preferences.edit();
-                        if (preferences.getString(cityStoragedList.get(position).getCityStoragedName() + "weatherJSON", null) != null) {
+                        if (!preferences.getString(cityStoragedList.get(position).getCityStoragedName() + "weatherJSON", null).isEmpty()) {
                             /*
                             无法删除？？
                             editor.remove(cityStoragedList.get(position).getCityStoragedName() + "weatherJSON");
                              */
                             editor.putString(cityStoragedList.get(position).getCityStoragedName() + "weatherJSON", null);
                         }
+
                         DataSupport.deleteAll(CityStoraged.class, "citystoragedname = ?", cityStoragedList.get(position).getCityStoragedName());
                         cityStoragedList.remove(position); //仅仅从数据库删除了此条数据，List集合里面并没有删除，size - 1
 
@@ -84,11 +90,12 @@ public class CityManagerActivity extends BaseActivity {
                         cityStoragedList.clear();
                         cityStoragedList = DataSupport.findAll(CityStoraged.class);*/
 
-                        cityStoragedAdapter.notifyDataSetChanged();
+                        cityStoragedAdapter.notifyDataSetChanged();  //更新本 用户所存储的城市 页面
 
-                        MainActivity.mViewPaperAdapter.notifyDataSetChanged();
+                        MainActivity.mViewPaperAdapter.updateList();//删除相应的Fragment。
                     }
                 });
+
                 dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

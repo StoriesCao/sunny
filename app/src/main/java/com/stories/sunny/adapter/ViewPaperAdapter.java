@@ -3,6 +3,8 @@ package com.stories.sunny.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 
 import com.stories.sunny.WeatherFragment;
 import com.stories.sunny.db_model.CityStoraged;
@@ -15,14 +17,13 @@ import java.util.List;
  * Created by Charlottecao on 9/8/17.
  */
 
-public class ViewPaperAdapter extends FragmentPagerAdapter {
+public class ViewPaperAdapter extends FragmentStatePagerAdapter{
 
-    private List<CityStoraged> cityStoragedList = DataSupport.findAll(CityStoraged.class);
-
-    private int mChildCount = 0;
+    private List<CityStoraged> cityStoragedList;
 
     public ViewPaperAdapter(FragmentManager fm) {
         super(fm);
+        cityStoragedList = DataSupport.findAll(CityStoraged.class);
     }
 
     @Override
@@ -37,6 +38,11 @@ public class ViewPaperAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getItemPosition(Object object) {
-        return ViewPaperAdapter.POSITION_NONE;
+        return PagerAdapter.POSITION_NONE;
     }
+
+    public void updateList() {
+        cityStoragedList = DataSupport.findAll(CityStoraged.class);
+    }
+
 }
