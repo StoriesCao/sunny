@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.stories.sunny.adapter.ViewPaperAdapter;
 import com.stories.sunny.db_model.WeatherBean;
 import com.stories.sunny.custom_view.CircleProgressView;
 import com.stories.sunny.custom_view.LineCharView;
@@ -344,7 +343,12 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         HttpUtil.sendOkHttpRequest(picUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "获取首页图片失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
@@ -662,7 +666,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         哈尔滨-晴-12-22:00
          */
         mHourlyForecastLineCharView.setData(currentCityHourlyForecastDataList);
-
 
         mainLayout.setVisibility(View.VISIBLE);
     }
