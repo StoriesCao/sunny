@@ -12,7 +12,8 @@
         android:id="@+id/daily_forecast_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        app:cardElevation="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"

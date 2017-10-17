@@ -354,14 +354,20 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String realBingPicAddress = response.body().string();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        SharedPreferences.Editor editor = getActivity().getSharedPreferences("BingPic", Context.MODE_PRIVATE).edit();
-                        editor.putString("real_bing_pic_address", realBingPicAddress);
-                        editor.apply();
-                    }
-                });
+                if (getActivity() == null) {  // ???
+                    return;
+                } else {
+                    Log.d(TAG,  getActivity() == null? "getActivity YES" : "NO");
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            SharedPreferences.Editor editor = getActivity().getSharedPreferences("BingPic", Context.MODE_PRIVATE).edit();
+                            Log.d(TAG, editor == null ? "editor YES" : "NO");
+                            editor.putString("real_bing_pic_address", realBingPicAddress);
+                            editor.apply();
+                        }
+                    });
+                }
             }
         });
     }

@@ -77,7 +77,7 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String realBingPicAddress = response.body().string();
-                SharedPreferences.Editor editor = getSharedPreferences("BingPic", 0).edit();
+                SharedPreferences.Editor editor = getSharedPreferences("BingPic", MODE_PRIVATE).edit();
                 editor.putString("real_bing_pic_address", realBingPicAddress);
                 editor.apply();
                 runOnUiThread(new Runnable() {
