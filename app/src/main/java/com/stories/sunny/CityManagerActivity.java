@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -55,9 +56,11 @@ public class CityManagerActivity extends BaseActivity {
         cityStoragedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(CityManagerActivity.this, MainActivity.class);
+                Intent intent = new Intent();
                 intent.putExtra("position", i);
-                startActivity(intent);
+                Log.d(TAG, "position: " + i);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 
@@ -93,6 +96,7 @@ public class CityManagerActivity extends BaseActivity {
                         cityStoragedAdapter.notifyDataSetChanged();  //更新本 用户所存储的城市 页面
 
                         MainActivity.mViewPaperAdapter.updateList();//删除相应的Fragment。
+                        MainActivity.mViewPaperAdapter.notifyDataSetChanged();
                     }
                 });
 

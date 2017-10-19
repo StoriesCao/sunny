@@ -259,7 +259,8 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
             case R.id.place_manager:
-                startActivity(new Intent(getActivity(), CityManagerActivity.class));
+                // ?????
+                getActivity().startActivityForResult(new Intent(getActivity(), CityManagerActivity.class), 1);
                 break;
 
         }

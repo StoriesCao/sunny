@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.stories.sunny.adapter.ViewPaperAdapter;
@@ -17,7 +18,11 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
-    private ViewPager viewPager;
+    private static final String TAG = "MainActivity";
+
+    private int position; // 当前ViewPaper的位置
+
+    private static ViewPager mViewPager;
 
     private List<CityStoraged> cityStoragedList = DataSupport.findAll(CityStoraged.class);
 
@@ -38,9 +43,9 @@ public class MainActivity extends BaseActivity {
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        viewPager = (ViewPager) findViewById(R.id.view_paper);
+        mViewPager = (ViewPager) findViewById(R.id.view_paper);
         mViewPaperAdapter = new ViewPaperAdapter(fragmentManager);
-        viewPager.setAdapter(mViewPaperAdapter);
+        mViewPager.setAdapter(mViewPaperAdapter);
 
        /* String position = getIntent().getStringExtra("position");
         if (position != null) {
@@ -57,6 +62,23 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         BaseActivity.finishAllActivity();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: " + requestCode + " " + resultCode);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    position = data.getIntExtra("position", 0);
+                    Log.d(TAG, "onActivityResult: position" + position);
+                    mViewPager.setCurrentItem(position, true);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }
 
