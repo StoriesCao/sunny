@@ -29,7 +29,6 @@
 
         <activity
             android:name=".CityManagerActivity"
-            android:label="地点"
             android:screenOrientation="portrait"/>
 
         <activity

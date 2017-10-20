@@ -20,14 +20,13 @@
                 android:id="@+id/city_manager_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                app:title="City Manager"/>
 
             <ListView
                 android:id="@+id/add_city_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:dividerHeight="0dp"
+                android:divider="@null"
                 android:layoutAnimation="@anim/anim_layout_weather_main"/>
 
         </LinearLayout>
@@ -39,9 +38,9 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:src="@drawable/ic_plus"
-            android:padding="8dp"
+            app:fabSize="normal"
             app:elevation="8dp"
-            app:backgroundTint="@color/lightGray"
+            app:backgroundTint="#fff"
             app:rippleColor="@color/dark"/>
 
     </android.support.design.widget.CoordinatorLayout>

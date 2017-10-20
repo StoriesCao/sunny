@@ -118,7 +118,7 @@ public class CityManagerActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button_light);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button);
         }
 
         /* ****** */
