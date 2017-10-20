@@ -3,7 +3,9 @@ package com.stories.sunny;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +39,8 @@ import okhttp3.Response;
 
 public class ChooseAreaFragment extends Fragment {
 
+    private static final String TAG = "ChooseAreaFragment";
+
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     public static final int LEVEL_COUNTY = 2;
@@ -49,12 +53,15 @@ public class ChooseAreaFragment extends Fragment {
     private List<City> mCityList;
     private List<County> mCountyList;
     private List<String> mLocationNameList = new ArrayList<>();
+    private List<CityStoraged> mCityStoragedsList;
 
     private Button mBackButton;
     private TextView mTitle;
     private ListView mListView;
 
     private ProgressDialog mProgressDialog;
+
+    int j = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +82,7 @@ public class ChooseAreaFragment extends Fragment {
    @Override
    public void onActivityCreated(Bundle savedInstanceState) {
        super.onActivityCreated(savedInstanceState);
+       mCityStoragedsList = DataSupport.findAll(CityStoraged.class); // 查询已经添加的城市
        queryProvinces();
        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
            @Override
@@ -88,15 +96,32 @@ public class ChooseAreaFragment extends Fragment {
                } else if (currentLevel == LEVEL_COUNTY) {
                    County county = mCountyList.get(i);
 
-                   /* ***将选择的城市添加到城市管理数据库*** */
-                   CityStoraged city = new CityStoraged();
-                   city.setCityStoragedName(county.getName());
-                   city.setWeatherId(county.getWeatherId());
-                   city.save();
+                   for (j = 0; j < mCityStoragedsList.size(); j++) {
+                       if (county.getName().equals(mCityStoragedsList.get(j).getCityStoragedName())) {
+                           Log.d(TAG, "county: " + county.getName() + " List: " + mCityStoragedsList.get(j).getCityStoragedName());
+                           Snackbar.make(view, "已经添加该城市", Snackbar.LENGTH_SHORT)
+                                   .setAction("查看", new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View view) {
+                                           startActivity(new Intent(getActivity(), MainActivity.class));
+                                       }
+                                   }).show();
+                           break;
+                       }
 
-                   startActivity(new Intent(getActivity(), MainActivity.class));
+                       if (j == mCityStoragedsList.size() - 1){
+                           /* ***将选择的城市添加到城市管理数据库*** */
+                           CityStoraged city = new CityStoraged();
+                           city.setCityStoragedName(county.getName());
+                           city.setWeatherId(county.getWeatherId());
+                           city.save();
 
-                   getActivity().finish();
+                           startActivity(new Intent(getActivity(), MainActivity.class));
+                           getActivity().finish();
+                       }
+                   }
+
+                   Log.d(TAG, "j: " + j + " Size: " + mCityStoragedsList.size());
                }
            }
        });

@@ -123,37 +123,22 @@ public class CityManagerActivity extends BaseActivity {
 
         /* ****** */
         mAddCityButton = (FloatingActionButton) findViewById(R.id.add_city);
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_press_float_button);
-        animation.setStartOffset(500);
-        mAddCityButton.startAnimation(animation);
         mAddCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Animation animation = AnimationUtils.loadAnimation(CityManagerActivity.this, R.anim.anim_rotate_float_button);
-                mAddCityButton.startAnimation(animation);
-                animation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        Intent intent = new Intent(CityManagerActivity.this, ChooseAreaActivity.class);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-
+                mAddCityButton.hide();
+                Intent intent = new Intent(CityManagerActivity.this, ChooseAreaActivity.class);
+                startActivity(intent);
             }
         });
-
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAddCityButton.show();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
