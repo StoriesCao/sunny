@@ -8,9 +8,14 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -149,6 +154,12 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
     private TextView mSunInfoTextView;
 
 
+    private MainActivity mActivity;
+
+    private String mCityName;
+
+
+
     /**
      *  Start
      */
@@ -161,10 +172,13 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         return weatherFragment;
     }
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.weather_main, container, false);
+
+        mActivity = (MainActivity) getActivity();
 
         weatherId = getArguments().getString("weather_id");
 
@@ -229,14 +243,22 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         mSunInfoTextView = (TextView) view.findViewById(R.id.forecast_now_sun_info);
 
         /* ****** */
+       /* mToolbar = (Toolbar) view.findViewById(R.id.weather_main_tool_bar);
+        setHasOptionsMenu(true); //调用fragment的OnCreateOptionsMenu() 方法
+         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_add_location);
+        }*/
+
+        /* ****** */
         cityManagerButton = (Button) view.findViewById(R.id.place_manager);
         cityManagerButton.setOnClickListener(this);
 
         /* ****** */
         mSettingButton = (Button) view.findViewById(R.id.setting);
         mSettingButton.setOnClickListener(this);
-
-
 
          /* ****** */
         swipeRefresher = (SwipeRefreshLayout) view.findViewById(R.id.main_weather_refresher);
@@ -253,6 +275,11 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.setting:
@@ -262,8 +289,22 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
                 // ?????
                 getActivity().startActivityForResult(new Intent(getActivity(), CityManagerActivity.class), 1);
                 break;
-
         }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //让CityManagerActivity返回所点击的是第几个City
+                getActivity().startActivityForResult(new Intent(getActivity(), CityManagerActivity.class), 1);
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     @Override
@@ -430,6 +471,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         String currentAtmosphericPressureData = weather.now.atmosphericPressure + " mb";
         String currentVisibilityData = weather.now.visibility + " km";
         String currentRelativeHumidityData = weather.now.relativeHumidity + " %";
+
 
         /**
          * Astronomy
