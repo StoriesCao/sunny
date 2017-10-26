@@ -16,6 +16,7 @@ import com.stories.sunny.util.HttpUtil;
 
 import java.io.IOException;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -31,6 +32,8 @@ public class WelcomeActivity extends AppCompatActivity {
     private static final int TIME = 2000;
 
     private ImageView mImageView;
+
+    private ImageView mRealImageView;
 
     Handler mHandler = new Handler() {
         @Override
@@ -52,12 +55,20 @@ public class WelcomeActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
         mImageView = (ImageView) findViewById(R.id.welcome_image_view);
+        mRealImageView = (ImageView) findViewById(R.id.welcome_real_image_view);
         SharedPreferences preferences = getSharedPreferences("BingPic", MODE_PRIVATE);
         String realAddress = preferences.getString("real_bing_pic_address", "");
         if (realAddress.isEmpty()) {
             requestHomePic();
         } else {
-            Glide.with(WelcomeActivity.this).load(realAddress).into(mImageView);
+            Glide.with(WelcomeActivity.this)
+                    .load(realAddress)
+                    .bitmapTransform(new BlurTransformation(this, 13, 3))
+                    .into(mImageView);
+
+            Glide.with(WelcomeActivity.this)
+                    .load(realAddress)
+                    .into(mRealImageView);
         }
 
         mHandler.sendEmptyMessageDelayed(GO_MAIN, TIME);
@@ -83,7 +94,14 @@ public class WelcomeActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Glide.with(WelcomeActivity.this).load(realBingPicAddress).into(mImageView);
+                        Glide.with(WelcomeActivity.this)
+                                .load(realBingPicAddress)
+                                .bitmapTransform(new BlurTransformation(getApplicationContext(), 13, 3)) //???
+                                .into(mImageView);
+
+                        Glide.with(WelcomeActivity.this)
+                                .load(realBingPicAddress)
+                                .into(mRealImageView);
                     }
                 });
             }
