@@ -8,9 +8,8 @@
     app:cardCornerRadius="6dp"
     app:cardElevation="8dp"
     android:layout_marginBottom="10dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginTop="5dp"><!-- daily forecast item marginBottom = 5dp -->
+    android:layout_marginRight="8dp"
+    android:layout_marginLeft="8dp"><!-- daily forecast item marginBottom = 5dp -->
 
 
     <LinearLayout
@@ -18,13 +17,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="生活信息:"
-            android:textColor="@color/dark"
-            android:textSize="20sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"

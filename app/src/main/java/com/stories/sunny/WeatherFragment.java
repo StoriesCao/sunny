@@ -52,7 +52,7 @@ import okhttp3.Response;
  * Created by Charlottecao on 9/8/17.
  */
 
-public class WeatherFragment extends Fragment implements View.OnClickListener{
+public class WeatherFragment extends Fragment {
 
     private static final String TAG = "WeatherFragment";
 
@@ -64,19 +64,14 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
     private SwipeRefreshLayout swipeRefresher;
 
-    private Button cityManagerButton, mSettingButton;
-
 
     /**
      * Now
      */
     private TextView currentDegree;
-    private TextView currentCity;
-    private TextView updateTime;
     private TextView currentWeatherTxt;
     private TextView mCurrentAQI;
     private ImageView mCurrentWeatherIcon;
-    private ImageView titleBackground;
     private TextView currentWindSpeed;
     private TextView currentWindDir;
     private TextView currentPrecipitation;
@@ -188,11 +183,8 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         mHourlyForecastLineCharView = (LineCharView) view.findViewById(R.id.hourly_forecast_line_chart);
 
         currentDegree = (TextView) view.findViewById(R.id.forecast_now_degree);
-        currentCity = (TextView) view.findViewById(R.id.title_city);
-        updateTime = (TextView) view.findViewById(R.id.title_update_time);
         currentWeatherTxt = (TextView) view.findViewById(R.id.forecast_now_info);
         mCurrentWeatherIcon = (ImageView) view.findViewById(R.id.forecast_now_icon);
-        titleBackground = (ImageView) view.findViewById(R.id.title_bg);
         currentWindSpeed = (TextView) view.findViewById(R.id.forecast_now_wind_speed);
         currentWindDir = (TextView) view.findViewById(R.id.forecast_now_wind_dir);
         currentPrecipitation = (TextView) view.findViewById(R.id.forecast_now_precipitation);
@@ -252,14 +244,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
             actionBar.setHomeAsUpIndicator(R.drawable.ic_add_location);
         }*/
 
-        /* ****** */
-        cityManagerButton = (Button) view.findViewById(R.id.place_manager);
-        cityManagerButton.setOnClickListener(this);
-
-        /* ****** */
-        mSettingButton = (Button) view.findViewById(R.id.setting);
-        mSettingButton.setOnClickListener(this);
-
          /* ****** */
         swipeRefresher = (SwipeRefreshLayout) view.findViewById(R.id.main_weather_refresher);
         swipeRefresher.setColorSchemeResources(R.color.dark);
@@ -277,19 +261,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.setting:
-                startActivity(new Intent(getActivity(), SettingActivity.class));
-                break;
-            case R.id.place_manager:
-                // ?????
-                getActivity().startActivityForResult(new Intent(getActivity(), CityManagerActivity.class), 1);
-                break;
-        }
     }
 
 
@@ -538,8 +509,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
 
         city.updateAll("citystoragedname = ?", weather.basic.cityName);
 
-        currentCity.setText(currentCityName);
-        updateTime.setText(updateTimeData);
         currentDegree.setText(currentDegreeData);
         currentWeatherTxt.setText(currentWeatherTxtData);
         mCurrentAQI.setText("|  AQI:" + currentAQI + " >");
@@ -552,16 +521,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener{
         currentRelativeHumidity.setText(currentRelativeHumidityData);
         currentPrecipitationProbability.setText(currentPrecipitationProbabilityData);
 
-        /**
-         * Title Background
-         */
-        if (updateTimeData.split(":")[0] != null) {
-            if (Integer.parseInt(updateTimeData.split(":")[0]) >= 6 && Integer.parseInt(updateTimeData.split(":")[0]) <= 18) {
-                Glide.with(getActivity()).load(R.drawable.bg_daylight).into(titleBackground);
-            } else {
-                Glide.with(getActivity()).load(R.drawable.bg_night).into(titleBackground);
-            }
-        }
+
 
         /**
          * Air Show

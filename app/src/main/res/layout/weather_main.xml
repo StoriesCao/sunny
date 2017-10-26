@@ -22,15 +22,76 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <include layout="@layout/title"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Today"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="#131212"/>
 
                 <include layout="@layout/forecast_now"/>
 
+                <!-- ****** -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Hourly"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="#131212"/>
+
                 <include layout="@layout/hourly_forecast"/>
+
+                <!-- ****** -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Air"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="#131212"/>
 
                 <include layout="@layout/air_quality"/>
 
+                <!-- ****** -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Daily"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="#131212"/>
+
                 <include layout="@layout/daily_forecast"/>
+
+                <!-- ****** -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Suggest"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="#131212"/>
 
                 <include layout="@layout/suggestions" />
 
