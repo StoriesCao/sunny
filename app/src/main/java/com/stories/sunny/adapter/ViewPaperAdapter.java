@@ -21,8 +21,6 @@ public class ViewPaperAdapter extends FragmentStatePagerAdapter{
 
     private List<CityStoraged> cityStoragedList;
 
-    public int position;
-
     public ViewPaperAdapter(FragmentManager fm) {
         super(fm);
         cityStoragedList = DataSupport.findAll(CityStoraged.class);
@@ -30,7 +28,6 @@ public class ViewPaperAdapter extends FragmentStatePagerAdapter{
 
     @Override
     public Fragment getItem(int position) {
-        this.position = position;
         return WeatherFragment.newInstance(cityStoragedList.get(position).getWeatherId(), cityStoragedList.get(position).getCityStoragedName());
     }
 
