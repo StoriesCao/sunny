@@ -8,6 +8,7 @@
     android:orientation="vertical"
     tools:context="com.stories.sunny.MainActivity">
 
+    <!-- 为了出现阴影 -->
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
