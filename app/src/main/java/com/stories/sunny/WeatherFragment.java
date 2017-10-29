@@ -106,14 +106,13 @@ public class WeatherFragment extends Fragment {
      */
     private DailyForecast mDailyForecastToday; // 预报中第一天即今天，有今天的更多信息
     private int mDailyForecastWeatherCode;
-    private LinearLayout mDailyForecastLayout;
-    private ImageView mDailyForecastIcon;
-    private TextView mDailyForecastDate;
-    private TextView mDailyForecastMaxMinDegree;
-    private TextView mDailyForecastPrecipitationProbability;
-    private TextView mDailyForecastInfo;
-    private CardView mDailyForecastCardView;
-
+    private LinearLayout mDailyForecastSimpleLayout;  //主布局，实现动态添加
+    private ImageView mDailyForecastSimpleIcon;    //天气图标
+    private TextView mDailyForecastSimpleMaxMinDegree;  //最低最高温度
+    private TextView mDailyForecastSimpleWindSpeed;  //风速
+    private TextView mDailyForecastSimplePrecipitationProbability; //降水概率
+    private CardView mDailyForecastSimpleCardView;
+   
     /**
      * Hourly
      */
@@ -177,7 +176,16 @@ public class WeatherFragment extends Fragment {
 
         weatherId = getArguments().getString("weather_id");
 
-        mDailyForecastLayout = (LinearLayout) view.findViewById(R.id.daily_forecast_layout);
+        /* Daily Forecast Simple*/
+        mDailyForecastSimpleLayout = (LinearLayout) view.findViewById(R.id.daily_forecast_simple_layout);
+        mDailyForecastSimpleCardView = (CardView) view.findViewById(R.id.daily_forecast_simple_card_view);
+        mDailyForecastSimpleCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), DailyForecastDetailActivity.class));
+            }
+        });
+        
         mainLayout = (ScrollView) view.findViewById(R.id.main_weather_layout);
 
         mHourlyForecastLineCharView = (LineCharView) view.findViewById(R.id.hourly_forecast_line_chart);
@@ -598,53 +606,44 @@ public class WeatherFragment extends Fragment {
         for (DailyForecast forecast : weather.dailyForecastList) {
             Log.d(TAG, "dailyForecastList:" + weather.dailyForecastList.size());
 
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.daily_forecast_item, mDailyForecastLayout, false);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.daily_forecast_simple_item, mDailyForecastSimpleLayout, false);
             //init
-            mDailyForecastIcon = (ImageView) view.findViewById(R.id.daily_forecast_icon);
-            mDailyForecastDate = (TextView) view.findViewById(R.id.daily_forecast_date);
-            mDailyForecastMaxMinDegree = (TextView) view.findViewById(R.id.daily_forecast_max_min_temp);
-            mDailyForecastPrecipitationProbability = (TextView) view.findViewById(R.id.daily_forecast_precipitation_probability);
-            mDailyForecastInfo = (TextView) view.findViewById(R.id.daily_forecast_info);
-            mDailyForecastCardView = (CardView) view.findViewById(R.id.daily_forecast_item);
+            mDailyForecastSimpleIcon = (ImageView) view.findViewById(R.id.daily_forecast_simple_item_icon);
+            mDailyForecastSimpleMaxMinDegree = (TextView) view.findViewById(R.id.daily_forecast_simple_item_temperature);
+            mDailyForecastSimplePrecipitationProbability = (TextView) view.findViewById(R.id.daily_forecast_simple_item_precipitation);
+            mDailyForecastSimpleWindSpeed = (TextView) view.findViewById(R.id.daily_forecast_simple_item_wind_speed);
 
             mDailyForecastWeatherCode = Integer.parseInt(forecast.condition.code_d);
             if (mDailyForecastWeatherCode == 100) { // 晴
-                mDailyForecastIcon.setImageResource(R.drawable.ic_sunny);
-                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.sunny));
+                mDailyForecastSimpleIcon.setImageResource(R.drawable.ic_sunny);
             } else if (mDailyForecastWeatherCode >= 101  && mDailyForecastWeatherCode <= 104) { //阴
-                mDailyForecastIcon.setImageResource(R.drawable.ic_cloud);
-                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.fog_or_cloud));
+                mDailyForecastSimpleIcon.setImageResource(R.drawable.ic_cloud);
             } else if (mDailyForecastWeatherCode >= 200 && mDailyForecastWeatherCode <= 213) { //风
-                mDailyForecastIcon.setImageResource(R.drawable.ic_wind);
-                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.wind));
+                mDailyForecastSimpleIcon.setImageResource(R.drawable.ic_wind);
             } else if ((mDailyForecastWeatherCode >= 300 && mDailyForecastWeatherCode <= 301) || mDailyForecastWeatherCode == 305 || mDailyForecastWeatherCode == 309) { //阵雨
-                mDailyForecastIcon.setImageResource(R.drawable.ic_light_rain);
-                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.rain));
+                mDailyForecastSimpleIcon.setImageResource(R.drawable.ic_light_rain);
             } else if (mDailyForecastWeatherCode >= 302 && mDailyForecastWeatherCode <= 304) { //雷阵雨
-                mDailyForecastIcon.setImageResource(R.drawable.ic_thunder);
-                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.rain));
+                mDailyForecastSimpleIcon.setImageResource(R.drawable.ic_thunder);
             } else if ((mDailyForecastWeatherCode >= 306 && mDailyForecastWeatherCode <= 308) || (mDailyForecastWeatherCode >= 310 && mDailyForecastWeatherCode <= 313)) { //大（暴）雨
-                mDailyForecastIcon.setImageResource(R.drawable.ic_heavy_rain);
-                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.rain));
+                mDailyForecastSimpleIcon.setImageResource(R.drawable.ic_heavy_rain);
             } else if (mDailyForecastWeatherCode == 400 || mDailyForecastWeatherCode == 406 || mDailyForecastWeatherCode == 407) { //小雪 阵雪
-                mDailyForecastIcon.setImageResource(R.drawable.ic_light_snow);
+                mDailyForecastSimpleIcon.setImageResource(R.drawable.ic_light_snow);
             } else if (mDailyForecastWeatherCode == 401) { //中雪
-                mDailyForecastIcon.setImageResource(R.drawable.ic_medium_snow);
+                mDailyForecastSimpleIcon.setImageResource(R.drawable.ic_medium_snow);
             } else if (mDailyForecastWeatherCode >= 402 && mDailyForecastWeatherCode <= 405) { //大雪
-                mDailyForecastIcon.setImageResource(R.drawable.ic_heavy_snow);
+                mDailyForecastSimpleIcon.setImageResource(R.drawable.ic_heavy_snow);
             } else if (mDailyForecastWeatherCode >= 500 && mDailyForecastWeatherCode <= 508) { //雾 、 霾
-                mDailyForecastIcon.setImageResource(R.drawable.ic_fog);
-                mDailyForecastCardView.setCardBackgroundColor(getResources().getColor(R.color.fog_or_cloud));
+                mDailyForecastSimpleIcon.setImageResource(R.drawable.ic_fog);
             } else {
-                mDailyForecastIcon.setImageResource(R.drawable.ic_unknown);
+                mDailyForecastSimpleIcon.setImageResource(R.drawable.ic_unknown);
             }
 
-            mDailyForecastDate.setText(forecast.date.split("-")[2] + "号");
-            mDailyForecastMaxMinDegree.setText(forecast.temperature.min + "~" + forecast.temperature.max + "°C");
-            mDailyForecastPrecipitationProbability.setText(forecast.precipitationProbability + "%");
-            mDailyForecastInfo.setText(mDailyForecastDate.getText() + getResources().getString(R.string.day_light) + forecast.condition.dayConditon + "," + getResources().getString(R.string.night) + forecast.condition.nightCondition + getResources().getString(R.string.full_stop) + getResources().getString(R.string.max_temperature) + forecast.temperature.max + "°C，" + forecast.wind.direction + " " +forecast.wind.windFore);
+            mDailyForecastSimpleMaxMinDegree.setText(forecast.temperature.min + " ~ " + forecast.temperature.max + "°");
+            mDailyForecastSimplePrecipitationProbability.setText(forecast.precipitationProbability + "%");
+            mDailyForecastSimpleWindSpeed.setText(forecast.wind.windSpeed + " km/h");
+            //mDailyForecastInfo.setText(mDailyForecastDate.getText() + getResources().getString(R.string.day_light) + forecast.condition.dayConditon + "," + getResources().getString(R.string.night) + forecast.condition.nightCondition + getResources().getString(R.string.full_stop) + getResources().getString(R.string.max_temperature) + forecast.temperature.max + "°C，" + forecast.wind.direction + " " +forecast.wind.windFore);
 
-            mDailyForecastLayout.addView(view);
+            mDailyForecastSimpleLayout.addView(view);
         }
 
 

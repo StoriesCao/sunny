@@ -1,20 +1,13 @@
 package com.stories.sunny;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.stories.sunny.adapter.ViewPaperAdapter;
 import com.stories.sunny.db_model.CityStoraged;
@@ -77,10 +70,6 @@ public class MainActivity extends BaseActivity{
             }
          });
 
-        /* String position = getIntent().getStringExtra("position");
-        if (position != null) {
-            viewPager.setCurrentItem(Integer.parseInt(position));
-        }*/
     }
 
     @Override
