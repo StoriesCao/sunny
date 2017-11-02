@@ -5,13 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
+    android:layout_marginLeft="@dimen/main_card_margin_left_right"
+    android:layout_marginRight="@dimen/main_card_margin_left_right"
+    android:layout_marginBottom="@dimen/main_card_margin_bottom"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
     android:stateListAnimator="@animator/card_touch"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="2dp">
+    app:cardCornerRadius="@dimen/card_radius"
+    app:cardElevation="@dimen/card_elevation">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,13 +22,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Large"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:text="Daily"
             android:textStyle="bold"
-            android:textSize="20sp"
             android:textColor="#131212"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="The Next Three Days"
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:id="@+id/daily_forecast_simple_layout"

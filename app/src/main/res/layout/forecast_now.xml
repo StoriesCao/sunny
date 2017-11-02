@@ -5,13 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="8dp"
-    android:layout_marginLeft="8dp"
+    android:layout_marginRight="@dimen/main_card_margin_left_right"
+    android:layout_marginLeft="@dimen/main_card_margin_left_right"
+    android:layout_marginTop="@dimen/main_card_margin_top"
+    android:layout_marginBottom="@dimen/main_card_margin_bottom"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
     android:stateListAnimator="@animator/card_touch"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="2dp">
+    app:cardCornerRadius="@dimen/card_radius"
+    app:cardElevation="@dimen/card_elevation">
 
     <LinearLayout
         android:layout_width="match_parent"

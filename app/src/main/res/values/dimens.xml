@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- common card view -->
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_radius">2dp</dimen>
+
+    <!-- main card view -->
+    <dimen name="main_card_margin_left_right">8dp</dimen>
+    <dimen name="main_card_margin_top">8dp</dimen>
+    <dimen name="main_card_margin_bottom">16dp</dimen>
+</resources>

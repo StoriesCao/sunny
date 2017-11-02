@@ -5,25 +5,10 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/daily_forecast_detail_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <!-- Today -->
-        <include layout="@layout/activity_daily_forecast_detail_1"/>
-
-        <!-- Tomorrow -->
-        <include layout="@layout/activity_daily_forecast_detail_2"/>
-
-        <include layout="@layout/activity_daily_forecast_detail_3"/>
-
-        <include layout="@layout/activity_daily_forecast_detail_4"/>
-
-        <include layout="@layout/activity_daily_forecast_detail_5"/>
-
-        <include layout="@layout/activity_daily_forecast_detail_6"/>
-
-        <include layout="@layout/activity_daily_forecast_detail_7"/>
 
     </LinearLayout>
 

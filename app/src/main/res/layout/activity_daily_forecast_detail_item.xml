@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- item -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/daily_forecast_detail_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Today"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="#131212"/>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@id/daily_forecast_detail_date"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- 天气图标 -->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/daily_forecast_detail_icon"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/ic_unknown"/>
+
+                <!-- 温度的范围 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true">
+
+                    <TextView
+                        android:id="@+id/daily_forecast_detail_min_temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="-6"
+                        android:textSize="16sp"
+                        android:textColor="@color/dark"
+                        android:drawablePadding="8dp"
+                        android:drawableLeft="@drawable/ic_temperature"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="6dp"
+                        android:text="~"
+                        android:textSize="22sp"
+                        android:textColor="@color/dark"/>
+
+                    <TextView
+                        android:id="@+id/daily_forecast_detail_max_temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="10"
+                        android:textSize="26sp"
+                        android:textColor="@color/dark"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="°"
+                        android:textSize="26sp"
+                        android:textColor="@color/dark"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:padding="16dp"
+               android:background="@color/gray">
+
+               <!-- 风力情况 -->
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:orientation="vertical">
+
+                   <de.hdodenhof.circleimageview.CircleImageView
+                       android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:src="@drawable/ic_windspeed"
+                       android:layout_marginBottom="16dp"
+                       android:layout_gravity="center_horizontal"/>
+
+                   <TextView
+                       android:id="@+id/daily_forecast_detail_wind_dir"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                       tools:text="东北风"
+                       android:textSize="12sp"
+                       android:textColor="@color/dark"/>
+
+
+                   <TextView
+                       android:id="@+id/daily_forecast_detail_wind_speed"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                       tools:text="10 km/h"
+                       android:textSize="14sp"
+                       android:textColor="@color/dark"/>
+
+               </LinearLayout>
+
+               <!-- 降水概率 -->
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:orientation="vertical">
+
+                   <de.hdodenhof.circleimageview.CircleImageView
+                       android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:layout_marginBottom="16dp"
+                       android:src="@drawable/ic_waterdrop"
+                       android:layout_gravity="center_horizontal"/>
+
+                   <TextView
+                       android:id="@+id/daily_forecast_detail_precipitation_probability"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                       tools:text="5 %"
+                       android:textSize="12sp"
+                       android:textColor="@color/dark"/>
+
+                   <TextView
+                       android:id="@+id/daily_forecast_detail_precipitation"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                       tools:text="0 mm"
+                       android:textSize="14sp"
+                       android:textColor="@color/dark"/>
+
+               </LinearLayout>
+
+               <!-- 能见度 -->
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:orientation="vertical">
+
+                   <ImageView
+                       android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:layout_marginBottom="16dp"
+                       android:src="@drawable/ic_visibility"
+                       android:layout_gravity="center_horizontal"/>
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                       android:text="能见度"
+                       android:textSize="12sp"
+                       android:textColor="@color/dark"/>
+
+                   <TextView
+                       android:id="@+id/daily_forecast_detail_visibility"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                       tools:text="5 km"
+                       android:textSize="14sp"
+                       android:textColor="@color/dark"/>
+
+               </LinearLayout>
+
+               <!-- 大气压 -->
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:orientation="vertical">
+
+                   <ImageView
+                       android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:layout_marginBottom="16dp"
+                       android:src="@drawable/ic_atmospheric_pressure"
+                       android:layout_gravity="center_horizontal"/>
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                       android:text="大气压"
+                       android:textSize="12sp"
+                       android:textColor="@color/dark"/>
+
+                   <TextView
+                       android:id="@+id/daily_forecast_detail_atmospheric_pressure"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                       tools:text="1025 kp"
+                       android:textSize="14sp"
+                       android:textColor="@color/dark"/>
+
+               </LinearLayout>
+
+               <!-- 相对湿度 -->
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:orientation="vertical">
+
+                   <ImageView
+                       android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:layout_marginBottom="16dp"
+                       android:src="@drawable/ic_relative_humidity"
+                       android:layout_gravity="center_horizontal"/>
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                       android:text="@string/relative_humidity"
+                       android:textSize="12sp"
+                       android:textColor="@color/dark"/>
+
+                   <TextView
+                       android:id="@+id/daily_forecast_detail_relative_humidity"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                       tools:text="17 %"
+                       android:textSize="14sp"
+                       android:textColor="@color/dark"/>
+
+               </LinearLayout>
+
+           </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
+

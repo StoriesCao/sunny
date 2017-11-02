@@ -2,6 +2,8 @@ package com.stories.sunny.gson_model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Charlottecao on 9/3/17.
  */

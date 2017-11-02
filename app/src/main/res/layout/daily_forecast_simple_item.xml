@@ -21,8 +21,8 @@
         android:id="@+id/daily_forecast_simple_item_temperature"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:layout_marginBottom="16dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:layout_marginLeft="16dp"
         tools:text="-6 ~ 10°"
         android:textSize="16sp"
@@ -30,21 +30,21 @@
         android:drawablePadding="8dp"
         android:drawableLeft="@drawable/ic_temperature"/>
 
-
+    <!-- 风速 -->
     <TextView
         android:id="@+id/daily_forecast_simple_item_wind_speed"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:layout_marginBottom="16dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:layout_marginLeft="16dp"
-        tools:text="10 km/h"
+        tools:text="10km/h"
         android:textSize="16sp"
         android:textColor="@color/dark"
         android:drawablePadding="8dp"
         android:drawableLeft="@drawable/ic_windspeed"/>
 
-
+    <!-- 降水概率 -->
     <TextView
         android:id="@+id/daily_forecast_simple_item_precipitation"
         android:layout_width="0dp"
@@ -52,11 +52,10 @@
         android:layout_weight="1"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
         tools:text="50%"
         android:textSize="16sp"
         android:textColor="@color/dark"
-        android:drawablePadding="8dp"
+        android:drawablePadding="12dp"
         android:drawableLeft="@drawable/ic_waterdrop"/>
 
 </LinearLayout>

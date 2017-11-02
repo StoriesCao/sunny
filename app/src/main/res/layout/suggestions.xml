@@ -5,17 +5,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="8dp"
-    android:layout_marginBottom="10dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginLeft="8dp"><!-- daily forecast item marginBottom = 5dp -->
+    app:cardCornerRadius="@dimen/card_radius"
+    app:cardElevation="@dimen/card_elevation"
+    android:layout_marginBottom="@dimen/main_card_margin_bottom"
+    android:layout_marginRight="@dimen/main_card_margin_left_right"
+    android:layout_marginLeft="@dimen/main_card_margin_left_right"><!-- daily forecast item marginBottom = 5dp -->
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Large"
+            android:layout_margin="16dp"
+            android:text="Suggestions"
+            android:textStyle="bold"/>
 
 
         <LinearLayout

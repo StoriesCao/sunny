@@ -39,6 +39,7 @@ import com.stories.sunny.util.Utility;
 import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -102,7 +103,7 @@ public class WeatherFragment extends Fragment {
     private TextView suggestionUvInfo;
 
     /**
-     * Daily Forecast
+     * Daily Forecast Simple
      */
     private DailyForecast mDailyForecastToday; // 预报中第一天即今天，有今天的更多信息
     private int mDailyForecastWeatherCode;
@@ -112,6 +113,7 @@ public class WeatherFragment extends Fragment {
     private TextView mDailyForecastSimpleWindSpeed;  //风速
     private TextView mDailyForecastSimplePrecipitationProbability; //降水概率
     private CardView mDailyForecastSimpleCardView;
+    public static List<DailyForecast> mDailyForecastSimple2DetailList = new ArrayList<>();  //  传到天气详细信息界面
    
     /**
      * Hourly
@@ -182,6 +184,11 @@ public class WeatherFragment extends Fragment {
         mDailyForecastSimpleCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*if (mDailyForecastSimple2DetailList.size() != 0) {
+                    Intent intent = new Intent(getActivity(), DailyForecastDetailActivity.class);
+                    intent.putExtra("DetailData", (Serializable)mDailyForecastSimple2DetailList);
+                    startActivity(intent);
+                }*/
                 startActivity(new Intent(getActivity(), DailyForecastDetailActivity.class));
             }
         });
@@ -259,7 +266,7 @@ public class WeatherFragment extends Fragment {
             @Override
             public void onRefresh() {
                 requestWeatherFromServer(weatherId);
-                requestHomePic();
+                //requestHomePic();
             }
         });
 
@@ -320,6 +327,8 @@ public class WeatherFragment extends Fragment {
      */
     public void requestWeatherFromServer(final String weatherId) {
         String requestURL = "https://free-api.heweather.com/v5/weather?city=" + weatherId + "&key=f34a94fd34384c72be8d8c45112c7bb5";
+        String picUrl = "http://guolin.tech/api/bing_pic";
+
         HttpUtil.sendOkHttpRequest(requestURL, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -354,13 +363,7 @@ public class WeatherFragment extends Fragment {
                 });
             }
         });
-    }
 
-    /**
-     * 刷新以天气的时候，顺便刷新一下HomePic，如果有新图片的话
-     */
-    public void requestHomePic() {
-        String picUrl = "http://guolin.tech/api/bing_pic";
         HttpUtil.sendOkHttpRequest(picUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -392,6 +395,43 @@ public class WeatherFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * 刷新以天气的时候，顺便刷新一下HomePic，如果有新图片的话
+     */
+   /* public void requestHomePic() {
+        String picUrl = "http://guolin.tech/api/bing_pic";
+        HttpUtil.sendOkHttpRequest(picUrl, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "获取首页图片失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String realBingPicAddress = response.body().string();
+                if (getActivity() == null) {  // ???
+                    return;
+                } else {
+                    Log.d(TAG,  getActivity() == null? "getActivity YES" : "NO");
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            SharedPreferences.Editor editor = getActivity().getSharedPreferences("BingPic", Context.MODE_PRIVATE).edit();
+                            Log.d(TAG, editor == null ? "editor YES" : "NO");
+                            editor.putString("real_bing_pic_address", realBingPicAddress);
+                            editor.apply();
+                        }
+                    });
+                }
+            }
+        });
+    }*/
 
     /**
      * 新建存放不同城市不同时间的小时预报数据
@@ -601,10 +641,13 @@ public class WeatherFragment extends Fragment {
         suggestionUvInfo.setText(uvData);
 
         /**
-         * daily forecast
+         * Daily forecast simple
          */
+
+        mDailyForecastSimple2DetailList = weather.dailyForecastList; //设置传递的数据
+
         for (DailyForecast forecast : weather.dailyForecastList) {
-            Log.d(TAG, "dailyForecastList:" + weather.dailyForecastList.size());
+            Log.d(TAG, "dailyForecastSize: " + weather.dailyForecastList.size());
 
             View view = LayoutInflater.from(getContext()).inflate(R.layout.daily_forecast_simple_item, mDailyForecastSimpleLayout, false);
             //init
@@ -640,7 +683,7 @@ public class WeatherFragment extends Fragment {
 
             mDailyForecastSimpleMaxMinDegree.setText(forecast.temperature.min + " ~ " + forecast.temperature.max + "°");
             mDailyForecastSimplePrecipitationProbability.setText(forecast.precipitationProbability + "%");
-            mDailyForecastSimpleWindSpeed.setText(forecast.wind.windSpeed + " km/h");
+            mDailyForecastSimpleWindSpeed.setText(forecast.wind.windSpeed + "km/h");
             //mDailyForecastInfo.setText(mDailyForecastDate.getText() + getResources().getString(R.string.day_light) + forecast.condition.dayConditon + "," + getResources().getString(R.string.night) + forecast.condition.nightCondition + getResources().getString(R.string.full_stop) + getResources().getString(R.string.max_temperature) + forecast.temperature.max + "°C，" + forecast.wind.direction + " " +forecast.wind.windFore);
 
             mDailyForecastSimpleLayout.addView(view);
