@@ -1,6 +1,7 @@
 package com.stories.sunny;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import com.stories.sunny.gson_model.DailyForecast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -79,7 +81,7 @@ public class DailyForecastDetailActivity extends BaseActivity {
             }
 
 
-            forecastDate.setText(dailyForecast.date);
+            forecastDate.setText(Date2Week(dailyForecast.date));
             minDegree.setText(dailyForecast.temperature.min);
             maxDegree.setText(dailyForecast.temperature.max);
             windSpeed.setText(dailyForecast.wind.windSpeed + "km/h");
@@ -93,6 +95,43 @@ public class DailyForecastDetailActivity extends BaseActivity {
             DailyForecastDetailLayout.addView(view);
         }
 
+    }
+
+    /**
+     * 将 "2017-11-02" 字符串转化为 "星期四"
+     * @param date
+     * @return
+     */
+    private String Date2Week(@NonNull String date) {
+        Log.d(TAG, "Date2Week: " + "argument " + date);
+        String[] week = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunny"};
+        Calendar calendar = Calendar.getInstance();
+        int nowDay = calendar.get(Calendar.DATE); //本机 现在 日期
+        Log.d(TAG, "Date2Week: " + "NowDay " + nowDay);
+        String[] splitDate = date.split("-");
+
+        /*
+        一周 从 周天 开始，则返回值1为周天
+        一周 从 周一 开始，则返回值1为周一
+         */
+        calendar.set(Integer.parseInt(splitDate[0]), Integer.parseInt(splitDate[1]) - 1, Integer.parseInt(splitDate[2])); // 设置为 未来的 日期
+        boolean isFirstSunday = (calendar.getFirstDayOfWeek() == Calendar.SUNDAY);
+        Log.d(TAG, "Date2Week: " + "isFirstSunday " + isFirstSunday);
+        int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+        if(isFirstSunday){
+            weekDay = weekDay - 1;
+            if(weekDay == 0){
+                weekDay = 7;
+            }
+        }
+        Log.d(TAG, "Date2Week: " + "week " + weekDay);
+        if (nowDay == calendar.get(Calendar.DATE)) {
+            return "Today";
+        } else if (nowDay == (calendar.get(Calendar.DATE) - 1)) {
+            return "Tomorrow";
+        } else {
+            return week[weekDay - 1];
+        }
     }
 
 }
