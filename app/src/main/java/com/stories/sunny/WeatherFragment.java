@@ -8,17 +8,14 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -27,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.stories.sunny.adapter.HourlyForecstAdapter;
 import com.stories.sunny.db_model.WeatherBean;
 import com.stories.sunny.custom_view.CircleProgressView;
 import com.stories.sunny.custom_view.LineCharView;
@@ -39,7 +37,6 @@ import com.stories.sunny.util.Utility;
 import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -58,6 +55,8 @@ public class WeatherFragment extends Fragment {
     private static final String TAG = "WeatherFragment";
 
     String weatherId;
+
+    private Weather mWeather;
 
     private List<CityStoraged> cityStoragedList;
 
@@ -114,7 +113,15 @@ public class WeatherFragment extends Fragment {
     private TextView mDailyForecastSimplePrecipitationProbability; //降水概率
     private CardView mDailyForecastSimpleCardView;
     public static List<DailyForecast> mDailyForecastSimple2DetailList = new ArrayList<>();  //  传到天气详细信息界面
-   
+
+    /**
+     * Daily Forecast Detail
+     */
+    public interface TransDateFromFragment2Activity{
+        void showInfo();
+    }
+
+
     /**
      * Hourly
      */
@@ -168,6 +175,10 @@ public class WeatherFragment extends Fragment {
         return weatherFragment;
     }
 
+    public List<DailyForecast> getDetailDailyForecastData(List<DailyForecast> dailyForecastsList) {
+        mDailyForecastSimple2DetailList = dailyForecastsList;
+        return mDailyForecastSimple2DetailList;
+    }
 
     @Nullable
     @Override
@@ -184,12 +195,9 @@ public class WeatherFragment extends Fragment {
         mDailyForecastSimpleCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*if (mDailyForecastSimple2DetailList.size() != 0) {
-                    Intent intent = new Intent(getActivity(), DailyForecastDetailActivity.class);
-                    intent.putExtra("DetailData", (Serializable)mDailyForecastSimple2DetailList);
-                    startActivity(intent);
-                }*/
-                startActivity(new Intent(getActivity(), DailyForecastDetailActivity.class));
+                Intent intent = new Intent(getActivity(), DailyForecastDetailActivity.class);
+                intent.putExtra("weather_id", weatherId);
+                startActivity(intent);
             }
         });
         
@@ -249,6 +257,15 @@ public class WeatherFragment extends Fragment {
         mSunTimeTextView = (TextView) view.findViewById(R.id.forecast_now_sun_time);
         mSunInfoTextView = (TextView) view.findViewById(R.id.forecast_now_sun_info);
 
+//        Hourly
+        RecyclerView hourlyForecastRecyclerView = (RecyclerView) view.findViewById(R.id.hourly_forecast_recycle_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        hourlyForecastRecyclerView.setLayoutManager(layoutManager);
+        HourlyForecstAdapter adapter = new HourlyForecstAdapter();
+        hourlyForecastRecyclerView.setAdapter(adapter);
+
+
         /* ****** */
        /* mToolbar = (Toolbar) view.findViewById(R.id.weather_main_tool_bar);
         setHasOptionsMenu(true); //调用fragment的OnCreateOptionsMenu() 方法
@@ -270,14 +287,12 @@ public class WeatherFragment extends Fragment {
             }
         });
 
+        if (mWeather != null) {
+            mDailyForecastSimple2DetailList = mWeather.dailyForecastList;
+        }
+
         return view;
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -308,6 +323,7 @@ public class WeatherFragment extends Fragment {
             //have cache
             Weather weather = Utility.parseWeatherJson(currentWeatherJSON);
             showWeather(weather);
+            Log.d(TAG, "onActivityCreated: " + "showWeather 被调用了");
         } else {
             //no cache and request from server
             mainLayout.setVisibility(View.INVISIBLE);
@@ -316,10 +332,6 @@ public class WeatherFragment extends Fragment {
 
 
     }
-
-
-
-
 
     /**
      * Request Weather info (JSON) from server.
@@ -469,6 +481,8 @@ public class WeatherFragment extends Fragment {
     private void showWeather(Weather weather) {
 
         mDailyForecastToday = weather.dailyForecastList.get(0);
+
+        //mDailyForecastSimple2DetailList = weather.dailyForecastList; //设置传递的数据
 
         Intent intent = new Intent(getActivity(), AutoUpdayeService.class);
         getActivity().startService(intent);
@@ -643,8 +657,6 @@ public class WeatherFragment extends Fragment {
         /**
          * Daily forecast simple
          */
-
-        mDailyForecastSimple2DetailList = weather.dailyForecastList; //设置传递的数据
 
         for (DailyForecast forecast : weather.dailyForecastList) {
             Log.d(TAG, "dailyForecastSize: " + weather.dailyForecastList.size());

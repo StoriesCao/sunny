@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/main_card_margin_left_right"
+    android:layout_marginRight="@dimen/main_card_margin_left_right"
+    app:cardElevation="@dimen/card_elevation"
+    app:cardCornerRadius="@dimen/card_radius">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/hourly_forecast_item_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="8dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_unknown"/>
+
+        <!-- 温度 -->
+        <TextView
+            android:id="@+id/hourly_forecast_item_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            tools:text="-6°"
+            android:textSize="16sp"
+            android:textColor="@color/dark"/>
+
+        <!-- 风 -->
+        <TextView
+            android:id="@+id/hourly_forecast_item_wind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            tools:text="东北风"
+            android:textSize="16sp"
+            android:textColor="@color/dark"/>
+
+        <!-- 时间 -->
+        <TextView
+            android:id="@+id/hourly_forecast_item_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            tools:text="16:00°"
+            android:textSize="16sp"
+            android:textColor="@color/dark"/>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

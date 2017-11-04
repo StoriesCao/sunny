@@ -27,7 +27,7 @@
             android:layout_marginTop="16dp"
             android:text="Daily"
             android:textStyle="bold"
-            android:textColor="#131212"/>
+            android:textColor="@color/title_dark"/>
 
         <TextView
             android:layout_width="wrap_content"

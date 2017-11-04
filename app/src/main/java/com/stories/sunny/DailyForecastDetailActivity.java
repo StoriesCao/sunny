@@ -1,6 +1,8 @@
 package com.stories.sunny;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -10,37 +12,95 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.stories.sunny.gson_model.DailyForecast;
+import com.stories.sunny.gson_model.Weather;
+import com.stories.sunny.util.HttpUtil;
+import com.stories.sunny.util.Utility;
+import com.stories.sunny.util.WeatherIconUtil;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 /**
  * Created by Charlottecao on 10/28/17.
  */
 
-public class DailyForecastDetailActivity extends BaseActivity {
+public class DailyForecastDetailActivity extends BaseActivity{
 
     private static final String TAG = "ForecastDetailActivity";
 
-    private List<DailyForecast> mDailyForecastDetailList;
+    private LinearLayout mDailyForecastDetailLayout;
     
     private int mDailyForecastDetailWeatherCode;  //weather Code  天气状况代码
+    
+    private String mCurrentCityWeatherId;  //穿过来的的相应城市的 weatherId
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_forecast_detail);
+        
+        mCurrentCityWeatherId = getIntent().getStringExtra("weather_id");
+        
+        mDailyForecastDetailLayout = (LinearLayout) findViewById(R.id.daily_forecast_detail_layout);
 
-        LinearLayout DailyForecastDetailLayout = (LinearLayout) findViewById(R.id.daily_forecast_detail_layout);
-        mDailyForecastDetailList = WeatherFragment.mDailyForecastSimple2DetailList;  //拿到天气预报的详细数据
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(DailyForecastDetailActivity.this);
+        String detailJson = preferences.getString(mCurrentCityWeatherId + "detailDailyForecast", null);
+        if (detailJson != null) {
+            Weather weather = Utility.parseWeatherJson(detailJson);
+            showDetailDailyForecast(weather);
+        } else {
+            requestFromServer(mCurrentCityWeatherId);
+        }
 
-        for (DailyForecast dailyForecast : mDailyForecastDetailList) {
-            View view = LayoutInflater.from(this).inflate(R.layout.activity_daily_forecast_detail_item, DailyForecastDetailLayout, false);
+        
+    }
+    
+    private void requestFromServer(final String weatherId) {
+        String requestURL = "https://free-api.heweather.com/v5/weather?city=" + weatherId + "&key=f34a94fd34384c72be8d8c45112c7bb5";
+        HttpUtil.sendOkHttpRequest(requestURL, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String weatherJson = response.body().string();
+                final Weather weather = Utility.parseWeatherJson(weatherJson);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (weather != null && "ok".equals(weather.status)){
+                            /*
+                            * 以当前活动的类名创建一个SharedPreferences的文件
+                            * 专门存储详细的  未来几天天气预报  信息
+                            **/
+                            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(DailyForecastDetailActivity.this).edit();
+                            editor.putString(mCurrentCityWeatherId + "detailDailyForecast", weatherJson);
+                            editor.apply();
+                            
+                            showDetailDailyForecast(weather);
+                        } else {
+                            Log.e(TAG, "run: " + "获取详细天气预报信息失败");
+                        }
+                    }
+                });
+                
+            }
+        });
+    }
+    
+    private void showDetailDailyForecast(Weather weather) {
+        List<DailyForecast> dailyForecastDetailList = weather.dailyForecastList;
+        for (DailyForecast dailyForecast : dailyForecastDetailList) {
+
+            View view = LayoutInflater.from(this).inflate(R.layout.activity_daily_forecast_detail_item, mDailyForecastDetailLayout, false);
 
             TextView forecastDate = (TextView) view.findViewById(R.id.daily_forecast_detail_date);
             CircleImageView circleImageView = (CircleImageView) view.findViewById(R.id.daily_forecast_detail_icon);
@@ -56,30 +116,7 @@ public class DailyForecastDetailActivity extends BaseActivity {
 
             // 设置天气图标
             mDailyForecastDetailWeatherCode = Integer.parseInt(dailyForecast.condition.code_d);
-            if (mDailyForecastDetailWeatherCode == 100) { // 晴
-                circleImageView.setImageResource(R.drawable.ic_sunny);
-            } else if (mDailyForecastDetailWeatherCode >= 101  && mDailyForecastDetailWeatherCode <= 104) { //阴
-                circleImageView.setImageResource(R.drawable.ic_cloud);
-            } else if (mDailyForecastDetailWeatherCode >= 200 && mDailyForecastDetailWeatherCode <= 213) { //风
-                circleImageView.setImageResource(R.drawable.ic_wind);
-            } else if ((mDailyForecastDetailWeatherCode >= 300 && mDailyForecastDetailWeatherCode <= 301) || mDailyForecastDetailWeatherCode == 305 || mDailyForecastDetailWeatherCode == 309) { //阵雨
-                circleImageView.setImageResource(R.drawable.ic_light_rain);
-            } else if (mDailyForecastDetailWeatherCode >= 302 && mDailyForecastDetailWeatherCode <= 304) { //雷阵雨
-                circleImageView.setImageResource(R.drawable.ic_thunder);
-            } else if ((mDailyForecastDetailWeatherCode >= 306 && mDailyForecastDetailWeatherCode <= 308) || (mDailyForecastDetailWeatherCode >= 310 && mDailyForecastDetailWeatherCode <= 313)) { //大（暴）雨
-                circleImageView.setImageResource(R.drawable.ic_heavy_rain);
-            } else if (mDailyForecastDetailWeatherCode == 400 || mDailyForecastDetailWeatherCode == 406 || mDailyForecastDetailWeatherCode == 407) { //小雪 阵雪
-                circleImageView.setImageResource(R.drawable.ic_light_snow);
-            } else if (mDailyForecastDetailWeatherCode == 401) { //中雪
-                circleImageView.setImageResource(R.drawable.ic_medium_snow);
-            } else if (mDailyForecastDetailWeatherCode >= 402 && mDailyForecastDetailWeatherCode <= 405) { //大雪
-                circleImageView.setImageResource(R.drawable.ic_heavy_snow);
-            } else if (mDailyForecastDetailWeatherCode >= 500 && mDailyForecastDetailWeatherCode <= 508) { //雾 、 霾
-                circleImageView.setImageResource(R.drawable.ic_fog);
-            } else {
-                circleImageView.setImageResource(R.drawable.ic_unknown);
-            }
-
+            circleImageView.setImageResource(WeatherIconUtil.getIcon(mDailyForecastDetailWeatherCode));
 
             forecastDate.setText(Date2Week(dailyForecast.date));
             minDegree.setText(dailyForecast.temperature.min);
@@ -92,10 +129,10 @@ public class DailyForecastDetailActivity extends BaseActivity {
             atmosphericPressure.setText(dailyForecast.atmosphericPressure + "kp");
             relativeHumidity.setText(dailyForecast.relativeHumidity + "%");
 
-            DailyForecastDetailLayout.addView(view);
+            mDailyForecastDetailLayout.addView(view);
         }
-
     }
+
 
     /**
      * 将 "2017-11-02" 字符串转化为 "星期四"
@@ -133,5 +170,4 @@ public class DailyForecastDetailActivity extends BaseActivity {
             return week[weekDay - 1];
         }
     }
-
 }

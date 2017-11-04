@@ -8,6 +8,9 @@
     <color name="gray">#BDBDBD</color>
     <color name="lightGray">#c1bdbd</color>
 
+    <!-- Title color -->
+    <color name="title_dark">#000000</color>
+
     <color name="sunny">#f9d44b</color>
     <color name="rain">#2cacf1</color>
     <color name="wind">#72b5ef</color>

@@ -26,6 +26,17 @@
 
                 <!-- ****** -->
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/hourly_forecast_recycle_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_card_margin_left_right"
+                    android:layout_marginRight="@dimen/main_card_margin_left_right"
+                    android:layout_marginBottom="@dimen/main_card_margin_bottom">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <!-- ****** -->
                 <include layout="@layout/hourly_forecast"/>
 
                 <!-- ****** -->

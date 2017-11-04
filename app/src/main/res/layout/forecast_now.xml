@@ -20,6 +20,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/forecast_now_symbol_now"
+            style="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Right Now"
+            android:textStyle="bold"
+            android:textColor="@color/title_dark"/>
+
         <!--***Now***-->
 
         <RelativeLayout
@@ -33,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginRight="25dp"
                 android:textSize="25sp"
                 android:textColor="@color/dark"
@@ -44,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/symbol_degree"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:textSize="50sp"
                 android:textColor="@color/dark"
                 tools:text="6"/>
@@ -54,41 +65,36 @@
                 android:id="@+id/forecast_now_icon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="16dp"
                 android:src="@drawable/ic_unknown"/>
 
-            <TextView
-                android:id="@+id/forecast_now_symbol_now"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/forecast_now_icon"
-                android:layout_marginTop="25dp"
+                android:orientation="vertical"
                 android:layout_marginLeft="20dp"
-                android:text="Now"
-                android:textSize="23sp"
-                android:textColor="@color/dark"/>
-
-            <TextView
-                android:id="@+id/forecast_now_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/forecast_now_icon"
-                android:layout_below="@id/forecast_now_symbol_now"
-                android:layout_marginLeft="20dp"
-                tools:text="阴天"
-                android:textColor="@color/gray"
-                android:textSize="15sp"/>
+                android:layout_centerVertical="true">
 
-            <TextView
-                android:id="@+id/forecast_now_air_quality"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/forecast_now_symbol_now"
-                android:layout_toRightOf="@id/forecast_now_info"
-                android:layout_marginLeft="8dp"
-                tools:text="|   AQI: 10 >"
-                android:textColor="@color/dark"/>
+
+                <TextView
+                    android:id="@+id/forecast_now_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    tools:text="阴天"
+                    android:textColor="@color/dark"
+                    android:textSize="@dimen/black_font"/>
+
+                <TextView
+                    android:id="@+id/forecast_now_air_quality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="  AQI: 10 >"
+                    android:textColor="@color/dark"/>
+
+            </LinearLayout>
 
         </RelativeLayout>
 

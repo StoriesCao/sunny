@@ -8,4 +8,9 @@
     <dimen name="main_card_margin_left_right">8dp</dimen>
     <dimen name="main_card_margin_top">8dp</dimen>
     <dimen name="main_card_margin_bottom">16dp</dimen>
+
+    <!-- font -->
+    <dimen name="black_font">16sp</dimen>
+    <dimen name="gray_font">12sp</dimen>
+
 </resources>
