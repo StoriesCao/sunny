@@ -15,7 +15,7 @@ import com.stories.sunny.gson_model.DailyForecast;
 import com.stories.sunny.gson_model.Weather;
 import com.stories.sunny.util.HttpUtil;
 import com.stories.sunny.util.Utility;
-import com.stories.sunny.util.WeatherIconUtil;
+import com.stories.sunny.util.IconAndColorUtils;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -116,7 +116,7 @@ public class DailyForecastDetailActivity extends BaseActivity{
 
             // 设置天气图标
             mDailyForecastDetailWeatherCode = Integer.parseInt(dailyForecast.condition.code_d);
-            circleImageView.setImageResource(WeatherIconUtil.getIcon(mDailyForecastDetailWeatherCode));
+            circleImageView.setImageResource(IconAndColorUtils.getIcon(mDailyForecastDetailWeatherCode));
 
             forecastDate.setText(Date2Week(dailyForecast.date));
             minDegree.setText(dailyForecast.temperature.min);

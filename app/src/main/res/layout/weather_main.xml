@@ -30,6 +30,7 @@
                     android:id="@+id/hourly_forecast_recycle_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:layout_marginLeft="@dimen/main_card_margin_left_right"
                     android:layout_marginRight="@dimen/main_card_margin_left_right"
                     android:layout_marginBottom="@dimen/main_card_margin_bottom">
@@ -40,12 +41,6 @@
                 <include layout="@layout/hourly_forecast"/>
 
                 <!-- ****** -->
-
-
-                <include layout="@layout/air_quality"/>
-
-                <!-- ****** -->
-
 
                 <include layout="@layout/daily_forecast_simple"/>
 

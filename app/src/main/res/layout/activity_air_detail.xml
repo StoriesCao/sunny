@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/air_detail_condition_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/main_card_margin_left_right"
+        android:layout_marginRight="@dimen/main_card_margin_left_right"
+        app:cardElevation="@dimen/card_elevation"
+        app:cardCornerRadius="@dimen/card_radius"
+        android:transitionName="AirShared">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Large"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Air"
+                android:textStyle="bold"
+                android:textColor="@color/title_dark"/>
+
+            <!-- 圆环进度 -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.stories.sunny.custom_view.CircleProgressView
+                    android:id="@+id/air_circle_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical"
+                    android:layout_toRightOf="@id/air_circle_progress"
+                    android:layout_marginLeft="20dp">
+
+                    <TextView
+                        android:id="@+id/air_quality_aqi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="AQI:10"
+                        android:textColor="@color/dark"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:id="@+id/air_quality_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        tools:text="Healthy"
+                        android:textColor="@color/dark"
+                        android:textSize="15sp"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- 左边 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- PM10 -->
+                    <RelativeLayout
+                        android:id="@+id/air_quality_layout_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/air_info_pm10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:text="PM10:"
+                            android:textSize="15sp"
+                            android:textColor="@color/dark"/>
+
+                        <ProgressBar
+                            android:id="@+id/air_progressBar_pm10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_below="@id/air_info_pm10"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:max="200"/>
+
+                        <TextView
+                            android:id="@+id/air_quality_pm10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_above="@id/air_progressBar_pm10"
+                            tools:text="10"
+                            android:textSize="12sp"
+                            android:textColor="@color/dark"/>
+
+                    </RelativeLayout>
+
+                    <!-- No2 -->
+                    <RelativeLayout
+                        android:id="@+id/air_quality_layout_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/air_info_no2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:text="NO2:"
+                            android:textSize="15sp"
+                            android:textColor="@color/dark"/>
+
+                        <ProgressBar
+                            android:id="@+id/air_progressBar_no2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_below="@id/air_info_no2"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:max="200"/>
+
+                        <TextView
+                            android:id="@+id/air_quality_no2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_above="@id/air_progressBar_no2"
+                            tools:text="10"
+                            android:textSize="12sp"
+                            android:textColor="@color/dark"/>
+
+                    </RelativeLayout>
+
+                    <!-- O3 -->
+                    <RelativeLayout
+                        android:id="@+id/air_quality_layout_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/air_info_o3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:text="O3:"
+                            android:textSize="15sp"
+                            android:textColor="@color/dark"/>
+
+                        <ProgressBar
+                            android:id="@+id/air_progressBar_o3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_below="@id/air_info_o3"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:max="200"/>
+
+                        <TextView
+                            android:id="@+id/air_quality_o3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_above="@id/air_progressBar_o3"
+                            tools:text="10"
+                            android:textSize="12sp"
+                            android:textColor="@color/dark"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+                <!-- 右边 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:orientation="vertical">
+
+                    <!-- PM25 -->
+                    <RelativeLayout
+                        android:id="@+id/air_quality_layout_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/air_info_pm25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:text="PM2.5:"
+                            android:textSize="15sp"
+                            android:textColor="@color/dark"/>
+
+                        <ProgressBar
+                            android:id="@+id/air_progressBar_pm25"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_below="@id/air_info_pm25"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:max="200"/>
+
+                        <TextView
+                            android:id="@+id/air_quality_pm25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_above="@id/air_progressBar_pm25"
+                            tools:text="10"
+                            android:textSize="12sp"
+                            android:textColor="@color/dark"/>
+
+                    </RelativeLayout>
+
+                    <!-- CO -->
+                    <RelativeLayout
+                        android:id="@+id/air_quality_layout_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/air_info_co"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:text="CO:"
+                            android:textSize="15sp"
+                            android:textColor="@color/dark"/>
+
+                        <ProgressBar
+                            android:id="@+id/air_progressBar_co"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_below="@id/air_info_co"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:max="200"/>
+
+                        <TextView
+                            android:id="@+id/air_quality_co"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_above="@id/air_progressBar_co"
+                            tools:text="10"
+                            android:textSize="12sp"
+                            android:textColor="@color/dark"/>
+
+                    </RelativeLayout>
+
+                    <!-- SO2 -->
+                    <RelativeLayout
+                        android:id="@+id/air_quality_layout_6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/air_info_so2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:text="SO2:"
+                            android:textSize="15sp"
+                            android:textColor="@color/dark"/>
+
+                        <ProgressBar
+                            android:id="@+id/air_progressBar_so2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_below="@id/air_info_so2"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:max="200"/>
+
+                        <TextView
+                            android:id="@+id/air_quality_so2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_above="@id/air_progressBar_so2"
+                            tools:text="10"
+                            android:textSize="12sp"
+                            android:textColor="@color/dark"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

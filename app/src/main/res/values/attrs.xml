@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CircleProgressView">
-        <attr name="radius" format="dimension"/> <!--半径-->
+        <attr name="radius" format="dimension"/> <!--内圆半径-->
         <attr name="progressBarWidth" format="dimension"/> <!--进度条宽度-->
         <attr name="progressBarColor" format="reference|color"/> <!--进度条颜色-->
         <attr name="innerCircleColor" format="reference|color"/><!--内圆颜色-->

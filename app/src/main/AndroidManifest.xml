@@ -46,6 +46,8 @@
             android:name=".SettingActivity"
             android:label="Setting"/>
 
+        <activity android:name=".AirDetailActivity"/>
+
         <service
             android:name=".AutoUpdayeService"
             android:enabled="true"

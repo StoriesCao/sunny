@@ -91,28 +91,33 @@ public class CircleProgressView extends View {
      * Initialize Paint
      */
     private void init() {
+//        内圆画笔
         mOuterCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mOuterCirclePaint.setStyle(Paint.Style.FILL);
         mOuterCirclePaint.setStrokeCap(Paint.Cap.ROUND);
         mOuterCirclePaint.setColor(mOuterCircleColor);
 
+//        外圆画笔
         mInnerCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mInnerCirclePaint.setStyle(Paint.Style.FILL);
         mInnerCirclePaint.setStrokeCap(Paint.Cap.ROUND);
         mInnerCirclePaint.setColor(mInnerCircleColor);
 
+//        弧线画笔
         mArcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mArcPaint.setStyle(Paint.Style.STROKE);
         mArcPaint.setStrokeWidth(mProgressBarWidth);
         mArcPaint.setStrokeCap(Paint.Cap.ROUND);
         mArcPaint.setColor(mProgressBarColor);
 
+//
         mArcFillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mArcFillPaint.setStrokeCap(Paint.Cap.ROUND);
         mArcFillPaint.setColor(Color.GRAY);
         mArcFillPaint.setStrokeWidth(mProgressBarWidth);
         mArcFillPaint.setStyle(Paint.Style.STROKE);
 
+//        圆心 字 画笔
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setStyle(Paint.Style.FILL);
         mTextPaint.setColor(mTextColor);

@@ -1,5 +1,6 @@
 package com.stories.sunny;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +26,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.stories.sunny.adapter.HourlyForecstAdapter;
 import com.stories.sunny.db_model.WeatherBean;
-import com.stories.sunny.custom_view.CircleProgressView;
 import com.stories.sunny.custom_view.LineCharView;
 import com.stories.sunny.db_model.CityStoraged;
 import com.stories.sunny.gson_model.DailyForecast;
@@ -56,8 +55,6 @@ public class WeatherFragment extends Fragment {
 
     String weatherId;
 
-    private Weather mWeather;
-
     private List<CityStoraged> cityStoragedList;
 
     private ScrollView mainLayout;
@@ -68,6 +65,7 @@ public class WeatherFragment extends Fragment {
     /**
      * Now
      */
+    private CardView mNowCardView;
     private TextView currentDegree;
     private TextView currentWeatherTxt;
     private TextView mCurrentAQI;
@@ -112,14 +110,6 @@ public class WeatherFragment extends Fragment {
     private TextView mDailyForecastSimpleWindSpeed;  //风速
     private TextView mDailyForecastSimplePrecipitationProbability; //降水概率
     private CardView mDailyForecastSimpleCardView;
-    public static List<DailyForecast> mDailyForecastSimple2DetailList = new ArrayList<>();  //  传到天气详细信息界面
-
-    /**
-     * Daily Forecast Detail
-     */
-    public interface TransDateFromFragment2Activity{
-        void showInfo();
-    }
 
 
     /**
@@ -127,24 +117,9 @@ public class WeatherFragment extends Fragment {
      */
     private List<WeatherBean> mWeatherBeanList = new ArrayList<>(); // 小时预报数据源
     private LineCharView mHourlyForecastLineCharView;
+    private Weather mWeather;
+    private RecyclerView mHourlyForecastRecyclerView;
 
-    /**
-     * Air quality
-     */
-    private CircleProgressView mAirQualityView;
-    private TextView mCOTextView;
-    private TextView mNO2TextView;
-    private TextView mO3TextView;
-    private TextView mPM10TextView;
-    private TextView mPm25TextView;
-    private TextView mSO2TextView;
-    private ProgressBar mCOProgressBar;
-    private ProgressBar mNO2ProgressBar;
-    private ProgressBar mO3ProgressBar;
-    private ProgressBar mPM10ProgressBar;
-    private ProgressBar mPM25ProgressBar;
-    private ProgressBar mSO2ProgressBar;
-    private CardView mAirQualityCardView;
 
     /**
      * Astronomy
@@ -175,10 +150,6 @@ public class WeatherFragment extends Fragment {
         return weatherFragment;
     }
 
-    public List<DailyForecast> getDetailDailyForecastData(List<DailyForecast> dailyForecastsList) {
-        mDailyForecastSimple2DetailList = dailyForecastsList;
-        return mDailyForecastSimple2DetailList;
-    }
 
     @Nullable
     @Override
@@ -200,11 +171,23 @@ public class WeatherFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        
+
         mainLayout = (ScrollView) view.findViewById(R.id.main_weather_layout);
 
         mHourlyForecastLineCharView = (LineCharView) view.findViewById(R.id.hourly_forecast_line_chart);
 
+        /**
+         * Now
+         */
+        mNowCardView = (CardView) view.findViewById(R.id.forecast_now_main);
+        mNowCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AirDetailActivity.class);
+                intent.putExtra("weather_id", weatherId);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(), mNowCardView, "AirShared").toBundle());
+            }
+        });
         currentDegree = (TextView) view.findViewById(R.id.forecast_now_degree);
         currentWeatherTxt = (TextView) view.findViewById(R.id.forecast_now_info);
         mCurrentWeatherIcon = (ImageView) view.findViewById(R.id.forecast_now_icon);
@@ -235,20 +218,6 @@ public class WeatherFragment extends Fragment {
         suggestionUvBrif = (TextView) view.findViewById(R.id.suggestion_uv_brif);
         suggestionUvInfo = (TextView) view.findViewById(R.id.suggestion_uv_info);
 
-        mAirQualityView = (CircleProgressView) view.findViewById(R.id.air_progress);
-        mCOTextView = (TextView) view.findViewById(R.id.air_quality_co);
-        mNO2TextView = (TextView) view.findViewById(R.id.air_quality_no2);
-        mO3TextView = (TextView) view.findViewById(R.id.air_quality_o3);
-        mPM10TextView = (TextView) view.findViewById(R.id.air_quality_pm10);
-        mPm25TextView = (TextView) view.findViewById(R.id.air_quality_pm25);
-        mSO2TextView = (TextView) view.findViewById(R.id.air_quality_so2);
-        mCOProgressBar = (ProgressBar) view.findViewById(R.id.air_progressBar_co);
-        mNO2ProgressBar = (ProgressBar) view.findViewById(R.id.air_progressBar_no2);
-        mO3ProgressBar = (ProgressBar) view.findViewById(R.id.air_progressBar_o3);
-        mPM10ProgressBar = (ProgressBar) view.findViewById(R.id.air_progressBar_pm10);
-        mPM25ProgressBar = (ProgressBar) view.findViewById(R.id.air_progressBar_pm25);
-        mSO2ProgressBar = (ProgressBar) view.findViewById(R.id.air_progressBar_so2);
-        mAirQualityCardView = (CardView) view.findViewById(R.id.air_quality_card_view);
 
         mMoonImageView = (ImageView) view.findViewById(R.id.forecast_now_moon_icon);
         mSunImageView = (ImageView) view.findViewById(R.id.forecast_now_sun_icon);
@@ -258,12 +227,8 @@ public class WeatherFragment extends Fragment {
         mSunInfoTextView = (TextView) view.findViewById(R.id.forecast_now_sun_info);
 
 //        Hourly
-        RecyclerView hourlyForecastRecyclerView = (RecyclerView) view.findViewById(R.id.hourly_forecast_recycle_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        hourlyForecastRecyclerView.setLayoutManager(layoutManager);
-        HourlyForecstAdapter adapter = new HourlyForecstAdapter();
-        hourlyForecastRecyclerView.setAdapter(adapter);
+        mHourlyForecastRecyclerView = (RecyclerView) view.findViewById(R.id.hourly_forecast_recycle_view);
+
 
 
         /* ****** */
@@ -287,9 +252,6 @@ public class WeatherFragment extends Fragment {
             }
         });
 
-        if (mWeather != null) {
-            mDailyForecastSimple2DetailList = mWeather.dailyForecastList;
-        }
 
         return view;
     }
@@ -329,8 +291,6 @@ public class WeatherFragment extends Fragment {
             mainLayout.setVisibility(View.INVISIBLE);
             requestWeatherFromServer(weatherId);
         }
-
-
     }
 
     /**
@@ -473,7 +433,7 @@ public class WeatherFragment extends Fragment {
         }
     }
 
-    
+
     /**
      * Display detailed info about weather
      * @param weather
@@ -584,39 +544,6 @@ public class WeatherFragment extends Fragment {
         currentPrecipitationProbability.setText(currentPrecipitationProbabilityData);
 
 
-
-        /**
-         * Air Show
-         */
-        int aqi = Integer.parseInt(weather.aqi.city.aqi);
-        mAirQualityView.setProgress(aqi);
-        mAirQualityView.setTextString(weather.aqi.city.airQulity);
-
-        mCOTextView.setText(weather.aqi.city.co);
-        mNO2TextView.setText(weather.aqi.city.no2);
-        mO3TextView.setText(weather.aqi.city.o3);
-        mPM10TextView.setText(weather.aqi.city.pm10);
-        mPm25TextView.setText(weather.aqi.city.pm25);
-        mSO2TextView.setText(weather.aqi.city.so2);
-
-        //某些城市并没有很全的数据
-       /* mCOProgressBar.setProgress(Integer.parseInt(weather.aqi.city.co));
-        mNO2ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.no2));
-        mO3ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.o3));
-        mPM10ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.pm10));
-        mPM25ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.pm25));
-        mSO2ProgressBar.setProgress(Integer.parseInt(weather.aqi.city.so2));*/
-
-
-        if ("优".equals(weather.aqi.city.airQulity)) {
-            mAirQualityCardView.setCardBackgroundColor(getResources().getColor(R.color.air_A));
-        } else if ("良".equals(weather.aqi.city.airQulity)) {
-            mAirQualityCardView.setCardBackgroundColor(getResources().getColor(R.color.air_B));
-        } else {
-            mAirQualityCardView.setCardBackgroundColor(getResources().getColor(R.color.air_C));
-        }
-
-
         /**
          *  Suggestions
          */
@@ -705,6 +632,12 @@ public class WeatherFragment extends Fragment {
         /**
          * Hourly
          */
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mHourlyForecastRecyclerView.setLayoutManager(layoutManager);
+        HourlyForecstAdapter adapter = new HourlyForecstAdapter(weather.hourlyForecastList);
+        mHourlyForecastRecyclerView.setAdapter(adapter);
 
         List<WeatherBean> currentCityHourlyForecastDataList = DataSupport.where("cityname = ?", getArguments().getString("city_name")).find(WeatherBean.class);
         Log.d(TAG, "当前城市的小时预报数据量：" + currentCityHourlyForecastDataList.size());
